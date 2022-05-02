@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+// const addressSchema = mongoose.Schema({
+//   street: [String],
+//   city: [String],
+//   postalCode: [String],
+// });
 
-const jobSchema = mongoose.Schema({
+const jobSchema = new Schema({
   title: {
     type: String,
     require: true,
@@ -12,13 +18,14 @@ const jobSchema = mongoose.Schema({
   price: {
     type: Number,
   },
-  address: {
-    street: String,
-    city: String,
-    postalCode: String,
+  street: {
+    type: String,
   },
+  city: String,
+  postalCode: String,
   createdAt: Date,
   updatedAt: Date,
+  user: [{ type: Schema.Types.ObjectId, ref: "User" }],
   //   user: {
   //     type: mongoose.Schema.Types.ObjectId,
   //     required: true,

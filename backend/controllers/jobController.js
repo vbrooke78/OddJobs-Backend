@@ -11,16 +11,9 @@ const getJobs = asyncHandler(async (req, res) => {
 //
 //
 const postJobs = asyncHandler(async (req, res) => {
-  const { title, category, price, address } = req.body;
+  const { title, category, price, street, city, postalCode } = req.body;
 
-  if (
-    !title ||
-    !category ||
-    !price ||
-    !address.street ||
-    !address.city ||
-    !address.postalCode
-  ) {
+  if (!title || !category || !price || !street || !city || !postalCode) {
     res.status(400);
     throw new Error("please include all fields");
   }
@@ -29,11 +22,9 @@ const postJobs = asyncHandler(async (req, res) => {
     title: title,
     category: category,
     price: price,
-    address: {
-      street: address.street,
-      city: address.city,
-      postalCode: address.postalCode,
-    },
+    street: street,
+    city: city,
+    postalCode: postalCode,
   });
 
   res.status(200).json({ jobs: jobs });
@@ -44,17 +35,19 @@ const postJobs = asyncHandler(async (req, res) => {
 //
 const getJobById = asyncHandler(async (req, res) => {
   // console.log(typeof req.params.id, `type of`.purple);
-  try {
-    const job = await Jobs.findById(req.params.id);
-    if (!job) {
-      res.status(400);
-      throw new Error("job not found");
-    }
-    res.status(200).json({ job: job });
-  } catch (err) {
+  // try {
+  const job = await Jobs.findById(req.params.id);
+  console.log(job);
+  // console.log(job.address.city);
+  if (!job) {
     res.status(400);
     throw new Error("job not found");
   }
+  res.status(200).json({ job: job });
+  // } catch (err) {
+  //   res.status(400);
+  //   throw new Error("job not found");
+  // }
 });
 //
 //

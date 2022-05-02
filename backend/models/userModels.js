@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 // const jwt = require("jsonwebtoken");
 // const joi = require("joi");
 // const passwordComplexity = require("joi-password-complexity");
 
-const userSchema = mongoose.Schema(
+const userSchema = new Schema(
   {
     firstName: {
       type: String,
@@ -22,6 +23,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    jobs: [{ type: Schema.Types.ObjectId, ref: "jobs" }],
   },
   {
     collection: "users",
