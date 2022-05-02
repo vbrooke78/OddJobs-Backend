@@ -15,5 +15,7 @@
 // });
 
 const app = require('../app.js');
+const request = require('supertest');
+const db = undefined; //need to get this from mongoose, but totally don't understand mongoose!
 
 
