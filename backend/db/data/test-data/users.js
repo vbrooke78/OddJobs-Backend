@@ -1,6 +1,6 @@
 module.exports = [
     {
-    _id: 1,
+    _id: '000000000001',
     username: "timmyt", 
     first_name: "Tim",
     last_name: "Tucker",
@@ -10,10 +10,10 @@ module.exports = [
     phone_number: "012345679",
     rating: 4.8,
     reviews: ['great!'],
-    messages: [1, 2, 4]     
+    messages: ['000000000001', '000000000002', '000000000004']     
 },
 {
-    _id: 2,
+    _id: '000000000002',
     username: "shaunDogg",
     first_name: "Shuan",
     last_name: "Clarke",
@@ -23,10 +23,10 @@ module.exports = [
     phone_number: "123987456",
     rating: 4.2,
     reviews: ["very good job", "reliable"] ,
-    messages: [1, 3] 
+    messages: ['000000000001', '000000000003'] 
 },
 {
-    _id: 3,
+    _id: '000000000003',
     username: "akindaboy",
     first_name: "Akin",
     last_name: "Fagbohun",
@@ -36,10 +36,10 @@ module.exports = [
     phone_number: "123654987",
     rating: 4.0,
     reviews: ['excellent work'] ,
-    messages: [2, 3]    
+    messages: ['000000000002', '000000000003']    
 },
 {
-    _id: 4,
+    _id: '000000000004',
     username: "murphyslaw",
     first_name: "John",
     last_name: "Murphy",
@@ -52,7 +52,7 @@ module.exports = [
     messages: []  
 },
 {
-    _id: 5,
+    _id: '000000000005',
     username: "vickster",
     first_name: "Vickie",
     last_name: "Brooke",
@@ -62,6 +62,6 @@ module.exports = [
     phone_number: "123789654",
     rating: 3.3,
     reviews: [],
-    messages: [4]  
+    messages: ['000000000004']  
 }
 ]

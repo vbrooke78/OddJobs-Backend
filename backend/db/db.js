@@ -3,16 +3,14 @@ const dotenv = require("dotenv").config();
 
 const ENV = process.env.NODE_ENV || 'development';
 
-
 const connectDB = async () => {
+
   try {
-    console.log(process.env.MONGO_URI);
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(
-      `mongo connected ${conn.connection.host}`.blue.underline.bgBlack
-    );
+    await mongoose.connect(process.env.MONGO_URI);
+
   } catch (err) {
     console.log(err);
+    mongoose.disconnect();
     process.exit(1);
   }
 };
