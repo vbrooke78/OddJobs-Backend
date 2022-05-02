@@ -5,10 +5,10 @@ async function seed({messagesData, jobsData, usersData}) {
 
     try {
         await Jobs.deleteMany({});
-   //     await User.deleteMany({});
+        await User.deleteMany({});
 
         await Jobs.insertMany(jobsData);
-   //     await User.insertMany(messagesData);
+        await User.insertMany(usersData);
     }
     catch(err) {
         console.log(err);
