@@ -3,7 +3,7 @@ const colors = require("colors");
 const dotenv = require("dotenv").config();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
-const connectDB = require("./config/db");
+const connectDB = require("./db/db.js");
 const { errorHandler } = require("./errors/errorHandler");
 connectDB();
 const app = express();
