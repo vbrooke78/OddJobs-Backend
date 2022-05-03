@@ -23,7 +23,6 @@ describe("General Errors", () => {
 });
 
 
-
 describe("GET /api/jobs", () => {
 
   test("200, return list of current jobs", async () => {
@@ -42,6 +41,25 @@ describe("GET /api/jobs", () => {
           longitude: expect.any(Number),
         },
       });
+    });
+  });
+});
+
+
+describe("GET /api/jobs/:job_id", () => {
+  test("200, return job by id ", async () => {
+    const res = await request(app)
+      .get("/api/jobs/303030303030303030303033")
+      .expect(200);
+    expect(res.body.job).toEqual({
+      _id: "303030303030303030303033",
+      title: "Walking my dogs",
+      description: "Need someone to walk my dogs everyday in the morning",
+      category: "pets",
+      price: 6.0,
+      user_id: "303030303030303030303031",
+      location: { latitude: 53.797, longitude: -1.556 },
+      __v: 0,
     });
   });
 });

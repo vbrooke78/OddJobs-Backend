@@ -6,7 +6,7 @@ const asyncHandler = require("express-async-handler");
 const getJobs = asyncHandler(async (req, res) => {
   const jobs = await Jobs.find({ jobs: req.body });
   console.log(jobs.length);
-  res.json(jobs);
+  res.json({ jobs: jobs });
 });
 //
 //
@@ -19,9 +19,10 @@ const postJobs = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("please include all fields");
   }
-
+  const user = await User.findById(req.body.user_id);
   const jobs = await Jobs.create({
     title: title,
+    description: req.body.description,
     category: category,
     price: price,
     street: street,
