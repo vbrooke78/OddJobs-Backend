@@ -1,6 +1,6 @@
-const Jobs = require('../../models/jobs.models.js');
-const User = require('../../models/users.models.js');
-const Messages = require('../../models/messages.models.js');
+const Jobs = require('../../schemas/jobs.schema.js');
+const User = require('../../schemas/users.schema.js');
+const Messages = require('../../schemas/messages.schema.js');
 
 async function seed({messagesData, jobsData, usersData}) {
 
