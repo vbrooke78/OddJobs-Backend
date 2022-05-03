@@ -10,7 +10,7 @@ const registerUser = asyncHandler(async (req, res) => {
     // console.log(findUser);
     if (findUser) {
       res.status(404);
-      throw new Error("email exists");
+      throw new Error("Email already exists");
     }
 
     const newPassword = await bcrypt.hash(password, 10);
@@ -69,4 +69,10 @@ const getUsers = asyncHandler(async (req, res) => {
   res.status(200).json({ users: users });
 });
 
-module.exports = { registerUser, loginUser, getUsers };
+const getUser = asyncHandler(async (req, res) => {
+  console.log(req.params);
+  const user = await User.findById(req.params.user_id);
+  res.status(200).json({ user: user });
+});
+
+module.exports = { registerUser, loginUser, getUsers, getUser };

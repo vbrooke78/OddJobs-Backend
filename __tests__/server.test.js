@@ -65,7 +65,7 @@ describe("GET /api/users", () => {
 describe("GET /api/users", () => {
   test("200, return list of current jobs", async () => {
     const res = await request(app).get("/api/jobs").expect(200);
-    console.log(res.body);
+
     res.body.forEach((job) => {
       expect(job).toMatchObject({
         _id: expect.any(String),
@@ -78,6 +78,28 @@ describe("GET /api/users", () => {
           longitude: expect.any(Number),
         },
       });
+    });
+  });
+});
+
+describe("GET /api/users/:user_id", () => {
+  test("200, return user by user_id", async () => {
+    const res = await request(app).get("/api/users/000000000002").expect(200);
+    console.log(res.body);
+
+    expect(res.body.user).toMatchObject({
+      _id: "303030303030303030303032",
+      username: "shaunDogg",
+      firstName: "Shaun",
+      lastName: "Clarke",
+      address: "Manchester, UK",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
+      email: "shuan@test.com",
+      password: "testing123",
+      phoneNumber: 123987456,
+      rating: 4.2,
+      reviews: expect.any(Array),
+      messages: expect.any(Array),
     });
   });
 });
