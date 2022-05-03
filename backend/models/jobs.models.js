@@ -6,13 +6,13 @@ const jobSchema = new Schema({
     type: String,
     require: true,
   },
+  description: String,
   category: {
     type: String,
     require: true,
   },
-  price: {
-    type: Number,
-  },
+  price: { type: Number },
+
   address: {
     street: String,
     city: String,
