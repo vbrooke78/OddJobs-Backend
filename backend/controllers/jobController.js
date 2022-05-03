@@ -1,3 +1,5 @@
+// const Jobs = require("../models/jobsModels");
+const User = require("../models/users.models");
 const Jobs = require("../models/jobs.models.js");
 const asyncHandler = require("express-async-handler");
 
@@ -25,6 +27,7 @@ const postJobs = asyncHandler(async (req, res) => {
     street: street,
     city: city,
     postalCode: postalCode,
+    user_id: user.user_id,
   });
 
   res.status(200).json({ jobs: jobs });

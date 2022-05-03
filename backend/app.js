@@ -2,7 +2,7 @@ express = require("express");
 const colors = require("colors");
 const cors = require("cors");
 const connectDB = require("./db/db.js");
-const { errorHandler } = require("./errors/errorHandler");
+const errorHandler = require("./errors/errorHandler");
 connectDB();
 
 
@@ -17,7 +17,10 @@ app.use("/api/users", require("./routes/userRoutes"));
 //
 app.use("/api/jobs", require("./routes/jobRoutes"));
 //
-app.use(errorHandler);
+
+//errors
+app.use(errorHandler.error_pathNotFound);
+app.use(errorHandler.error_custom);
 
 module.exports = app;
 

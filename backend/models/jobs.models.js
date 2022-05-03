@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// const addressSchema = mongoose.Schema({
-//   street: [String],
-//   city: [String],
-//   postalCode: [String],
-// });
 
 const jobSchema = new Schema({
   title: {
@@ -18,19 +13,18 @@ const jobSchema = new Schema({
   price: {
     type: Number,
   },
-  street: {
-    type: String,
+  address: {
+    street: String,
+    city: String,
+    postalCode: String,
   },
-  city: String,
-  postalCode: String,
   createdAt: Date,
   updatedAt: Date,
-  user: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  //   user: {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     required: true,
-  //     ref: "User",
-  //   },
+  location: {
+    latitude: Number,
+    longitude: Number,
+  },
+  user_id: Schema.Types.ObjectId,
 });
 
 module.exports = mongoose.model("Jobs", jobSchema);

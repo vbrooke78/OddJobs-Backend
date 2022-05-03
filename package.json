@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node backend/listen.js",
-    "server": "nodemon backend/app.js",
+    "server": "nodemon backend/listen.js",
     "test": "jest"
   },
   "keywords": [],
