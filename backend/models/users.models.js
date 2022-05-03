@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
+
     username: { type: String, require: true, unique: true },
     fullName: {
       type: String,
@@ -21,6 +22,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+
     address: [
       {
         city: String,
@@ -28,6 +30,7 @@ const userSchema = new Schema(
         postCode: String,
       },
     ],
+
     phoneNumber: {
       type: Number,
     },
