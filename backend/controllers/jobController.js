@@ -1,10 +1,12 @@
+// const Jobs = require("../models/jobsModels");
+const User = require("../models/users.models");
 const Jobs = require("../models/jobs.models.js");
 const asyncHandler = require("express-async-handler");
 
 const getJobs = asyncHandler(async (req, res) => {
   const jobs = await Jobs.find({ jobs: req.body });
   console.log(jobs.length);
-  res.json(jobs);
+  res.json({ jobs: jobs });
 });
 //
 //
@@ -17,14 +19,16 @@ const postJobs = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("please include all fields");
   }
-
+  const user = await User.findById(req.body.user_id);
   const jobs = await Jobs.create({
     title: title,
+    description: req.body.description,
     category: category,
     price: price,
     street: street,
     city: city,
     postalCode: postalCode,
+    user_id: user.user_id,
   });
 
   res.status(200).json({ jobs: jobs });
