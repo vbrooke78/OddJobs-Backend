@@ -108,9 +108,7 @@ describe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
 
-
     console.log(res.body);
-
 
     expect(res.body.user).toMatchObject({
       _id: "303030303030303030303032",
@@ -131,6 +129,7 @@ describe("GET /api/users/:user_id", () => {
 
 
 describe("POST /api/users/register", () => {
+
   test("201, register a user", async () => {
     const requestBody = {
       username: "username1",
@@ -138,11 +137,17 @@ describe("POST /api/users/register", () => {
       email: "myemail@email.com",
       password: "test123",
     };
+
     const res = await request(app)
       .post("/api/users/register")
       .send(requestBody)
       .expect(201);
-    console.log(res.body, "res");
-    expect(res.body).toEqual({ status: "User Created!" });
+
+    expect(res.body.user).toMatchObject({
+      username: "username1",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: expect.any(String)
+      });
   });
 });

@@ -1,6 +1,3 @@
-// const Jobs = require("../models/jobsModels");
-const User = require("../schemas/users.schema.js");
-const Jobs = require("../schemas/jobs.schema.js");
 const jobsModel = require('../models/jobs.models.js');
 const asyncHandler = require("express-async-handler");
 
@@ -12,28 +9,26 @@ const getJobs = asyncHandler(async (req, res, next) => {
 
 const postJobs = asyncHandler(async (req, res) => {
 
-  const job = await jobsModel.postJob(req.body);
-  res.status(201).json({job});
-
+    const job = await jobsModel.postJob(req.body);
+    res.status(201).json({job});
 });
 
 const getJobById = asyncHandler(async (req, res, next) => {
 
     const job = await jobsModel.getJobById(req.params.id);
     res.status(200).send({job});
-
 });
 
 const putJobById = asyncHandler(async (req, res) => {
 
-      const job = await jobsModel.updateJob(req.params.id, req.body);
-      res.status(200).send({job});
+    const job = await jobsModel.updateJob(req.params.id, req.body);
+    res.status(200).send({job});
 });
 
 const deleteJobById = asyncHandler(async (req, res) => {
  
-  jobsModel.deleteJobById(req.params.id);
-  res.status(204).send();
+    jobsModel.deleteJobById(req.params.id);
+    res.status(204).send();
 });
 
 module.exports = { getJobs, postJobs, getJobById, putJobById, deleteJobById };
