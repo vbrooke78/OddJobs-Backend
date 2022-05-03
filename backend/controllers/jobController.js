@@ -1,6 +1,6 @@
 // const Jobs = require("../models/jobsModels");
-const User = require("../models/users.models");
-const Jobs = require("../models/jobs.models.js");
+const User = require("../schemas/users.schema.js");
+const Jobs = require("../schemas/jobs.schema.js");
 const asyncHandler = require("express-async-handler");
 
 const getJobs = asyncHandler(async (req, res) => {
