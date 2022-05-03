@@ -1,4 +1,4 @@
-const Jobs = require("../models/jobsModels");
+const Jobs = require("../models/jobs.models.js");
 const asyncHandler = require("express-async-handler");
 
 const getJobs = asyncHandler(async (req, res) => {

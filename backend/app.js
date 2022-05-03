@@ -1,7 +1,7 @@
 express = require("express");
 const colors = require("colors");
 const cors = require("cors");
-const connectDB = require("./config/db");
+const connectDB = require("./db/db.js");
 const { errorHandler } = require("./errors/errorHandler");
 connectDB();
 

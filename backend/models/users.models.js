@@ -23,7 +23,21 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    jobs: [{ type: Schema.Types.ObjectId, ref: "jobs" }],
+    address: {
+      type: String
+    },
+    phoneNumber: {
+      type: Number
+    },
+    rating: {
+      type: Number
+    },
+    img: {
+      type: String
+    },
+    messages: [{ type: Schema.Types.ObjectId, ref: "messages" }],
+    reviews: [{ type: String}],
+    
   },
   {
     collection: "users",
