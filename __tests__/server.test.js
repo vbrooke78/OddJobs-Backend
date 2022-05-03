@@ -27,8 +27,8 @@ describe("GET /api/jobs", () => {
 
   test("200, return list of current jobs", async () => {
     const res = await request(app).get("/api/jobs").expect(200);
-    console.log(res.body);
-    res.body.forEach((job) => {
+
+    res.body.jobs.forEach((job) => {
     
       expect(job).toMatchObject({
         _id: expect.any(String),
@@ -47,6 +47,7 @@ describe("GET /api/jobs", () => {
 
 
 describe("GET /api/jobs/:job_id", () => {
+
   test("200, return job by id ", async () => {
     const res = await request(app)
       .get("/api/jobs/303030303030303030303033")
@@ -62,4 +63,25 @@ describe("GET /api/jobs/:job_id", () => {
       __v: 0,
     });
   });
+
+  test("400: Invalid ID Type (mongo id's are 12byte strings)", async () => {
+    
+    const res = await request(app)
+      .get("/api/jobs/not_an_id")
+      .expect(400);
+
+    expect(res.body.msg).toBe("Invalid ID Format");
+  });
+
+  test("404: ID Path not found", async () => {
+
+    const res = await request(app)
+      .get("/api/jobs/203030303030303030303033")
+      .expect(404);
+
+      expect(res.body.msg).toBe("ID Not Found")
+  })
+
+
+
 });

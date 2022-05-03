@@ -37,26 +37,24 @@ const postJobs = asyncHandler(async (req, res) => {
 //
 //
 //
-const getJobById = asyncHandler(async (req, res) => {
+const getJobById = asyncHandler(async (req, res, next) => {
   // console.log(typeof req.params.id, `type of`.purple);
-  // try {
-  const job = await Jobs.findById(req.params.id);
-  console.log(job);
-  // console.log(job.address.city);
-  if (!job) {
-    res.status(400);
-    throw new Error("job not found");
-  }
-  res.status(200).json({ job: job });
-  // } catch (err) {
-  //   res.status(400);
-  //   throw new Error("job not found");
-  // }
+   try {
+
+    const job = await Jobs.findById(req.params.id);
+    console.log(job, '<<<<');
+
+    if (!job) {
+      res.status(404).send({msg: "ID Not Found"})
+    }
+      res.status(200).json({ job: job });
+   }
+   catch (err){
+    next(err);
+   }
 });
-//
-//
-//
-//
+
+
 const putJobById = asyncHandler(async (req, res) => {
   try {
     const job = await Jobs.findById(req.params.id);
