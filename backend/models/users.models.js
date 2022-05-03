@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
+    username: { type: String, require: true },
     firstName: {
       type: String,
       required: true,
@@ -24,20 +25,19 @@ const userSchema = new Schema(
       required: true,
     },
     address: {
-      type: String
+      type: String,
     },
     phoneNumber: {
-      type: Number
+      type: Number,
     },
     rating: {
-      type: Number
+      type: Number,
     },
     img: {
-      type: String
+      type: String,
     },
     messages: [{ type: Schema.Types.ObjectId, ref: "messages" }],
-    reviews: [{ type: String}],
-    
+    reviews: [{ type: String }],
   },
   {
     collection: "users",
