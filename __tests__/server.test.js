@@ -96,7 +96,10 @@ describe("GET /api/jobs/:job_id", () => {
       .get("/api/jobs/203030303030303030303033")
       .expect(404);
 
-      expect(res.body.msg).toBe("ID Not Found")
+      //WTFFFFF!!!!! res.body is undefined?!!!
+      console.log(res.text);
+
+      expect(res.text).toBe("ID Not Found");
 
   });
 });

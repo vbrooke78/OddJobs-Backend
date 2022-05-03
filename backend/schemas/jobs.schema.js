@@ -24,7 +24,10 @@ const jobSchema = new Schema({
     latitude: Number,
     longitude: Number,
   },
-  user_id: Schema.Types.ObjectId,
+  user_id: { 
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 module.exports = mongoose.model("Jobs", jobSchema);

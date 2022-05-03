@@ -1,15 +1,15 @@
+exports.errMsg_invalidPostObj = {status: 400, msg: "Invalid Post Object"};
+exports.errMsg_idNotFound = {status: 404, msg: "ID Not Found"};
+
+
 exports.error_custom = (err, req, res, next) => {
 
-  // const statusCode = res.statusCode ? res.statusCode : 500;
-  // res.status(statusCode);
-  // res.json({
-  //   msg: err.message,
-  //   stack: process.env.NODE_ENV === "production" ? null : err.stack,
-  // });
-
-    // this needs to be handled properly after merging and separating out models and schemas
-    res.status(404).send(err);
-
+    if (err.status && err.msg){
+      res.status(err.status).send(err.msg);
+    }
+    else{
+      next(err);
+    }
 };
 
 exports.error_mongoDb = (err, req, res, next) => {
@@ -18,6 +18,9 @@ exports.error_mongoDb = (err, req, res, next) => {
       err.valueType !== 'ObjectId'){
         res.status(400).send({msg: "Invalid ID Format"});
       }
+  else{
+    next(err);
+  }
 
 }
 
