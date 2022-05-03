@@ -5,8 +5,11 @@ const asyncHandler = require("express-async-handler");
 
 const getJobs = asyncHandler(async (req, res) => {
   const jobs = await Jobs.find({ jobs: req.body });
+
+  // console.log(jobs.length);
   console.log(jobs.length);
   res.json({ jobs: jobs });
+
 });
 //
 //
@@ -39,6 +42,7 @@ const postJobs = asyncHandler(async (req, res) => {
 //
 const getJobById = asyncHandler(async (req, res, next) => {
   // console.log(typeof req.params.id, `type of`.purple);
+
    try {
 
     const job = await Jobs.findById(req.params.id);
@@ -58,7 +62,7 @@ const getJobById = asyncHandler(async (req, res, next) => {
 const putJobById = asyncHandler(async (req, res) => {
   try {
     const job = await Jobs.findById(req.params.id);
-    console.log(job.address.city);
+    // console.log(job.address.city);
     if (!job) {
       res.status(400);
       throw new Error("job not found");

@@ -20,7 +20,6 @@ describe("General Errors", () => {
   });
 });
 
-
 describe("GET /api/jobs", () => {
   test("200, return list of current jobs", async () => {
     const res = await request(app).get("/api/jobs").expect(200);
@@ -36,6 +35,29 @@ describe("GET /api/jobs", () => {
           latitude: expect.any(Number),
           longitude: expect.any(Number),
         },
+      });
+    });
+  });
+});
+
+
+describe("GET /api/users", () => {
+  test("200, return list of current users", async () => {
+    const res = await request(app).get("/api/users").expect(200);
+
+    res.body.users.forEach((user) => {
+      expect(user).toMatchObject({
+        _id: expect.any(String),
+        username: expect.any(String),
+        fullName: expect.any(String),
+        address: expect.any(Array),
+        img: expect.any(String),
+        email: expect.any(String),
+        password: expect.any(String),
+        phoneNumber: expect.any(Number),
+        rating: expect.any(Number),
+        reviews: expect.any(Array),
+        messages: expect.any(Array),
       });
     });
   });
@@ -75,27 +97,49 @@ describe("GET /api/jobs/:job_id", () => {
       .expect(404);
 
       expect(res.body.msg).toBe("ID Not Found")
+
   });
 });
 
 describe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
+
+
     console.log(res.body);
+
 
     expect(res.body.user).toMatchObject({
       _id: "303030303030303030303032",
       username: "shaunDogg",
-      firstName: "Shaun",
-      lastName: "Clarke",
-      address: "Manchester, UK",
+
+      fullName: "Shaun Clarke",
+      address: expect.any(Array),
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
-      email: "shuan@test.com",
+      email: "shaun@test.com",
       password: "testing123",
       phoneNumber: 123987456,
       rating: 4.2,
       reviews: expect.any(Array),
       messages: expect.any(Array),
     });
+  });
+});
+
+
+describe("POST /api/users/register", () => {
+  test("201, register a user", async () => {
+    const requestBody = {
+      username: "username1",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: "test123",
+    };
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(201);
+    console.log(res.body, "res");
+    expect(res.body).toEqual({ status: "User Created!" });
   });
 });
