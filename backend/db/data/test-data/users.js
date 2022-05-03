@@ -16,7 +16,7 @@ module.exports = [
 {
     _id: '000000000002',
     username: "shaunDogg",
-    firstName: "Shuan",
+    firstName: "Shaun",
     lastName: "Clarke",
     address: "Manchester, UK",
     img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU" ,

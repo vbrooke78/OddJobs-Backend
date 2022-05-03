@@ -12,22 +12,25 @@ beforeEach(async () => {
 beforeAll(() => dbClient());
 afterAll(() => mongoose.disconnect());
 
-describe("#Errors", () => {
-  test("404: Path Not Found", () => {
-    // Need to Implement
-    expect(true).toBe(true);
-  });
-  test("400: Bad Request", () => {
-    // Need to Implement
-    expect(true).toBe(true);
+describe("General Errors", () => {
+
+  test("404: Path Not Found", async () => {
+    const res = await request(app).get("/api/not_a_path")
+      .expect(404);
+
+    expect(res.body.msg).toBe("Path Not Found");
   });
 });
 
+
+
 describe("GET /api/jobs", () => {
+
   test("200, return list of current jobs", async () => {
     const res = await request(app).get("/api/jobs").expect(200);
     console.log(res.body);
     res.body.forEach((job) => {
+    
       expect(job).toMatchObject({
         _id: expect.any(String),
         title: expect.any(String),
@@ -41,21 +44,4 @@ describe("GET /api/jobs", () => {
       });
     });
   });
-  //   test("200, return list of current jobs", async () => {
-  //     const res = await request(app).get("/api/jobs").expect(200);
-  //     console.log(res.body);
-  //     res.body.forEach((job) => {
-  //       expect(job).toMatchObject({
-  //         _id: expect.any(String),
-  //         title: expect.any(String),
-  //         category: expect.any(String),
-  //         price: expect.any(Number),
-  //         profile: expect.any(Array),
-  //       });
-  //     });
-  //   });
-});
-
-describe("GET /api/jobs/:job_id", () => {
-  test("200, return ", () => {});
 });

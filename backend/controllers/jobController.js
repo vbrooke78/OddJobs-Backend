@@ -1,8 +1,5 @@
-<<<<<<< Updated upstream
-=======
 // const Jobs = require("../models/jobsModels");
 const User = require("../models/users.models");
->>>>>>> Stashed changes
 const Jobs = require("../models/jobs.models.js");
 const asyncHandler = require("express-async-handler");
 
@@ -30,10 +27,7 @@ const postJobs = asyncHandler(async (req, res) => {
     street: street,
     city: city,
     postalCode: postalCode,
-<<<<<<< Updated upstream
-=======
     user_id: user.user_id,
->>>>>>> Stashed changes
   });
 
   res.status(200).json({ jobs: jobs });
