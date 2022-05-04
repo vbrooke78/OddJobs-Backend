@@ -12,12 +12,6 @@ const jobSchema = new Schema({
     require: true,
   },
   price: { type: Number },
-
-  address: {
-    street: String,
-    city: String,
-    postalCode: String,
-  },
   createdAt: Date,
   updatedAt: Date,
   location: {
