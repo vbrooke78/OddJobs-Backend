@@ -97,7 +97,7 @@ describe("GET /api/jobs/:job_id", () => {
 xdescribe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
-
+    
     expect(res.body.user).toMatchObject({
       _id: "303030303030303030303032",
       username: "shaunDogg",
@@ -131,6 +131,7 @@ describe("POST /api/users/register", () => {
   });
 });
 
+
 describe("PUT /api/users/:user_id", () => {
   test("202, updates user details", async () => {
     const requestBody = {
@@ -143,6 +144,34 @@ describe("PUT /api/users/:user_id", () => {
       .send(requestBody)
       .expect(202);
     console.log(res);
-    expect(res.body).toEqual({ status: "User details updated!" });
+    expect(res.body).toEqual({ status: "User details updated!" }); 
+    });
+});
+
+describe("POST /api/jobs", () => {
+  test("201, post a new job", async () => {
+    const requestBody = {
+      title: "fake title",
+      description: "fake description",
+      price: 69,
+      category: "fake category",
+      user_id: "000000000001",
+      location: { latitude: 53.797, longitude: -1.556 },
+    };
+    const res = await request(app)
+      .post("/api/jobs")
+      .send(requestBody)
+      .expect(201);
+    console.log(res.body);
+    expect(res.body.job).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      title: "fake title",
+      description: "fake description",
+      price: 69,
+      category: "fake category",
+      user_id: "303030303030303030303031",
+      location: { latitude: 53.797, longitude: -1.556 },
+    });
   });
 });
