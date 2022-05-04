@@ -94,16 +94,13 @@ describe("GET /api/jobs/:job_id", () => {
   });
 });
 
-describe("GET /api/users/:user_id", () => {
+xdescribe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
-
-    console.log(res.body);
-
+    
     expect(res.body.user).toMatchObject({
       _id: "303030303030303030303032",
       username: "shaunDogg",
-
       fullName: "Shaun Clarke",
       address: expect.any(Array),
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
@@ -129,7 +126,7 @@ describe("POST /api/users/register", () => {
       .post("/api/users/register")
       .send(requestBody)
       .expect(201);
-    console.log(res.body, "res");
+
     expect(res.body).toEqual({ status: "User Created!" });
   });
 });
@@ -140,5 +137,49 @@ describe("DELETE /api/jobs/:job_id", () => {
       .delete("/api/jobs/303030303030303030303033")
       .expect(202);
     expect(res.body).toEqual({ status: "Job deleted" });
+  });
+});
+
+describe("PUT /api/users/:user_id", () => {
+  test("202, updates user details", async () => {
+    const requestBody = {
+      address: [{ city: "Leeds", street: "street", postCode: "code" }],
+      phoneNumber: 321,
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
+    };
+    const res = await request(app)
+      .put("/api/users/000000000002")
+      .send(requestBody)
+      .expect(202);
+    console.log(res);
+    expect(res.body).toEqual({ status: "User details updated!" }); 
+    });
+});
+
+describe("POST /api/jobs", () => {
+  test("201, post a new job", async () => {
+    const requestBody = {
+      title: "fake title",
+      description: "fake description",
+      price: 69,
+      category: "fake category",
+      user_id: "000000000001",
+      location: { latitude: 53.797, longitude: -1.556 },
+    };
+    const res = await request(app)
+      .post("/api/jobs")
+      .send(requestBody)
+      .expect(201);
+    console.log(res.body);
+    expect(res.body.job).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      title: "fake title",
+      description: "fake description",
+      price: 69,
+      category: "fake category",
+      user_id: "303030303030303030303031",
+      location: { latitude: 53.797, longitude: -1.556 },
+    });
   });
 });
