@@ -97,7 +97,7 @@ describe("GET /api/jobs/:job_id", () => {
   });
 });
 
-xdescribe("GET /api/users/:user_id", () => {
+describe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
     
@@ -158,8 +158,8 @@ describe("DELETE /api/jobs/:job_id", () => {
   test("202, delete job", async () => {
     const res = await request(app)
       .delete("/api/jobs/303030303030303030303033")
-      .expect(202);
-    expect(res.body).toEqual({ status: "Job deleted" });
+      .expect(204);
+  //  expect(res.body).toEqual({ status: "Job deleted" });
   });
 });
 
