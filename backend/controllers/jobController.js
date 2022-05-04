@@ -6,35 +6,31 @@ const asyncHandler = require("express-async-handler");
 const getJobs = asyncHandler(async (req, res) => {
   const jobs = await Jobs.find({ jobs: req.body });
 
-  // console.log(jobs.length);
-  console.log(jobs.length);
   res.json({ jobs: jobs });
-
 });
 //
 //
 //
 //
 const postJobs = asyncHandler(async (req, res) => {
-  const { title, category, price, street, city, postalCode } = req.body;
+  const { title, category, price, location, description, user_id } = req.body;
 
-  if (!title || !category || !price || !street || !city || !postalCode) {
+  if (!title || !category || !price || !description || !user_id || !location) {
     res.status(400);
     throw new Error("please include all fields");
   }
-  const user = await User.findById(req.body.user_id);
+  console.log(location, "location");
+  const user = await User.findById(user_id);
   const jobs = await Jobs.create({
     title: title,
-    description: req.body.description,
+    description: description,
     category: category,
     price: price,
-    street: street,
-    city: city,
-    postalCode: postalCode,
-    user_id: user.user_id,
+    user_id: user_id,
+    location: { latitude: location.latitude, longitude: location.longitude },
   });
-
-  res.status(200).json({ jobs: jobs });
+  console.log(jobs);
+  res.status(201).json({ job: jobs });
 });
 //
 //
@@ -43,21 +39,17 @@ const postJobs = asyncHandler(async (req, res) => {
 const getJobById = asyncHandler(async (req, res, next) => {
   // console.log(typeof req.params.id, `type of`.purple);
 
-   try {
-
+  try {
     const job = await Jobs.findById(req.params.id);
-    console.log(job, '<<<<');
 
     if (!job) {
-      res.status(404).send({msg: "ID Not Found"})
+      res.status(404).send({ msg: "ID Not Found" });
     }
-      res.status(200).json({ job: job });
-   }
-   catch (err){
+    res.status(200).json({ job: job });
+  } catch (err) {
     next(err);
-   }
+  }
 });
-
 
 const putJobById = asyncHandler(async (req, res) => {
   try {

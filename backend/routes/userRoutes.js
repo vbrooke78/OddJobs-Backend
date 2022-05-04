@@ -6,6 +6,7 @@ const {
   loginUser,
   getUsers,
   getUser,
+  deleteUser,
 } = require("../controllers/userController");
 
 //POST /api/users/register
@@ -16,5 +17,6 @@ router.post("/login", loginUser);
 router.get("/", getUsers);
 //GET /api/users/:user_id
 router.get("/:user_id", getUser);
-
+//DELETE /api/users/:user_id
+router.delete("/:user_id", deleteUser);
 module.exports = router;
