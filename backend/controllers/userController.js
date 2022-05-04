@@ -2,40 +2,27 @@ const asyncHandler = require("express-async-handler");
 const User = require("../schemas/users.schema.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const usersModel = require('../models/users.models.js');
+
 const registerUser = asyncHandler(async (req, res) => {
-  try {
-    const { fullName, username, email, password } = req.body;
 
-    const findUser = await User.findOne({ email: email });
-    const findUsername = await User.findOne({ username: username });
-    if (findUser) {
-      res.status(404);
-      throw new Error("Email already exists");
-    }
-    if (findUsername) {
-      res.status(404);
-      throw new Error("Username already exists");
-    }
-    const newPassword = await bcrypt.hash(password, 10);
-
-    await User.create({
-      username: username,
-      fullName: fullName,
-      email: email,
-      password: newPassword,
-    });
-    res.status(201).json({
-      status: "User Created!",
-    });
-  } catch (error) {
-    res.status(400);
-    throw new Error("Email already exists!");
-  }
+  const user = await usersModel.createNewUser(req.body);
+  res.status(201).send({user});
 });
-//
-//
-//
-//
+
+const getUsers = asyncHandler(async (req, res) => {
+
+  const users = await usersModel.getAllUsers();
+  res.status(200).json({users});
+});
+
+const getUser = asyncHandler(async (req, res) => {
+
+  const user = await usersModel.getUserById(req.params.user_id);
+  res.status(200).json({user});
+});
+
+
 const loginUser = asyncHandler(async (req, res) => {
   //   try {
   const user = await User.findOne({ email: req.body.email });

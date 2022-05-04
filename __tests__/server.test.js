@@ -89,15 +89,18 @@ describe("GET /api/jobs/:job_id", () => {
     const res = await request(app)
       .get("/api/jobs/203030303030303030303033")
       .expect(404);
+    
+      //WTFFFFF!!!!! res.body is undefined?!!!
+      console.log(res.text);
 
-    expect(res.body.msg).toBe("ID Not Found");
+      expect(res.text).toBe("ID Not Found");
   });
 });
 
 xdescribe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
-
+    
     expect(res.body.user).toMatchObject({
       _id: "303030303030303030303032",
       username: "shaunDogg",
@@ -115,6 +118,7 @@ xdescribe("GET /api/users/:user_id", () => {
 });
 
 describe("POST /api/users/register", () => {
+
   test("201, register a user", async () => {
     const requestBody = {
       username: "username1",
@@ -122,12 +126,18 @@ describe("POST /api/users/register", () => {
       email: "myemail@email.com",
       password: "test123",
     };
+
     const res = await request(app)
       .post("/api/users/register")
       .send(requestBody)
       .expect(201);
 
-    expect(res.body).toEqual({ status: "User Created!" });
+    expect(res.body.user).toMatchObject({
+      username: "username1",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: expect.any(String)
+      });
   });
 });
 

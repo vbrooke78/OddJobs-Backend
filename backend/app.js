@@ -19,9 +19,9 @@ app.use("/api/jobs", require("./routes/jobRoutes"));
 //
 
 //errors
-app.use(errorHandler.error_pathNotFound);
 app.use(errorHandler.error_mongoDb);
 app.use(errorHandler.error_custom);
+app.use(errorHandler.error_pathNotFound);
 
 module.exports = app;
 
