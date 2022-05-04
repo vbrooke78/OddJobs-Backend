@@ -139,6 +139,52 @@ describe("POST /api/users/register", () => {
       password: expect.any(String)
       });
   });
+
+  test("400: Username already exists", async () => {
+     const requestBody = {
+      username: "shaunDogg",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Username already exists");
+    });
+
+    test("400: Email already exists", async () => {
+     const requestBody = {
+      username: "username1",
+      fullName: "my name",
+      email: "shaun@test.com",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Email already exists");
+    });
+
+    test("400: Invalid Post Object", async () => {
+     const requestBody = {
+      username: "username1",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Invalid Post Object");
+    });
 });
 
 

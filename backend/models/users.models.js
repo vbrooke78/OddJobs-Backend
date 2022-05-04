@@ -122,7 +122,7 @@ const _validateNewUser = async (userInfo) => {
 
     if (userExists || usernameExists){
       return Promise.reject(
-          errors.errMsg_uniqueFieldExists(userExists?'Username':'Email'));
+          errors.errMsg_uniqueFieldExists(userExists?'Email':'Username'));
     }
 
     return newUser;
