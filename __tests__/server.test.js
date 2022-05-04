@@ -131,6 +131,14 @@ describe("POST /api/users/register", () => {
   });
 });
 
+describe("DELETE /api/jobs/:job_id", () => {
+  test("202, delete job", async () => {
+    const res = await request(app)
+      .delete("/api/jobs/303030303030303030303033")
+      .expect(202);
+    expect(res.body).toEqual({ status: "Job deleted" });
+  });
+});
 
 describe("PUT /api/users/:user_id", () => {
   test("202, updates user details", async () => {

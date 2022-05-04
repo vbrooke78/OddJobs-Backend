@@ -76,7 +76,7 @@ const deleteJobById = asyncHandler(async (req, res) => {
   try {
     const job = await Jobs.findById(req.params.id);
     await job.remove();
-    res.status(200).json({ msg: `deleted job ${req.params.id}` });
+    res.status(202).json({ status: "Job deleted" });
   } catch (err) {
     res.status(400);
     throw new Error("job not found");
