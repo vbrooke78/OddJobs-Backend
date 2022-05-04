@@ -18,7 +18,9 @@ const getJobById = asyncHandler(async (req, res, next) => {
 
 const putJobById = asyncHandler(async (req, res) => {
   const job = await jobsModel.updateJob(req.params.id, req.body);
-  res.status(200).send({ job });
+
+  res.status(202).send({ job });
+
 });
 
 const deleteJobById = asyncHandler(async (req, res) => {
