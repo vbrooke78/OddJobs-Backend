@@ -33,7 +33,7 @@ exports.loginUser = async (username, password) => {
     const user = await User.findOne({username});
 
     if (!user) {
-        return Promise.reject(errors.errMsg_invalidItem('username'));
+        return Promise.reject(errors.errMsg_idNotFound);
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
@@ -89,11 +89,11 @@ exports.deleteUser = async (userId, password) => {
         return Promise.reject(errors.errMsg_idNotFound);
     }
 
-    // const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(password, user.password);
 
-    // if (!validPassword){
-    //     return Promise.reject(errors.errMsg_invalidItem('password'));
-    // }
+    if (!validPassword){
+        return Promise.reject(errors.errMsg_invalidItem('password'));
+    }
 
     const res = await User.deleteOne({_id: userId});
 
@@ -122,7 +122,7 @@ const _validateNewUser = async (userInfo) => {
 
     if (userExists || usernameExists){
       return Promise.reject(
-          errors.errMsg_uniqueFieldExists(userExists?'Username':'Email'));
+          errors.errMsg_uniqueFieldExists(userExists?'Email':'Username'));
     }
 
     return newUser;

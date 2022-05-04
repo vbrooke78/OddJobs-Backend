@@ -108,7 +108,7 @@ describe("GET /api/users/:user_id", () => {
       address: expect.any(Array),
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
       email: "shaun@test.com",
-      password: "testing123",
+      password: expect.any(String),
       phoneNumber: 123987456,
       rating: 4.2,
       reviews: expect.any(Array),
@@ -138,7 +138,54 @@ describe("POST /api/users/register", () => {
       password: expect.any(String),
     });
   });
+
+  test("400: Username already exists", async () => {
+     const requestBody = {
+      username: "shaunDogg",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Username already exists");
+    });
+
+    test("400: Email already exists", async () => {
+     const requestBody = {
+      username: "username1",
+      fullName: "my name",
+      email: "shaun@test.com",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Email already exists");
+    });
+
+    test("400: Invalid Post Object", async () => {
+     const requestBody = {
+      username: "username1",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Invalid Post Object");
+    });
 });
+
 
 describe("DELETE /api/users/:user_id", () => {
   test("204, delete user", async () => {
@@ -151,7 +198,7 @@ describe("DELETE /api/users/:user_id", () => {
   });
 });
 
-xdescribe("POST /api/users/login", () => {
+describe("POST /api/users/login", () => {
   test("201, login with a user", async () => {
     const requestBody = {
       username: "shaunDogg",
@@ -163,8 +210,38 @@ xdescribe("POST /api/users/login", () => {
       .expect(201);
     expect(res.body.userLogin).toEqual({
       token: expect.any(String),
+
       user_id: expect.any(String),
     });
+
+    }); 
+  });
+
+  test("404, username not found", async () => {
+    const requestBody = {
+      username: "not_a_username",
+      password: "testing123",
+    };
+    const res = await request(app)
+      .post("/api/users/login")
+      .send(requestBody)
+      .expect(404);
+
+    expect(res.text).toEqual("ID Not Found"); 
+  });
+
+    test("400, invalid password", async () => {
+    const requestBody = {
+      username: "shaunDogg",
+      password: "invalid",
+    };
+    const res = await request(app)
+      .post("/api/users/login")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toEqual("Invalid password"); 
+
   });
 });
 
@@ -198,6 +275,7 @@ describe("PUT /api/users/:user_id", () => {
 });
 
 describe("POST /api/jobs", () => {
+
   test("201, post a new job", async () => {
     const requestBody = {
       title: "fake title",
@@ -211,7 +289,7 @@ describe("POST /api/jobs", () => {
       .post("/api/jobs")
       .send(requestBody)
       .expect(201);
-    console.log(res.body);
+
     expect(res.body.job).toEqual({
       __v: 0,
       _id: expect.any(String),
@@ -222,6 +300,23 @@ describe("POST /api/jobs", () => {
       user_id: "303030303030303030303031",
       location: { latitude: 53.797, longitude: -1.556 },
     });
+  });
+
+  test("400: Invalid Post Object", async () => {
+
+    const requestBody = {
+      title: "fake title",
+      description: "fake description",
+      price: 69,
+      user_id: "000000000001",
+      location: { latitude: 53.797, longitude: -1.556 },
+    };
+    const res = await request(app)
+      .post("/api/jobs")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toEqual("Invalid Post Object");
   });
 });
 
