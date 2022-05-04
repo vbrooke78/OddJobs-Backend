@@ -107,7 +107,7 @@ describe("GET /api/users/:user_id", () => {
       address: expect.any(Array),
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
       email: "shaun@test.com",
-      password: "testing123",
+      password: expect.any(String),
       phoneNumber: 123987456,
       rating: 4.2,
       reviews: expect.any(Array),
@@ -174,7 +174,7 @@ describe("DELETE /api/users/:user_id", () => {
   });
 });
 
-xdescribe("POST /api/users/login", () => {
+describe("POST /api/users/login", () => {
   test("201, login with a user", async () => {
     const requestBody = {
       username: "shaunDogg",
@@ -188,6 +188,31 @@ xdescribe("POST /api/users/login", () => {
       token: expect.any(String),
       user_id: expect.any(String),
     });
+
+  test("404, username not found", async () => {
+    const requestBody = {
+      username: "not_a_username",
+      password: "testing123",
+    };
+    const res = await request(app)
+      .post("/api/users/login")
+      .send(requestBody)
+      .expect(404);
+
+    expect(res.text).toEqual("ID Not Found"); 
+  });
+
+    test("400, invalid password", async () => {
+    const requestBody = {
+      username: "shaunDogg",
+      password: "invalid",
+    };
+    const res = await request(app)
+      .post("/api/users/login")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toEqual("Invalid password"); 
   });
 });
 

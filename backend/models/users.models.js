@@ -32,8 +32,9 @@ exports.getUserById = async (userId) => {
 //  POST /api/users/login
 //
 exports.loginUser = async (username, password) => {
-  const user = await User.findOne({ username });
 
+  const user = await User.findOne({ username });
+  
   if (!user) {
     return Promise.reject(errors.errMsg_invalidItem("username"));
   }
@@ -90,15 +91,17 @@ exports.putUser = async (userId, userInfo) => {
 exports.deleteUser = async (userId, password) => {
   const user = await User.findById(userId);
 
-  if (!user) {
-    return Promise.reject(errors.errMsg_idNotFound);
+  const user = await User.findById(userId);
+
+  if (!user){
+      return Promise.reject(errors.errMsg_idNotFound);
   }
 
-  // const validPassword = await bcrypt.compare(password, user.password);
+  const validPassword = await bcrypt.compare(password, user.password);
 
-  // if (!validPassword){
-  //     return Promise.reject(errors.errMsg_invalidItem('password'));
-  // }
+  if (!validPassword){
+      return Promise.reject(errors.errMsg_invalidItem('password'));
+  }
 
   const res = await User.deleteOne({ _id: userId });
 
