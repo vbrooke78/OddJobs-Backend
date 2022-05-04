@@ -119,10 +119,11 @@ const _validateNewUser = async (userInfo) => {
     const [userExists, usernameExists] = await Promise.all(
         [User.findOne({ email: userInfo.email }), 
         User.findOne({ username: userInfo.username})]);
-
+console.log(userExists, '<<< userexists')
+console.log(usernameExists, '<<< usernameexists')
     if (userExists || usernameExists){
       return Promise.reject(
-          errors.errMsg_uniqueFieldExists(userExists?'Username':'Email'));
+          errors.errMsg_uniqueFieldExists(userExists?'Email':'Username'));
     }
 
     return newUser;

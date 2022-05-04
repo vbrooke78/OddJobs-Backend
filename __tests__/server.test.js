@@ -139,10 +139,42 @@ describe("POST /api/users/register", () => {
       password: expect.any(String)
       });
   });
+
+  test("400: Username already exists", async () => {
+     const requestBody = {
+      username: "shaunDogg",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Username already exists");
+    });
+
+    test.only("400: Email already exists", async () => {
+     const requestBody = {
+      username: "username1",
+      fullName: "my name",
+      email: "shaun@test.com",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Email already exists");
+    });
 });
 
 
-describe.only("DELETE /api/users/:user_id", () => {
+describe("DELETE /api/users/:user_id", () => {
   test("204, delete user", async () => {
     const res = await request(app)
       .delete("/api/users/000000000002")
