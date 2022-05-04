@@ -22,14 +22,35 @@ exports.getUserById = async (userId) => {
 
     const user = await User.findById(userId);
 
-    if (!user)
+    if (!user) 
         return Promise.reject(errors.errMsg_idNotFound);
     
     return user;
 }
 
-exports.loginUser = async () => {
-    // to implement!
+exports.loginUser = async (username, password) => {
+    
+    const user = await User.findOne({username});
+
+    if (!user) {
+        return Promise.reject(errors.errMsg_invalidItem('username'));
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+        return Promise.reject(errors.errMsg_invalidItem('password'))
+    }
+
+    const token = jwt.sign(
+        {
+        name: user.username,
+        email: user.email,
+        },
+        "waefgqw4gqregrqegaergre"
+    );
+
+    return {token: token, user_id: user.id };
 }
 
 

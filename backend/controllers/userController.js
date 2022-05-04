@@ -24,34 +24,9 @@ const getUser = asyncHandler(async (req, res) => {
 
 
 const loginUser = asyncHandler(async (req, res) => {
-  //   try {
-  const user = await User.findOne({ email: req.body.email });
-  // console.log(user);
-  if (!user) {
-    res.status(400);
-    throw new Error("Email doesn't exist");
-  }
-  // console.log(req.body.password, `web`);
-  // console.log(user.password, `back`);
-  const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (validPassword) {
-    const token = jwt.sign(
-      {
-        name: user.username,
-        email: user.email,
-      },
-      "waefgqw4gqregrqegaergre"
-    );
-
-    return res.json({ status: "OK", token: token, user_id: user.id });
-  } else {
-    res.status(400);
-    throw new Error("Wrong password");
-  }
-  //   } catch (error) {
-  //     res.status(400);
-  //     throw new Error("error");
-  //   }
+ 
+    const userLogin = await usersModel.loginUser(req.body.username, req.body.password);
+    res.status(201).send({userLogin});
 });
 
 

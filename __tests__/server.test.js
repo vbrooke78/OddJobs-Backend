@@ -154,6 +154,23 @@ describe("POST /api/users/register", () => {
 //   });
 // });
 
+xdescribe("POST /api/users/login", () => {
+  test("201, login with a user", async () => {
+    const requestBody = {
+      username: "shaunDogg",
+      password: "testing123",
+    };
+    const res = await request(app)
+      .post("/api/users/login")
+      .send(requestBody)
+      .expect(201);
+    expect(res.body.userLogin).toEqual({
+      token: expect.any(String),
+      user_id: expect.any(String)
+    });
+  });
+});
+
 describe("DELETE /api/jobs/:job_id", () => {
   test("202, delete job", async () => {
     const res = await request(app)
