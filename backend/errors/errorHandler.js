@@ -1,5 +1,6 @@
 exports.errMsg_invalidPostObj = {status: 400, msg: "Invalid Post Object"};
 exports.errMsg_idNotFound = {status: 404, msg: "ID Not Found"};
+exports.errMsg_generic = {status: 500, msg: "Something went wrong"}
 exports.errMsg_uniqueFieldExists = (field) => {
   return {status:400, msg: `${field} already exists`};
 } 

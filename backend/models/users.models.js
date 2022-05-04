@@ -81,6 +81,27 @@ exports.putUser = async (userId, userInfo) => {
     return updatedUser;
 }
 
+exports.deleteUser = async (userId, password) => {
+
+    const user = await User.findById(userId);
+
+    if (!user){
+        return Promise.reject(errors.errMsg_idNotFound);
+    }
+
+    // const validPassword = await bcrypt.compare(password, user.password);
+
+    // if (!validPassword){
+    //     return Promise.reject(errors.errMsg_invalidItem('password'));
+    // }
+
+    const res = await User.deleteOne({_id: userId});
+
+    if (!res.acknowledged){
+        return Promise.reject(errors.errMsg_generic);
+    }
+}
+
 
 const _validateNewUser = async (userInfo) => {
 

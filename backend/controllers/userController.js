@@ -22,13 +22,11 @@ const getUser = asyncHandler(async (req, res) => {
   res.status(200).json({user});
 });
 
-
 const loginUser = asyncHandler(async (req, res) => {
  
     const userLogin = await usersModel.loginUser(req.body.username, req.body.password);
     res.status(201).send({userLogin});
 });
-
 
 const putUser = asyncHandler(async (req, res) => {
 
@@ -37,14 +35,9 @@ const putUser = asyncHandler(async (req, res) => {
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-  const { password } = req.body;
-  const user = await User.findById(req.params.user_id);
-  const validPassword = await bcrypt.compare(password, user.password);
-  // console.log(password, user.password, "passwords");
-  if (validPassword) {
-    await user.remove();
-    res.status(202).json({ status: "User deleted" });
-  }
+
+    await usersModel.deleteUser(req.params.user_id, req.body.password);
+    res.status(204).send();
 });
 
 module.exports = { registerUser, loginUser, getUsers, getUser, putUser, deleteUser };
