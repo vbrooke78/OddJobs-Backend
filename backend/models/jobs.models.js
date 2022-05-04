@@ -43,7 +43,7 @@ exports.updateJob = async (jobId, updates) => {
         return Promise.reject(errors.errMsg_invalidPostObj);
 
     return await Jobs.findByIdAndUpdate(jobId, 
-        updates, { new: true });
+        updatedJob, { new: true });
 }
 
 exports.deleteJobById = async (jobId) => {

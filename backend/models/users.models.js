@@ -22,14 +22,84 @@ exports.getUserById = async (userId) => {
 
     const user = await User.findById(userId);
 
-    if (!user)
+    if (!user) 
         return Promise.reject(errors.errMsg_idNotFound);
     
     return user;
 }
 
-exports.loginUser = async () => {
-    // to implement!
+exports.loginUser = async (username, password) => {
+    
+    const user = await User.findOne({username});
+
+    if (!user) {
+        return Promise.reject(errors.errMsg_invalidItem('username'));
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+
+    if (!validPassword) {
+        return Promise.reject(errors.errMsg_invalidItem('password'))
+    }
+
+    const token = jwt.sign(
+        {
+        name: user.username,
+        email: user.email,
+        },
+        "waefgqw4gqregrqegaergre"
+    );
+
+    return {token: token, user_id: user.id };
+}
+
+exports.putUser = async (userId, userInfo) => {
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+        return Promise.reject(errors.errMsg_idNotFound);
+    }
+
+    const filter = {
+        username: user.username,
+        fullName: user.fullName,
+        email: user.email,
+        password: user.password,
+    };
+
+    const update = {
+        address: userInfo.address,
+        phoneNumber: userInfo.phoneNumber,
+        img: userInfo.img,
+    };
+
+    const updatedUser = await User.findOneAndUpdate(filter, update, {
+        new: true,
+    });
+
+    return updatedUser;
+}
+
+exports.deleteUser = async (userId, password) => {
+
+    const user = await User.findById(userId);
+
+    if (!user){
+        return Promise.reject(errors.errMsg_idNotFound);
+    }
+
+    // const validPassword = await bcrypt.compare(password, user.password);
+
+    // if (!validPassword){
+    //     return Promise.reject(errors.errMsg_invalidItem('password'));
+    // }
+
+    const res = await User.deleteOne({_id: userId});
+
+    if (!res.acknowledged){
+        return Promise.reject(errors.errMsg_generic);
+    }
 }
 
 
@@ -57,5 +127,3 @@ const _validateNewUser = async (userInfo) => {
 
     return newUser;
 }
-
-

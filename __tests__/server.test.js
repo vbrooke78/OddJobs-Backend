@@ -142,17 +142,33 @@ describe("POST /api/users/register", () => {
 });
 
 
-// describe("DELETE /api/users/:user_id", () => {
-//   test("204, delete user", async () => {
-//     const res = await request(app)
-//       .delete("/api/users/000000000002")
-//       .send({ password: "testing123" })
-//       .expect(202);
-//     expect(res.body).toEqual({
-//       status: "User deleted",
-//     });
-//   });
-// });
+describe.only("DELETE /api/users/:user_id", () => {
+  test("204, delete user", async () => {
+    const res = await request(app)
+      .delete("/api/users/000000000002")
+      .send({ password: "testing123" })
+      .expect(204);
+
+    expect(res.body).toEqual({});
+  });
+});
+
+xdescribe("POST /api/users/login", () => {
+  test("201, login with a user", async () => {
+    const requestBody = {
+      username: "shaunDogg",
+      password: "testing123",
+    };
+    const res = await request(app)
+      .post("/api/users/login")
+      .send(requestBody)
+      .expect(201);
+    expect(res.body.userLogin).toEqual({
+      token: expect.any(String),
+      user_id: expect.any(String)
+    });
+  });
+});
 
 describe("DELETE /api/jobs/:job_id", () => {
   test("202, delete job", async () => {
@@ -174,8 +190,12 @@ describe("PUT /api/users/:user_id", () => {
       .put("/api/users/000000000002")
       .send(requestBody)
       .expect(202);
-    console.log(res);
-    expect(res.body).toEqual({ status: "User details updated!" }); 
+      
+    expect(res.body.user).toMatchObject({
+      address: [{ city: "Leeds", street: "street", postCode: "code" }],
+      phoneNumber: 321,
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
+    })
     });
 });
 

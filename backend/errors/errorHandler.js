@@ -1,8 +1,11 @@
 exports.errMsg_invalidPostObj = {status: 400, msg: "Invalid Post Object"};
 exports.errMsg_idNotFound = {status: 404, msg: "ID Not Found"};
-exports.errMsg_emailExists = {status:400, msg: "Email Already Exists"};
+exports.errMsg_generic = {status: 500, msg: "Something went wrong"}
 exports.errMsg_uniqueFieldExists = (field) => {
   return {status:400, msg: `${field} already exists`};
+} 
+exports.errMsg_invalidItem = (item) => {
+  return {status:400, msg: `Invalid ${item}`};
 } 
 
 
