@@ -40,7 +40,6 @@ describe("GET /api/jobs", () => {
   });
 });
 
-
 describe("GET /api/users", () => {
   test("200, return list of current users", async () => {
     const res = await request(app).get("/api/users").expect(200);
@@ -64,7 +63,6 @@ describe("GET /api/users", () => {
 });
 
 describe("GET /api/jobs/:job_id", () => {
-
   test("200, return job by id ", async () => {
     const res = await request(app)
       .get("/api/jobs/303030303030303030303033")
@@ -82,37 +80,27 @@ describe("GET /api/jobs/:job_id", () => {
   });
 
   test("400: Invalid ID Type (mongo id's are 12byte strings)", async () => {
-    
-    const res = await request(app)
-      .get("/api/jobs/not_an_id")
-      .expect(400);
+    const res = await request(app).get("/api/jobs/not_an_id").expect(400);
 
     expect(res.body.msg).toBe("Invalid ID Format");
   });
 
   test("404: ID Path not found", async () => {
-
     const res = await request(app)
       .get("/api/jobs/203030303030303030303033")
       .expect(404);
 
-      expect(res.body.msg).toBe("ID Not Found")
-
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
-describe("GET /api/users/:user_id", () => {
+xdescribe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
-
-
-    console.log(res.body);
-
 
     expect(res.body.user).toMatchObject({
       _id: "303030303030303030303032",
       username: "shaunDogg",
-
       fullName: "Shaun Clarke",
       address: expect.any(Array),
       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
@@ -126,7 +114,6 @@ describe("GET /api/users/:user_id", () => {
   });
 });
 
-
 describe("POST /api/users/register", () => {
   test("201, register a user", async () => {
     const requestBody = {
@@ -139,7 +126,23 @@ describe("POST /api/users/register", () => {
       .post("/api/users/register")
       .send(requestBody)
       .expect(201);
-    console.log(res.body, "res");
+
     expect(res.body).toEqual({ status: "User Created!" });
+  });
+});
+
+describe("PUT /api/users/:user_id", () => {
+  test("202, updates user details", async () => {
+    const requestBody = {
+      address: [{ city: "Leeds", street: "street", postCode: "code" }],
+      phoneNumber: 321,
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
+    };
+    const res = await request(app)
+      .put("/api/users/000000000002")
+      .send(requestBody)
+      .expect(202);
+    console.log(res);
+    expect(res.body).toEqual({ status: "User details updated!" });
   });
 });
