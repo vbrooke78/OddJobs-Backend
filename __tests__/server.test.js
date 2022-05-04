@@ -97,7 +97,7 @@ describe("GET /api/jobs/:job_id", () => {
 xdescribe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
-    
+
     expect(res.body.user).toMatchObject({
       _id: "303030303030303030303032",
       username: "shaunDogg",
@@ -130,6 +130,19 @@ describe("POST /api/users/register", () => {
     expect(res.body).toEqual({ status: "User Created!" });
   });
 });
+
+
+// describe("DELETE /api/users/:user_id", () => {
+//   test("204, delete user", async () => {
+//     const res = await request(app)
+//       .delete("/api/users/000000000002")
+//       .send({ password: "testing123" })
+//       .expect(202);
+//     expect(res.body).toEqual({
+//       status: "User deleted",
+//     });
+//   });
+// });
 
 describe("DELETE /api/jobs/:job_id", () => {
   test("202, delete job", async () => {
@@ -183,3 +196,4 @@ describe("POST /api/jobs", () => {
     });
   });
 });
+
