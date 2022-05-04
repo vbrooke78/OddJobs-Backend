@@ -91,7 +91,7 @@ describe("GET /api/jobs/:job_id", () => {
       .expect(404);
 
     //WTFFFFF!!!!! res.body is undefined?!!!
-    console.log(res.text);
+
 
     expect(res.text).toBe("ID Not Found");
   });
@@ -114,6 +114,18 @@ describe("GET /api/users/:user_id", () => {
       reviews: expect.any(Array),
       messages: expect.any(Array),
     });
+  });
+  test("404, invalid user id!", async () => {
+    const res = await request(app).get("/api/users/notAnId").expect(400);
+    // console.log(res, "res<<<<<<<<<<<<<");
+    expect(res.body.msg).toBe("Invalid ID Format");
+  });
+  test("404, user not found!", async () => {
+    const res = await request(app)
+      .get("/api/users/303030303030363030303032")
+      .expect(404);
+    // console.log(re, "res<<<<<<<<<<<<<");
+    expect(res.text).toBe("ID Not Found");
   });
 });
 
@@ -186,7 +198,6 @@ describe("POST /api/users/register", () => {
     });
 });
 
-
 describe("DELETE /api/users/:user_id", () => {
   test("204, delete user", async () => {
     const res = await request(app)
@@ -195,6 +206,18 @@ describe("DELETE /api/users/:user_id", () => {
       .expect(204);
 
     expect(res.body).toEqual({});
+  });
+  test("400, invalid user id", async () => {
+    const res = await request(app).delete("/api/users/notAnId").expect(400);
+    // console.log(res, "res<<<<<<<<<<<<<");
+    expect(res.body.msg).toBe("Invalid ID Format");
+  });
+  test("404, user doesn't exist", async () => {
+    const res = await request(app)
+      .delete("/api/users/303030303030363030303032")
+      .expect(404);
+    // console.log(res, "res<<<<<<<<<<<<<");
+    expect(res.text).toBe("ID Not Found");
   });
 });
 
@@ -216,6 +239,10 @@ describe("POST /api/users/login", () => {
 
     }); 
   });
+
+      user_id: expect.any(String),
+    });
+
 
   test("404, username not found", async () => {
     const requestBody = {
@@ -251,6 +278,20 @@ describe("DELETE /api/jobs/:job_id", () => {
       .delete("/api/jobs/303030303030303030303033")
       .expect(204);
     //  expect(res.body).toEqual({ status: "Job deleted" });
+
+  });
+  test("400, invalid job id", async () => {
+    const res = await request(app).delete("/api/users/notAnId").expect(400);
+    // console.log(res, "res<<<<<<<<<<<<<");
+    expect(res.body.msg).toBe("Invalid ID Format");
+  });
+  test("404, job doesn't exist", async () => {
+    const res = await request(app)
+      .delete("/api/users/303030303030363030303032")
+      .expect(404);
+    // console.log(res, "res<<<<<<<<<<<<<");
+    expect(res.text).toBe("ID Not Found");
+
   });
 });
 
@@ -272,6 +313,20 @@ describe("PUT /api/users/:user_id", () => {
       img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
     });
   });
+
+  test("400, invalid user id", async () => {
+    const res = await request(app).get("/api/users/notAnId").expect(400);
+    // console.log(res, "res<<<<<<<<<<<<<");
+    expect(res.body.msg).toBe("Invalid ID Format");
+  });
+  test("404, user doesn't exist", async () => {
+    const res = await request(app)
+      .put("/api/users/303030303030363030303032")
+      .expect(404);
+    // console.log(res, "res<<<<<<<<<<<<<");
+    expect(res.text).toBe("ID Not Found");
+  });
+
 });
 
 describe("POST /api/jobs", () => {
@@ -320,6 +375,7 @@ describe("POST /api/jobs", () => {
   });
 });
 
+
 describe("PUT /api/jobs/:id", () => {
   test("202, updates job details", async () => {
     const requestBody = {
@@ -347,3 +403,4 @@ describe("PUT /api/jobs/:id", () => {
     });
   });
 });
+
