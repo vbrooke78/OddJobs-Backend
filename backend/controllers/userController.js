@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const registerUser = asyncHandler(async (req, res) => {
   try {
     const { fullName, username, email, password } = req.body;
-    console.log(req.body, "register");
+
     const findUser = await User.findOne({ email: email });
     const findUsername = await User.findOne({ username: username });
     if (findUser) {
@@ -70,15 +70,53 @@ const loginUser = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({ users: req.body });
   res.status(200).json({ users: users });
-
 });
 
-
 const getUser = asyncHandler(async (req, res) => {
-  console.log(req.params);
+  c;
   const user = await User.findById(req.params.user_id);
   res.status(200).json({ user: user });
 });
 
+const putUser = asyncHandler(async (req, res) => {
+  const { address, phoneNumber, img } = req.body;
+  const user = User.findById(req.params.user_id);
+  const { username, fullName, email, password } = req.body;
+  console.log(req.body, "PUT");
+  if (!user) {
+    res.status(400);
+    throw new Error("user doesn't exist");
+  }
+  const filter = {
+    username: username,
+    fullName: fullName,
+    email: email,
+    password: password,
+  };
+  let updateAddress;
+  if (address) {
+    updateAddress = [
+      {
+        city: address.city,
+        street: address.street,
+        postCode: address.postCode,
+      },
+    ];
+  }
+  let updatePhoneNumber;
+  if (phoneNumber) updatePhoneNumber = phoneNumber;
+  let updateImg;
+  if (img) updateImg = img;
+  const update = {
+    address: updateAddress,
+    phoneNumber: updatePhoneNumber,
+    img: updateImg,
+  };
 
-module.exports = { registerUser, loginUser, getUsers, getUser };
+  await User.findOneAndUpdate(filter, update, {
+    new: true,
+  });
+  res.status(202).json({ status: "User details updated!" });
+});
+
+module.exports = { registerUser, loginUser, getUsers, getUser, putUser };
