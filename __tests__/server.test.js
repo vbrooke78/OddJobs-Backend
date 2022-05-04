@@ -40,7 +40,6 @@ describe("GET /api/jobs", () => {
   });
 });
 
-
 describe("GET /api/users", () => {
   test("200, return list of current users", async () => {
     const res = await request(app).get("/api/users").expect(200);
@@ -64,7 +63,6 @@ describe("GET /api/users", () => {
 });
 
 describe("GET /api/jobs/:job_id", () => {
-
   test("200, return job by id ", async () => {
     const res = await request(app)
       .get("/api/jobs/303030303030303030303033")
@@ -82,22 +80,17 @@ describe("GET /api/jobs/:job_id", () => {
   });
 
   test("400: Invalid ID Type (mongo id's are 12byte strings)", async () => {
-    
-    const res = await request(app)
-      .get("/api/jobs/not_an_id")
-      .expect(400);
+    const res = await request(app).get("/api/jobs/not_an_id").expect(400);
 
     expect(res.body.msg).toBe("Invalid ID Format");
   });
 
   test("404: ID Path not found", async () => {
-
     const res = await request(app)
       .get("/api/jobs/203030303030303030303033")
       .expect(404);
 
-      expect(res.body.msg).toBe("ID Not Found")
-
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -105,9 +98,7 @@ describe("GET /api/users/:user_id", () => {
   test("200, return user by user_id", async () => {
     const res = await request(app).get("/api/users/000000000002").expect(200);
 
-
     console.log(res.body);
-
 
     expect(res.body.user).toMatchObject({
       _id: "303030303030303030303032",
@@ -126,7 +117,6 @@ describe("GET /api/users/:user_id", () => {
   });
 });
 
-
 describe("POST /api/users/register", () => {
   test("201, register a user", async () => {
     const requestBody = {
@@ -141,5 +131,14 @@ describe("POST /api/users/register", () => {
       .expect(201);
     console.log(res.body, "res");
     expect(res.body).toEqual({ status: "User Created!" });
+  });
+});
+
+describe("DELETE /api/jobs/:job_id", () => {
+  test("202, delete job", async () => {
+    const res = await request(app)
+      .delete("/api/jobs/303030303030303030303033")
+      .expect(202);
+    expect(res.body).toEqual({ status: "Job deleted" });
   });
 });

@@ -9,7 +9,6 @@ const getJobs = asyncHandler(async (req, res) => {
   // console.log(jobs.length);
   console.log(jobs.length);
   res.json({ jobs: jobs });
-
 });
 //
 //
@@ -43,21 +42,18 @@ const postJobs = asyncHandler(async (req, res) => {
 const getJobById = asyncHandler(async (req, res, next) => {
   // console.log(typeof req.params.id, `type of`.purple);
 
-   try {
-
+  try {
     const job = await Jobs.findById(req.params.id);
-    console.log(job, '<<<<');
+    console.log(job, "<<<<");
 
     if (!job) {
-      res.status(404).send({msg: "ID Not Found"})
+      res.status(404).send({ msg: "ID Not Found" });
     }
-      res.status(200).json({ job: job });
-   }
-   catch (err){
+    res.status(200).json({ job: job });
+  } catch (err) {
     next(err);
-   }
+  }
 });
-
 
 const putJobById = asyncHandler(async (req, res) => {
   try {
@@ -84,7 +80,7 @@ const deleteJobById = asyncHandler(async (req, res) => {
   try {
     const job = await Jobs.findById(req.params.id);
     await job.remove();
-    res.status(200).json({ msg: `deleted job ${req.params.id}` });
+    res.status(202).json({ status: "Job deleted" });
   } catch (err) {
     res.status(400);
     throw new Error("job not found");
