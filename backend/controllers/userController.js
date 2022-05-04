@@ -30,6 +30,12 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
+const putUser = asyncHandler(async (req, res) => {
+
+  const user = await usersModel.putUser(req.params.user_id, req.body);
+  res.status(202).json({user});
+});
+
 const deleteUser = asyncHandler(async (req, res) => {
   const { password } = req.body;
   const user = await User.findById(req.params.user_id);
@@ -39,47 +45,6 @@ const deleteUser = asyncHandler(async (req, res) => {
     await user.remove();
     res.status(202).json({ status: "User deleted" });
   }
-});
-
-const putUser = asyncHandler(async (req, res) => {
-  const { address, phoneNumber, img } = req.body;
-  const user = User.findById(req.params.user_id);
-  const { username, fullName, email, password } = req.body;
-  console.log(req.body, "PUT");
-  if (!user) {
-    res.status(400);
-    throw new Error("user doesn't exist");
-  }
-  const filter = {
-    username: username,
-    fullName: fullName,
-    email: email,
-    password: password,
-  };
-  let updateAddress;
-  if (address) {
-    updateAddress = [
-      {
-        city: address.city,
-        street: address.street,
-        postCode: address.postCode,
-      },
-    ];
-  }
-  let updatePhoneNumber;
-  if (phoneNumber) updatePhoneNumber = phoneNumber;
-  let updateImg;
-  if (img) updateImg = img;
-  const update = {
-    address: updateAddress,
-    phoneNumber: updatePhoneNumber,
-    img: updateImg,
-  };
-
-  await User.findOneAndUpdate(filter, update, {
-    new: true,
-  });
-  res.status(202).json({ status: "User details updated!" });
 });
 
 module.exports = { registerUser, loginUser, getUsers, getUser, putUser, deleteUser };

@@ -180,7 +180,7 @@ describe("DELETE /api/jobs/:job_id", () => {
   });
 });
 
-describe("PUT /api/users/:user_id", () => {
+describe.only("PUT /api/users/:user_id", () => {
   test("202, updates user details", async () => {
     const requestBody = {
       address: [{ city: "Leeds", street: "street", postCode: "code" }],
@@ -191,8 +191,12 @@ describe("PUT /api/users/:user_id", () => {
       .put("/api/users/000000000002")
       .send(requestBody)
       .expect(202);
-    console.log(res);
-    expect(res.body).toEqual({ status: "User details updated!" }); 
+      
+    expect(res.body.user).toMatchObject({
+      address: [{ city: "Leeds", street: "street", postCode: "code" }],
+      phoneNumber: 321,
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
+    })
     });
 });
 

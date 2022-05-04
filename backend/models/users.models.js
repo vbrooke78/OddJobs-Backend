@@ -53,6 +53,34 @@ exports.loginUser = async (username, password) => {
     return {token: token, user_id: user.id };
 }
 
+exports.putUser = async (userId, userInfo) => {
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+        return Promise.reject(errors.errMsg_idNotFound);
+    }
+
+    const filter = {
+        username: user.username,
+        fullName: user.fullName,
+        email: user.email,
+        password: user.password,
+    };
+
+    const update = {
+        address: userInfo.address,
+        phoneNumber: userInfo.phoneNumber,
+        img: userInfo.img,
+    };
+
+    const updatedUser = await User.findOneAndUpdate(filter, update, {
+        new: true,
+    });
+
+    return updatedUser;
+}
+
 
 const _validateNewUser = async (userInfo) => {
 
@@ -78,5 +106,3 @@ const _validateNewUser = async (userInfo) => {
 
     return newUser;
 }
-
-
