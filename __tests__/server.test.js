@@ -149,6 +149,52 @@ describe("POST /api/users/register", () => {
       password: expect.any(String),
     });
   });
+
+  test("400: Username already exists", async () => {
+     const requestBody = {
+      username: "shaunDogg",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Username already exists");
+    });
+
+    test("400: Email already exists", async () => {
+     const requestBody = {
+      username: "username1",
+      fullName: "my name",
+      email: "shaun@test.com",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Email already exists");
+    });
+
+    test("400: Invalid Post Object", async () => {
+     const requestBody = {
+      username: "username1",
+      password: "test123",
+    };
+
+    const res = await request(app)
+      .post("/api/users/register")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toBe("Invalid Post Object");
+    });
 });
 
 describe("DELETE /api/users/:user_id", () => {
@@ -270,6 +316,7 @@ describe("PUT /api/users/:user_id", () => {
 });
 
 describe("POST /api/jobs", () => {
+
   test("201, post a new job", async () => {
     const requestBody = {
       title: "fake title",
@@ -283,7 +330,7 @@ describe("POST /api/jobs", () => {
       .post("/api/jobs")
       .send(requestBody)
       .expect(201);
-    console.log(res.body);
+
     expect(res.body.job).toEqual({
       __v: 0,
       _id: expect.any(String),
@@ -294,5 +341,22 @@ describe("POST /api/jobs", () => {
       user_id: "303030303030303030303031",
       location: { latitude: 53.797, longitude: -1.556 },
     });
+  });
+
+  test("400: Invalid Post Object", async () => {
+
+    const requestBody = {
+      title: "fake title",
+      description: "fake description",
+      price: 69,
+      user_id: "000000000001",
+      location: { latitude: 53.797, longitude: -1.556 },
+    };
+    const res = await request(app)
+      .post("/api/jobs")
+      .send(requestBody)
+      .expect(400);
+
+    expect(res.text).toEqual("Invalid Post Object");
   });
 });
