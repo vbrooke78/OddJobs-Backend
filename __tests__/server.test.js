@@ -92,7 +92,6 @@ describe("GET /api/jobs/:job_id", () => {
 
     //WTFFFFF!!!!! res.body is undefined?!!!
 
-
     expect(res.text).toBe("ID Not Found");
   });
 });
@@ -152,7 +151,7 @@ describe("POST /api/users/register", () => {
   });
 
   test("400: Username already exists", async () => {
-     const requestBody = {
+    const requestBody = {
       username: "shaunDogg",
       fullName: "my name",
       email: "myemail@email.com",
@@ -165,10 +164,10 @@ describe("POST /api/users/register", () => {
       .expect(400);
 
     expect(res.text).toBe("Username already exists");
-    });
+  });
 
-    test("400: Email already exists", async () => {
-     const requestBody = {
+  test("400: Email already exists", async () => {
+    const requestBody = {
       username: "username1",
       fullName: "my name",
       email: "shaun@test.com",
@@ -181,10 +180,10 @@ describe("POST /api/users/register", () => {
       .expect(400);
 
     expect(res.text).toBe("Email already exists");
-    });
+  });
 
-    test("400: Invalid Post Object", async () => {
-     const requestBody = {
+  test("400: Invalid Post Object", async () => {
+    const requestBody = {
       username: "username1",
       password: "test123",
     };
@@ -195,7 +194,7 @@ describe("POST /api/users/register", () => {
       .expect(400);
 
     expect(res.text).toBe("Invalid Post Object");
-    });
+  });
 });
 
 describe("DELETE /api/users/:user_id", () => {
@@ -236,40 +235,33 @@ describe("POST /api/users/login", () => {
 
       user_id: expect.any(String),
     });
-
-    }); 
   });
+});
 
-      user_id: expect.any(String),
-    });
+test("404, username not found", async () => {
+  const requestBody = {
+    username: "not_a_username",
+    password: "testing123",
+  };
+  const res = await request(app)
+    .post("/api/users/login")
+    .send(requestBody)
+    .expect(404);
 
+  expect(res.text).toEqual("ID Not Found");
+});
 
-  test("404, username not found", async () => {
-    const requestBody = {
-      username: "not_a_username",
-      password: "testing123",
-    };
-    const res = await request(app)
-      .post("/api/users/login")
-      .send(requestBody)
-      .expect(404);
+test("400, invalid password", async () => {
+  const requestBody = {
+    username: "shaunDogg",
+    password: "invalid",
+  };
+  const res = await request(app)
+    .post("/api/users/login")
+    .send(requestBody)
+    .expect(400);
 
-    expect(res.text).toEqual("ID Not Found"); 
-  });
-
-    test("400, invalid password", async () => {
-    const requestBody = {
-      username: "shaunDogg",
-      password: "invalid",
-    };
-    const res = await request(app)
-      .post("/api/users/login")
-      .send(requestBody)
-      .expect(400);
-
-    expect(res.text).toEqual("Invalid password"); 
-
-  });
+  expect(res.text).toEqual("Invalid password");
 });
 
 describe("DELETE /api/jobs/:job_id", () => {
@@ -278,7 +270,6 @@ describe("DELETE /api/jobs/:job_id", () => {
       .delete("/api/jobs/303030303030303030303033")
       .expect(204);
     //  expect(res.body).toEqual({ status: "Job deleted" });
-
   });
   test("400, invalid job id", async () => {
     const res = await request(app).delete("/api/users/notAnId").expect(400);
@@ -291,7 +282,6 @@ describe("DELETE /api/jobs/:job_id", () => {
       .expect(404);
     // console.log(res, "res<<<<<<<<<<<<<");
     expect(res.text).toBe("ID Not Found");
-
   });
 });
 
@@ -326,11 +316,9 @@ describe("PUT /api/users/:user_id", () => {
     // console.log(res, "res<<<<<<<<<<<<<");
     expect(res.text).toBe("ID Not Found");
   });
-
 });
 
 describe("POST /api/jobs", () => {
-
   test("201, post a new job", async () => {
     const requestBody = {
       title: "fake title",
@@ -358,7 +346,6 @@ describe("POST /api/jobs", () => {
   });
 
   test("400: Invalid Post Object", async () => {
-
     const requestBody = {
       title: "fake title",
       description: "fake description",
@@ -374,7 +361,6 @@ describe("POST /api/jobs", () => {
     expect(res.text).toEqual("Invalid Post Object");
   });
 });
-
 
 describe("PUT /api/jobs/:id", () => {
   test("202, updates job details", async () => {
@@ -403,4 +389,3 @@ describe("PUT /api/jobs/:id", () => {
     });
   });
 });
-

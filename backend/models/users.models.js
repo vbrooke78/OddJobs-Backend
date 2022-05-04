@@ -32,11 +32,10 @@ exports.getUserById = async (userId) => {
 //  POST /api/users/login
 //
 exports.loginUser = async (username, password) => {
-
   const user = await User.findOne({ username });
-  
+
   if (!user) {
-    return Promise.reject(errors.errMsg_invalidItem("username"));
+    return Promise.reject(errors.errMsg_idNotFound);
   }
 
   const validPassword = await bcrypt.compare(password, user.password);
@@ -91,16 +90,14 @@ exports.putUser = async (userId, userInfo) => {
 exports.deleteUser = async (userId, password) => {
   const user = await User.findById(userId);
 
-  const user = await User.findById(userId);
-
-  if (!user){
-      return Promise.reject(errors.errMsg_idNotFound);
+  if (!user) {
+    return Promise.reject(errors.errMsg_idNotFound);
   }
 
   const validPassword = await bcrypt.compare(password, user.password);
 
-  if (!validPassword){
-      return Promise.reject(errors.errMsg_invalidItem('password'));
+  if (!validPassword) {
+    return Promise.reject(errors.errMsg_invalidItem("password"));
   }
 
   const res = await User.deleteOne({ _id: userId });
@@ -126,9 +123,10 @@ const _validateNewUser = async (userInfo) => {
     User.findOne({ username: userInfo.username }),
   ]);
 
-  if (userExists || usernameExists){
+  if (userExists || usernameExists) {
     return Promise.reject(
-        errors.errMsg_uniqueFieldExists(userExists?'Email':'Username'));
+      errors.errMsg_uniqueFieldExists(userExists ? "Email" : "Username")
+    );
   }
 
   return newUser;
