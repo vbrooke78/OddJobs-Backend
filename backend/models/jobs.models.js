@@ -26,12 +26,13 @@ exports.postJob = async (jobObj) => {
         return Promise.reject(errors.errMsg_invalidPostObj);
 
     const res = await Jobs.create({...jobObj});
-    const jobWithUserInfo = await res.populate({
-        path: 'user_id',
-        select: 'username'
-    });
+    // const jobWithUserInfo = await res.populate({
+    //     path: 'user_id',
+    //     select: 'username'
+    // });
 
-    return jobWithUserInfo;
+    // return jobWithUserInfo;
+    return res;
 }
 
 exports.updateJob = async (jobId, updates) => {

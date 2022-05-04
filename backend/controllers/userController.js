@@ -54,16 +54,6 @@ const loginUser = asyncHandler(async (req, res) => {
   //   }
 });
 
-const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({ users: req.body });
-  res.status(200).json({ users: users });
-});
-
-const getUser = asyncHandler(async (req, res) => {
-  c;
-  const user = await User.findById(req.params.user_id);
-  res.status(200).json({ user: user });
-});
 
 const deleteUser = asyncHandler(async (req, res) => {
   const { password } = req.body;
@@ -117,5 +107,5 @@ const putUser = asyncHandler(async (req, res) => {
   res.status(202).json({ status: "User details updated!" });
 });
 
-module.exports = { registerUser, loginUser, getUsers, getUser, putUser };
+module.exports = { registerUser, loginUser, getUsers, getUser, putUser, deleteUser };
 
