@@ -1,8 +1,8 @@
-# Project Name
+# Odd Jobs Backend
 
-> One paragraph statement about the project.
+> this is the backend for the api calls from the frontend
 
-![screenshot](./app_screenshot.png)
+![screenshot](https://i.imgur.com/d7RFY03.png)
 
 Additional description about the project and its features.
 
