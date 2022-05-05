@@ -4,31 +4,36 @@
 
 ![screenshot](https://i.imgur.com/d7RFY03.png)
 
-Additional description about the project and its features.
+tis a backend
 
 ## Built With
 
-- Major languages
-- Frameworks
-- Technologies used
+- mongoDB
+- node js
+- mongoose
+- express
+- jest/TDD
+- colors
 
-## Live Demo
+## Links
 
-[Live Demo Link](https://livedemo.com)
+[Link](https://odd-jobs-backend.herokuapp.com/api/)
 
 ## Authors
 
-👤 **Author**
+👤 **Authors**
 
-- GitHub: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
+- GitHub: [@githubhandle](https://github.com/Tavelar/)
+- GitHub: [@githubhandle](https://github.com/timwtuck)
+- GitHub: [@githubhandle](https://github.com/johndmurphy)
+- GitHub: [@githubhandle](https://github.com/datboyakin)
+- GitHub: [@githubhandle](https://github.com/vbrooke78)
 
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](../../issues/).
+Feel free to check the [issues page](https://github.com/Tavelar/OddJobs-Backend/issues).
 
 ## Show your support
 
@@ -36,10 +41,4 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
-
-## 📝 License
-
-This project is [MIT](./MIT.md) licensed.
+- northcoders: [@githubhandle](https://github.com/northcoders)
