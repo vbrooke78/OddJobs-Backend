@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 
 const router = express.Router();
 const {
@@ -7,16 +7,19 @@ const {
   getJobById,
   putJobById,
   deleteJobById,
-} = require("../controllers/jobController");
+  getJobByCategory,
+} = require('../controllers/jobController');
 //GET /api/jobs
-router.get("/", getJobs);
+router.get('/', getJobs);
 //POST /api/jobs
-router.post("/", postJobs);
+router.post('/', postJobs);
 //GET /api/jobs/:id
-router.get("/:id", getJobById);
+router.get('/:id', getJobById);
 //PUT /api/jobs/:id
-router.put("/:id", putJobById);
+router.put('/:id', putJobById);
 //DELETE /api/jobs/:id
-router.delete("/:id", deleteJobById);
+router.delete('/:id', deleteJobById);
+// Get jobs by category /api/jobs/:category
+router.get('/', getJobByCategory);
 
 module.exports = router;
