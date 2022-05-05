@@ -17,17 +17,17 @@ tis a backend
 
 ## Links
 
-[Link](https://odd-jobs-backend.herokuapp.com/api/)
+[Odd-Jobs-Backend](https://odd-jobs-backend.herokuapp.com/api/)
 
 ## Authors
 
 👤 **Authors**
 
-- GitHub: [@githubhandle](https://github.com/Tavelar/)
-- GitHub: [@githubhandle](https://github.com/timwtuck)
-- GitHub: [@githubhandle](https://github.com/johndmurphy)
-- GitHub: [@githubhandle](https://github.com/datboyakin)
-- GitHub: [@githubhandle](https://github.com/vbrooke78)
+- [@Shaun](https://github.com/Tavelar/)
+- [@Tim](https://github.com/timwtuck)
+- [@John](https://github.com/johndmurphy)
+- [@Akin](https://github.com/datboyakin)
+- [@Vicky](https://github.com/vbrooke78)
 
 ## 🤝 Contributing
 
@@ -41,4 +41,4 @@ Give a ⭐️ if you like this project!
 
 ## Acknowledgments
 
-- northcoders: [@githubhandle](https://github.com/northcoders)
+- [@northcoders](https://github.com/northcoders)
