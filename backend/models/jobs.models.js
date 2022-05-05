@@ -2,73 +2,70 @@ const User = require("../schemas/users.schema.js");
 const Jobs = require("../schemas/jobs.schema.js");
 const errors = require("../errors/errorHandler.js");
 
-exports.getAllJobs = async () => {
-
-    const jobs = await Jobs.find({});
-    return jobs;
-}
+exports.getAllJobs = async (category) => {
+  const query = {};
+  if (category) {
+    query.category = category;
+  }
+  const jobs = await Jobs.find(query);
+  return jobs;
+};
 
 exports.getJobById = async (jobId) => {
+  const job = await Jobs.findById(jobId);
 
-    const job = await Jobs.findById(jobId);
+  if (!job) return Promise.reject(errors.errMsg_idNotFound);
 
-    if(!job)
-        return Promise.reject(errors.errMsg_idNotFound);
-
-    return job;
-}
+  return job;
+};
 
 exports.postJob = async (jobObj) => {
+  const newJob = _validateJobObj(jobObj);
 
-    const newJob = _validateJobObj(jobObj);
+  if (!newJob) return Promise.reject(errors.errMsg_invalidPostObj);
 
-    if(!newJob)
-        return Promise.reject(errors.errMsg_invalidPostObj);
+  const res = await Jobs.create({ ...jobObj });
+  // const jobWithUserInfo = await res.populate({
+  //     path: 'user_id',
+  //     select: 'username'
+  // });
 
-    const res = await Jobs.create({...jobObj});
-    // const jobWithUserInfo = await res.populate({
-    //     path: 'user_id',
-    //     select: 'username'
-    // });
-
-    // return jobWithUserInfo;
-    return res;
-}
+  // return jobWithUserInfo;
+  return res;
+};
 
 exports.updateJob = async (jobId, updates) => {
+  const updatedJob = _validateJobObj(updates);
 
-    const updatedJob = _validateJobObj(updates);
+  if (!updatedJob) return Promise.reject(errors.errMsg_invalidPostObj);
 
-    if (!updatedJob)
-        return Promise.reject(errors.errMsg_invalidPostObj);
-
-    return await Jobs.findByIdAndUpdate(jobId, 
-        updatedJob, { new: true });
-}
+  return await Jobs.findByIdAndUpdate(jobId, updatedJob, { new: true });
+};
 
 exports.deleteJobById = async (jobId) => {
+  const job = await Jobs.findById(jobId);
 
-    const job = await Jobs.findById(jobId);
+  if (!job) return Promise.reject(errors.errMsg_idNotFound);
 
-    if(!job)
-        return Promise.reject(errors.errMsg_idNotFound);
-
-    await job.remove();
-
-}
+  await job.remove();
+};
 
 const _validateJobObj = (jobObj) => {
+  const keys = [
+    "title",
+    "category",
+    "price",
+    "location",
+    "user_id",
+    "description",
+  ];
+  const validObj = {};
 
-    const keys = ['title', 'category', 'price', 'location',
-                    'user_id', 'description'];
-    const validObj = {};
+  for (const key of keys) {
+    if (!jobObj[key]) return false;
 
-    for (const key of keys){
-        if (!jobObj[key])
-            return false;
-        
-        validObj[key] = jobObj[key];
-    }
+    validObj[key] = jobObj[key];
+  }
 
-    return validObj;
-}
+  return validObj;
+};
