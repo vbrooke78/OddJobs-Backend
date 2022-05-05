@@ -92,7 +92,7 @@ describe("GET /api/jobs/:job_id", () => {
 
     //WTFFFFF!!!!! res.body is undefined?!!!
 
-    expect(res.text).toBe("ID Not Found");
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -124,7 +124,7 @@ describe("GET /api/users/:user_id", () => {
       .get("/api/users/303030303030363030303032")
       .expect(404);
     // console.log(re, "res<<<<<<<<<<<<<");
-    expect(res.text).toBe("ID Not Found");
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -163,7 +163,7 @@ describe("POST /api/users/register", () => {
       .send(requestBody)
       .expect(400);
 
-    expect(res.text).toBe("Username already exists");
+    expect(res.body.msg).toBe("Username already exists");
   });
 
   test("400: Email already exists", async () => {
@@ -179,7 +179,7 @@ describe("POST /api/users/register", () => {
       .send(requestBody)
       .expect(400);
 
-    expect(res.text).toBe("Email already exists");
+    expect(res.body.msg).toBe("Email already exists");
   });
 
   test("400: Invalid Post Object", async () => {
@@ -193,7 +193,7 @@ describe("POST /api/users/register", () => {
       .send(requestBody)
       .expect(400);
 
-    expect(res.text).toBe("Invalid Post Object");
+    expect(res.body.msg).toBe("Invalid Post Object");
   });
 });
 
@@ -216,7 +216,7 @@ describe("DELETE /api/users/:user_id", () => {
       .delete("/api/users/303030303030363030303032")
       .expect(404);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.text).toBe("ID Not Found");
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -248,7 +248,7 @@ test("404, username not found", async () => {
     .send(requestBody)
     .expect(404);
 
-  expect(res.text).toEqual("ID Not Found");
+  expect(res.body.msg).toEqual("ID Not Found");
 });
 
 test("400, invalid password", async () => {
@@ -261,7 +261,7 @@ test("400, invalid password", async () => {
     .send(requestBody)
     .expect(400);
 
-  expect(res.text).toEqual("Invalid password");
+  expect(res.body.msg).toEqual("Invalid password");
 });
 
 describe("DELETE /api/jobs/:job_id", () => {
@@ -281,7 +281,7 @@ describe("DELETE /api/jobs/:job_id", () => {
       .delete("/api/users/303030303030363030303032")
       .expect(404);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.text).toBe("ID Not Found");
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -314,7 +314,7 @@ describe("PUT /api/users/:user_id", () => {
       .put("/api/users/303030303030363030303032")
       .expect(404);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.text).toBe("ID Not Found");
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -358,7 +358,7 @@ describe("POST /api/jobs", () => {
       .send(requestBody)
       .expect(400);
 
-    expect(res.text).toEqual("Invalid Post Object");
+    expect(res.body.msg).toEqual("Invalid Post Object");
   });
 });
 
