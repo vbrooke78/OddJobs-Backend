@@ -2,66 +2,55 @@ const http = require('http');
 const handler = require('serve-handler');
 //const nanobuffer from 'nanobuffer';
 const { Server } = require('socket.io');
+const cors = require('cors');
+const app = express();
 
-//const msg = new nanobuffer(50);
+app.use(cors());
+
+
 exports.start = () => {
 
     const msg = [];
     let count = -1;
     const users = {};
+    const rooms = {};
 
+    const server = http.createServer(app);
 
-    const getMessages = () => Array.from(msg).reverse();
-
-    msg.push({
-    text: 'Start a conversation!',
-    user: '🎩',
-    time: Date.now(),
+    const io = new Server(server, {
+        cors: {
+            origin: 'http://localhost:3000',
+        },
     });
 
-    // serve static assets
-    const server = http.createServer((request, response) => {
-    return handler(request, response, {
-        public: './frontend',
-    });
-    });
-
-    const io = new Server(server, {});
 
     io.on('connection', async (socket) => {
 
         console.log(`connected: ${socket.id}`);
 
-        let roomId = `${Math.floor((++count)/2)}`;
+        socket.on('join-room', (info) => {
 
-        if (!users[roomId])
-            users[roomId] = [socket.id];
-        else
-            users[roomId].push(socket.id);
+            if (!users[info.user])
+                users[info.user] = [];
+            
+                users[info.user].push(socket.id);
+            
+            if (!rooms[info.chatRoom])
+                rooms[info.chatRoom] = [];
+        
+            rooms[info.chatRoom].push(info.user);
 
-        console.log(socket.id);
-        console.log(users);
-
-        socket.emit('roomId',roomId)
-        socket.emit('msg:get', { msg: getMessages() });
+            console.log(users, rooms);
+        })
 
         socket.on('disconnect', () => {
             console.log(`disconnect: ${socket.id}`);
         });
 
         socket.on('msg:post', (data) => {
-            msg.push({
-            user: data.user,
-            text: data.text,
-            time: Date.now(),
-            });
-            // this line is sharing the message to everyone
-            // in the end though, we want this line below to
-            // be a 'room' for each conversation started, so
-            // that dialogue is only between the two
-        //  io.emit('msg:get', { msg: getMessages() });
-            users[data.roomId].forEach(user =>
-                io.to(user).emit('msg:get', { msg: getMessages() }));
+        
+            rooms[data.chatRoom].forEach(user =>
+                io.to(users[user]).emit('msg:get', { msg: `${data.user}: ${data.newMessage}`}));
         });
     });
 
