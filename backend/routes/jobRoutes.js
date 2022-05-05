@@ -7,6 +7,7 @@ const {
   getJobById,
   putJobById,
   deleteJobById,
+  getJobByCategory,
 } = require("../controllers/jobController");
 //GET /api/jobs
 router.get("/", getJobs);
@@ -18,5 +19,6 @@ router.get("/:id", getJobById);
 router.put("/:id", putJobById);
 //DELETE /api/jobs/:id
 router.delete("/:id", deleteJobById);
+// Get jobs by category /api/jobs/:category
 
 module.exports = router;
