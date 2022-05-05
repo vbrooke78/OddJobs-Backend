@@ -1,9 +1,9 @@
-const app = require('../backend/app.js');
-const request = require('supertest');
-const dbClient = require('../backend/db/db.js');
-const seed = require('../backend/db/seeds/seed.js');
-const testData = require('../backend/db/data/test-data');
-const mongoose = require('mongoose');
+const app = require("../backend/app.js");
+const request = require("supertest");
+const dbClient = require("../backend/db/db.js");
+const seed = require("../backend/db/seeds/seed.js");
+const testData = require("../backend/db/data/test-data");
+const mongoose = require("mongoose");
 dbClient();
 
 beforeEach(async () => {
@@ -12,17 +12,17 @@ beforeEach(async () => {
 beforeAll(() => dbClient());
 afterAll(() => mongoose.disconnect());
 
-describe('General Errors', () => {
-  test('404: Path Not Found', async () => {
-    const res = await request(app).get('/api/not_a_path').expect(404);
+describe("General Errors", () => {
+  test("404: Path Not Found", async () => {
+    const res = await request(app).get("/api/not_a_path").expect(404);
 
-    expect(res.body.msg).toBe('Path Not Found');
+    expect(res.body.msg).toBe("Path Not Found");
   });
 });
 
-describe('GET /api/jobs', () => {
-  test('200, return list of current jobs', async () => {
-    const res = await request(app).get('/api/jobs').expect(200);
+describe("GET /api/jobs", () => {
+  test("200, return list of current jobs", async () => {
+    const res = await request(app).get("/api/jobs").expect(200);
 
     res.body.jobs.forEach((job) => {
       expect(job).toMatchObject({
@@ -40,9 +40,9 @@ describe('GET /api/jobs', () => {
   });
 });
 
-describe('GET /api/users', () => {
-  test('200, return list of current users', async () => {
-    const res = await request(app).get('/api/users').expect(200);
+describe("GET /api/users", () => {
+  test("200, return list of current users", async () => {
+    const res = await request(app).get("/api/users").expect(200);
 
     res.body.users.forEach((user) => {
       expect(user).toMatchObject({
@@ -62,51 +62,51 @@ describe('GET /api/users', () => {
   });
 });
 
-describe('GET /api/jobs/:job_id', () => {
-  test('200, return job by id ', async () => {
+describe("GET /api/jobs/:job_id", () => {
+  test("200, return job by id ", async () => {
     const res = await request(app)
-      .get('/api/jobs/303030303030303030303033')
+      .get("/api/jobs/303030303030303030303033")
       .expect(200);
     expect(res.body.job).toEqual({
-      _id: '303030303030303030303033',
-      title: 'Walking my dogs',
-      description: 'Need someone to walk my dogs everyday in the morning',
-      category: 'pets',
+      _id: "303030303030303030303033",
+      title: "Walking my dogs",
+      description: "Need someone to walk my dogs everyday in the morning",
+      category: "pets",
       price: 6.0,
-      user_id: '303030303030303030303031',
+      user_id: "303030303030303030303031",
       location: { latitude: 53.797, longitude: -1.556 },
       __v: 0,
     });
   });
 
   test("400: Invalid ID Type (mongo id's are 12byte strings)", async () => {
-    const res = await request(app).get('/api/jobs/not_an_id').expect(400);
+    const res = await request(app).get("/api/jobs/not_an_id").expect(400);
 
-    expect(res.body.msg).toBe('Invalid ID Format');
+    expect(res.body.msg).toBe("Invalid ID Format");
   });
 
-  test('404: ID Path not found', async () => {
+  test("404: ID Path not found", async () => {
     const res = await request(app)
-      .get('/api/jobs/203030303030303030303033')
+      .get("/api/jobs/203030303030303030303033")
       .expect(404);
 
     //WTFFFFF!!!!! res.body is undefined?!!!
 
-    expect(res.body.msg).toBe('ID Not Found');
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
-describe('GET /api/users/:user_id', () => {
-  test('200, return user by user_id', async () => {
-    const res = await request(app).get('/api/users/000000000002').expect(200);
+describe("GET /api/users/:user_id", () => {
+  test("200, return user by user_id", async () => {
+    const res = await request(app).get("/api/users/000000000002").expect(200);
 
     expect(res.body.user).toMatchObject({
-      _id: '303030303030303030303032',
-      username: 'shaunDogg',
-      fullName: 'Shaun Clarke',
+      _id: "303030303030303030303032",
+      username: "shaunDogg",
+      fullName: "Shaun Clarke",
       address: expect.any(Array),
-      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU',
-      email: 'shaun@test.com',
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
+      email: "shaun@test.com",
       password: expect.any(String),
       phoneNumber: 123987456,
       rating: 4.2,
@@ -114,120 +114,120 @@ describe('GET /api/users/:user_id', () => {
       messages: expect.any(Array),
     });
   });
-  test('404, invalid user id!', async () => {
-    const res = await request(app).get('/api/users/notAnId').expect(400);
+  test("404, invalid user id!", async () => {
+    const res = await request(app).get("/api/users/notAnId").expect(400);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.body.msg).toBe('Invalid ID Format');
+    expect(res.body.msg).toBe("Invalid ID Format");
   });
-  test('404, user not found!', async () => {
+  test("404, user not found!", async () => {
     const res = await request(app)
-      .get('/api/users/303030303030363030303032')
+      .get("/api/users/303030303030363030303032")
       .expect(404);
     // console.log(re, "res<<<<<<<<<<<<<");
-    expect(res.body.msg).toBe('ID Not Found');
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
-describe('POST /api/users/register', () => {
-  test('201, register a user', async () => {
+describe("POST /api/users/register", () => {
+  test("201, register a user", async () => {
     const requestBody = {
-      username: 'username1',
-      fullName: 'my name',
-      email: 'myemail@email.com',
-      password: 'test123',
+      username: "username1",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: "test123",
     };
 
     const res = await request(app)
-      .post('/api/users/register')
+      .post("/api/users/register")
       .send(requestBody)
       .expect(201);
 
     expect(res.body.user).toMatchObject({
-      username: 'username1',
-      fullName: 'my name',
-      email: 'myemail@email.com',
+      username: "username1",
+      fullName: "my name",
+      email: "myemail@email.com",
       password: expect.any(String),
     });
   });
 
-  test('400: Username already exists', async () => {
+  test("400: Username already exists", async () => {
     const requestBody = {
-      username: 'shaunDogg',
-      fullName: 'my name',
-      email: 'myemail@email.com',
-      password: 'test123',
+      username: "shaunDogg",
+      fullName: "my name",
+      email: "myemail@email.com",
+      password: "test123",
     };
 
     const res = await request(app)
-      .post('/api/users/register')
+      .post("/api/users/register")
       .send(requestBody)
       .expect(400);
 
-    expect(res.body.msg).toBe('Username already exists');
+    expect(res.body.msg).toBe("Username already exists");
   });
 
-  test('400: Email already exists', async () => {
+  test("400: Email already exists", async () => {
     const requestBody = {
-      username: 'username1',
-      fullName: 'my name',
-      email: 'shaun@test.com',
-      password: 'test123',
+      username: "username1",
+      fullName: "my name",
+      email: "shaun@test.com",
+      password: "test123",
     };
 
     const res = await request(app)
-      .post('/api/users/register')
+      .post("/api/users/register")
       .send(requestBody)
       .expect(400);
 
-    expect(res.body.msg).toBe('Email already exists');
+    expect(res.body.msg).toBe("Email already exists");
   });
 
-  test('400: Invalid Post Object', async () => {
+  test("400: Invalid Post Object", async () => {
     const requestBody = {
-      username: 'username1',
-      password: 'test123',
+      username: "username1",
+      password: "test123",
     };
 
     const res = await request(app)
-      .post('/api/users/register')
+      .post("/api/users/register")
       .send(requestBody)
       .expect(400);
 
-    expect(res.body.msg).toBe('Invalid Post Object');
+    expect(res.body.msg).toBe("Invalid Post Object");
   });
 });
 
-describe('DELETE /api/users/:user_id', () => {
-  test('204, delete user', async () => {
+describe("DELETE /api/users/:user_id", () => {
+  test("204, delete user", async () => {
     const res = await request(app)
-      .delete('/api/users/000000000002')
-      .send({ password: 'testing123' })
+      .delete("/api/users/000000000002")
+      .send({ password: "testing123" })
       .expect(204);
 
     expect(res.body).toEqual({});
   });
-  test('400, invalid user id', async () => {
-    const res = await request(app).delete('/api/users/notAnId').expect(400);
+  test("400, invalid user id", async () => {
+    const res = await request(app).delete("/api/users/notAnId").expect(400);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.body.msg).toBe('Invalid ID Format');
+    expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, user doesn't exist", async () => {
     const res = await request(app)
-      .delete('/api/users/303030303030363030303032')
+      .delete("/api/users/303030303030363030303032")
       .expect(404);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.body.msg).toBe('ID Not Found');
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
-describe('POST /api/users/login', () => {
-  test('201, login with a user', async () => {
+describe("POST /api/users/login", () => {
+  test("201, login with a user", async () => {
     const requestBody = {
-      username: 'shaunDogg',
-      password: 'testing123',
+      username: "shaunDogg",
+      password: "testing123",
     };
     const res = await request(app)
-      .post('/api/users/login')
+      .post("/api/users/login")
       .send(requestBody)
       .expect(201);
     expect(res.body.userLogin).toEqual({
@@ -238,167 +238,201 @@ describe('POST /api/users/login', () => {
   });
 });
 
-test('404, username not found', async () => {
+test("404, username not found", async () => {
   const requestBody = {
-    username: 'not_a_username',
-    password: 'testing123',
+    username: "not_a_username",
+    password: "testing123",
   };
   const res = await request(app)
-    .post('/api/users/login')
+    .post("/api/users/login")
     .send(requestBody)
     .expect(404);
 
-  expect(res.body.msg).toEqual('ID Not Found');
+  expect(res.body.msg).toEqual("ID Not Found");
 });
 
-test('400, invalid password', async () => {
+test("400, invalid password", async () => {
   const requestBody = {
-    username: 'shaunDogg',
-    password: 'invalid',
+    username: "shaunDogg",
+    password: "invalid",
   };
   const res = await request(app)
-    .post('/api/users/login')
+    .post("/api/users/login")
     .send(requestBody)
     .expect(400);
 
-  expect(res.body.msg).toEqual('Invalid password');
+  expect(res.body.msg).toEqual("Invalid password");
 });
 
-describe('DELETE /api/jobs/:job_id', () => {
-  test('202, delete job', async () => {
+describe("DELETE /api/jobs/:job_id", () => {
+  test("202, delete job", async () => {
     const res = await request(app)
-      .delete('/api/jobs/303030303030303030303033')
+      .delete("/api/jobs/303030303030303030303033")
       .expect(204);
     //  expect(res.body).toEqual({ status: "Job deleted" });
   });
-  test('400, invalid job id', async () => {
-    const res = await request(app).delete('/api/users/notAnId').expect(400);
+  test("400, invalid job id", async () => {
+    const res = await request(app).delete("/api/users/notAnId").expect(400);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.body.msg).toBe('Invalid ID Format');
+    expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, job doesn't exist", async () => {
     const res = await request(app)
-      .delete('/api/users/303030303030363030303032')
+      .delete("/api/users/303030303030363030303032")
       .expect(404);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.body.msg).toBe('ID Not Found');
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
-describe('PUT /api/users/:user_id', () => {
-  test('202, updates user details', async () => {
+describe("PUT /api/users/:user_id", () => {
+  test("202, updates user details", async () => {
     const requestBody = {
-      address: [{ city: 'Leeds', street: 'street', postCode: 'code' }],
+      address: [{ city: "Leeds", street: "street", postCode: "code" }],
       phoneNumber: 321,
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg',
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
     };
     const res = await request(app)
-      .put('/api/users/000000000002')
+      .put("/api/users/000000000002")
       .send(requestBody)
       .expect(202);
 
     expect(res.body.user).toMatchObject({
-      address: [{ city: 'Leeds', street: 'street', postCode: 'code' }],
+      address: [{ city: "Leeds", street: "street", postCode: "code" }],
       phoneNumber: 321,
-      img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg',
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
     });
   });
 
-  test('400, invalid user id', async () => {
-    const res = await request(app).get('/api/users/notAnId').expect(400);
+  test("400, invalid user id", async () => {
+    const res = await request(app).get("/api/users/notAnId").expect(400);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.body.msg).toBe('Invalid ID Format');
+    expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, user doesn't exist", async () => {
     const res = await request(app)
-      .put('/api/users/303030303030363030303032')
+      .put("/api/users/303030303030363030303032")
       .expect(404);
     // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.body.msg).toBe('ID Not Found');
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
-describe('POST /api/jobs', () => {
-  test('201, post a new job', async () => {
+describe("POST /api/jobs", () => {
+  test("201, post a new job", async () => {
     const requestBody = {
-      title: 'fake title',
-      description: 'fake description',
+      title: "fake title",
+      description: "fake description",
       price: 69,
-      category: 'fake category',
-      user_id: '000000000001',
+      category: "fake category",
+      user_id: "000000000001",
       location: { latitude: 53.797, longitude: -1.556 },
     };
     const res = await request(app)
-      .post('/api/jobs')
+      .post("/api/jobs")
       .send(requestBody)
       .expect(201);
 
     expect(res.body.job).toEqual({
       __v: 0,
       _id: expect.any(String),
-      title: 'fake title',
-      description: 'fake description',
+      title: "fake title",
+      description: "fake description",
       price: 69,
-      category: 'fake category',
-      user_id: '303030303030303030303031',
+      category: "fake category",
+      user_id: "303030303030303030303031",
       location: { latitude: 53.797, longitude: -1.556 },
     });
   });
 
-  test('400: Invalid Post Object', async () => {
+  test("400: Invalid Post Object", async () => {
     const requestBody = {
-      title: 'fake title',
-      description: 'fake description',
+      title: "fake title",
+      description: "fake description",
       price: 69,
-      user_id: '000000000001',
+      user_id: "000000000001",
       location: { latitude: 53.797, longitude: -1.556 },
     };
     const res = await request(app)
-      .post('/api/jobs')
+      .post("/api/jobs")
       .send(requestBody)
       .expect(400);
 
-    expect(res.body.msg).toEqual('Invalid Post Object');
+    expect(res.body.msg).toEqual("Invalid Post Object");
   });
 });
 
-describe('PUT /api/jobs/:id', () => {
-  test('202, updates job details', async () => {
+describe("PUT /api/jobs/:id", () => {
+  test("202, updates job details", async () => {
     const requestBody = {
-      location: 'need location data',
-      title: 'Walking my dogs',
-      description: 'Need someone to walk my dogs everyday in the morning',
+      location: "need location data",
+      title: "Walking my dogs",
+      description: "Need someone to walk my dogs everyday in the morning",
       price: 6.0,
-      category: 'pets',
-      user_id: '000000000001',
+      category: "pets",
+      user_id: "000000000001",
       location: { latitude: 53.797, longitude: -1.556 },
     };
     const res = await request(app)
-      .put('/api/jobs/000000000002')
+      .put("/api/jobs/000000000002")
       .send(requestBody)
       .expect(202);
 
     expect(res.body.job).toMatchObject({
-      location: 'need location data',
-      title: 'Walking my dogs',
-      description: 'Need someone to walk my dogs everyday in the morning',
+      location: "need location data",
+      title: "Walking my dogs",
+      description: "Need someone to walk my dogs everyday in the morning",
       price: 6.0,
-      category: 'pets',
-      user_id: '303030303030303030303031',
+      category: "pets",
+      user_id: "303030303030303030303031",
       location: { latitude: 53.797, longitude: -1.556 },
     });
   });
 });
 
-describe.only('GET /api/jobs/category', () => {
-  test('200, return list of jobs by category', async () => {
-    const res = await request(app).get('/api/jobs/DIY');
-    // console.log(res.body);
-    res.body.job.forEach((oneJob) => {
+describe.only("GET /api/jobs/category", () => {
+  test("200, return list of jobs by category", async () => {
+    const res = await request(app).get("/api/jobs/?category=DIY");
+    console.log(res.body);
+    res.body.jobs.forEach((oneJob) => {
       expect(oneJob).toMatchObject({
         _id: expect.any(String),
         title: expect.any(String),
-        category: 'DIY',
+        category: "DIY",
+        price: expect.any(Number),
+        user_id: expect.any(String),
+        location: {
+          latitude: expect.any(Number),
+          longitude: expect.any(Number),
+        },
+      });
+    });
+  });
+  test("200, check code did not break", async () => {
+    const res = await request(app).get("/api/jobs/?category=pets");
+    console.log(res.body);
+    res.body.jobs.forEach((oneJob) => {
+      expect(oneJob).toMatchObject({
+        _id: expect.any(String),
+        title: expect.any(String),
+        category: "pets",
+        price: expect.any(Number),
+        user_id: expect.any(String),
+        location: {
+          latitude: expect.any(Number),
+          longitude: expect.any(Number),
+        },
+      });
+    });
+  });
+  test("200, check code did not break", async () => {
+    const res = await request(app).get("/api/jobs/?category=");
+    console.log(res.body);
+    res.body.jobs.forEach((oneJob) => {
+      expect(oneJob).toMatchObject({
+        _id: expect.any(String),
+        title: expect.any(String),
+        category: expect.any(String),
         price: expect.any(Number),
         user_id: expect.any(String),
         location: {

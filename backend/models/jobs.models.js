@@ -1,9 +1,13 @@
-const User = require('../schemas/users.schema.js');
-const Jobs = require('../schemas/jobs.schema.js');
-const errors = require('../errors/errorHandler.js');
+const User = require("../schemas/users.schema.js");
+const Jobs = require("../schemas/jobs.schema.js");
+const errors = require("../errors/errorHandler.js");
 
-exports.getAllJobs = async () => {
-  const jobs = await Jobs.find({});
+exports.getAllJobs = async (category) => {
+  const query = {};
+  if (category) {
+    query.category = category;
+  }
+  const jobs = await Jobs.find(query);
   return jobs;
 };
 
@@ -46,20 +50,14 @@ exports.deleteJobById = async (jobId) => {
   await job.remove();
 };
 
-exports.getJobByCategory = async (category) => {
-  const job = await Jobs.find({ category: category });
-  console.log(category, '<<<<<<<<<<---- cat');
-  return job;
-};
-
 const _validateJobObj = (jobObj) => {
   const keys = [
-    'title',
-    'category',
-    'price',
-    'location',
-    'user_id',
-    'description',
+    "title",
+    "category",
+    "price",
+    "location",
+    "user_id",
+    "description",
   ];
   const validObj = {};
 
