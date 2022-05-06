@@ -17,6 +17,7 @@ const jobSchema = new Schema({
   postcode: {
     type: String,
   },
+  productImage: { type: String },
   user_id: {
     type: Schema.Types.ObjectId,
     ref: "User",

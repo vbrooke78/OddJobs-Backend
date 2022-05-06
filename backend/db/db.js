@@ -8,7 +8,7 @@ require("dotenv").config({
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    // console.log(`${process.env.MONGO_URI}`.cyan.underline, `k 4eva`.red.bold);
+    console.log(`${process.env.MONGO_URI}`.cyan.underline, `k 4eva`.red.bold);
   } catch (err) {
     console.log(err);
     mongoose.disconnect();

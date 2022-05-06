@@ -2,7 +2,6 @@ const User = require("../schemas/users.schema.js");
 const Jobs = require("../schemas/jobs.schema.js");
 const errors = require("../errors/errorHandler.js");
 
-
 exports.getAllJobs = async (category) => {
   const query = {};
   if (category) {
@@ -21,12 +20,20 @@ exports.getJobById = async (jobId) => {
   return job;
 };
 
-exports.postJob = async (jobObj) => {
+exports.postJob = async (jobObj, jobImg) => {
   const newJob = _validateJobObj(jobObj);
-
+  const { title, description, category, price, postcode, user_id } = jobObj;
   if (!newJob) return Promise.reject(errors.errMsg_invalidPostObj);
 
-  const res = await Jobs.create({ ...jobObj });
+  const res = await Jobs.create({
+    title: title,
+    description: description,
+    category: category,
+    price: price,
+    postcode: postcode,
+    user_id: user_id,
+    productImage: jobImg.path,
+  });
   // const jobWithUserInfo = await res.populate({
   //     path: 'user_id',
   //     select: 'username'
