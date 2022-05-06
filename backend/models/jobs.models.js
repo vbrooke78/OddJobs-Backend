@@ -2,8 +2,14 @@ const User = require("../schemas/users.schema.js");
 const Jobs = require("../schemas/jobs.schema.js");
 const errors = require("../errors/errorHandler.js");
 
-exports.getAllJobs = async () => {
-  const jobs = await Jobs.find({});
+
+exports.getAllJobs = async (category) => {
+  const query = {};
+  if (category) {
+    query.category = category;
+  }
+  const jobs = await Jobs.find(query);
+
   return jobs;
 };
 
@@ -51,7 +57,9 @@ const _validateJobObj = (jobObj) => {
     "title",
     "category",
     "price",
+
     "postcode",
+
     "user_id",
     "description",
   ];

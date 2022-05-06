@@ -389,3 +389,57 @@ describe("PUT /api/jobs/:id", () => {
     });
   });
 });
+
+describe.only("GET /api/jobs/category", () => {
+  test("200, return list of jobs by category", async () => {
+    const res = await request(app).get("/api/jobs/?category=DIY");
+    console.log(res.body);
+    res.body.jobs.forEach((oneJob) => {
+      expect(oneJob).toMatchObject({
+        _id: expect.any(String),
+        title: expect.any(String),
+        category: "DIY",
+        price: expect.any(Number),
+        user_id: expect.any(String),
+        location: {
+          latitude: expect.any(Number),
+          longitude: expect.any(Number),
+        },
+      });
+    });
+  });
+  test("200, check code did not break", async () => {
+    const res = await request(app).get("/api/jobs/?category=pets");
+    console.log(res.body);
+    res.body.jobs.forEach((oneJob) => {
+      expect(oneJob).toMatchObject({
+        _id: expect.any(String),
+        title: expect.any(String),
+        category: "pets",
+        price: expect.any(Number),
+        user_id: expect.any(String),
+        location: {
+          latitude: expect.any(Number),
+          longitude: expect.any(Number),
+        },
+      });
+    });
+  });
+  test("200, check code did not break", async () => {
+    const res = await request(app).get("/api/jobs/?category=");
+    console.log(res.body);
+    res.body.jobs.forEach((oneJob) => {
+      expect(oneJob).toMatchObject({
+        _id: expect.any(String),
+        title: expect.any(String),
+        category: expect.any(String),
+        price: expect.any(Number),
+        user_id: expect.any(String),
+        location: {
+          latitude: expect.any(Number),
+          longitude: expect.any(Number),
+        },
+      });
+    });
+  });
+});
