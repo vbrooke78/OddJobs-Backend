@@ -11,7 +11,6 @@ app.use(cors());
 exports.start = () => {
 
     const msg = [];
-    let count = -1;
     const users = {};
     const rooms = {};
 
@@ -22,7 +21,6 @@ exports.start = () => {
             origin: 'http://localhost:3000',
         },
     });
-
 
     io.on('connection', async (socket) => {
 
@@ -48,9 +46,11 @@ exports.start = () => {
         });
 
         socket.on('msg:post', (data) => {
+
+            console.log(data);
         
-            rooms[data.chatRoom].forEach(user =>
-                io.to(users[user]).emit('msg:get', { msg: `${data.user}: ${data.newMessage}`}));
+            rooms[data.room].forEach(user =>
+                io.to(users[user]).emit('msg:get', {room: data.room, msg: `${data.user}: ${data.newMessage}`}));
         });
     });
 
