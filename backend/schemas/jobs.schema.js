@@ -14,14 +14,13 @@ const jobSchema = new Schema({
   price: { type: Number },
   createdAt: Date,
   updatedAt: Date,
-  location: {
-    latitude: Number,
-    longitude: Number,
+  postcode: {
+    type: String,
   },
-  user_id: { 
+  user_id: {
     type: Schema.Types.ObjectId,
-    ref: "User"
-  }
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("Jobs", jobSchema);
