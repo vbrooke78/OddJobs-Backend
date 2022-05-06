@@ -25,26 +25,10 @@ const upload = multer({
   },
   fileFilter: fileFilter,
 });
+const { postImage, findImageById } = require("../controllers/imageController");
 
-const {
-  registerUser,
-  loginUser,
-  getUsers,
-  getUser,
-  deleteUser,
-  putUser,
-} = require("../controllers/userController");
+router.post("/", upload.single("productImage"), postImage);
+//
 
-//POST /api/users/register
-router.post("/register", registerUser);
-//POST /api/users/login
-router.post("/login", loginUser);
-//GET /api/users
-router.get("/", getUsers);
-//GET /api/users/:user_id
-router.get("/:user_id", getUser);
-//DELETE /api/users/:user_id
-router.delete("/:user_id", deleteUser);
-//PUT /api/users/:user_id
-router.put("/:user_id", upload.single("productImage"), putUser);
+router.get("/:image_id", findImageById);
 module.exports = router;

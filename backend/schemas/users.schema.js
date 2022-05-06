@@ -6,7 +6,6 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-
     username: { type: String, require: true, unique: true },
     fullName: {
       type: String,
@@ -37,9 +36,7 @@ const userSchema = new Schema(
     rating: {
       type: Number,
     },
-    img: {
-      type: String,
-    },
+    productImage: { type: String },
     messages: [{ type: Schema.Types.ObjectId, ref: "messages" }],
     reviews: [{ type: String }],
   },
