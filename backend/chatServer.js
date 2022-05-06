@@ -16,6 +16,8 @@ exports.start = () => {
     const io = new Server(server, {
         cors: {
             origin: 'http://oddjobs-test.herokuapp.com',
+            methods: ["GET", "POST"],
+            credentials: true
         },
     });
 
