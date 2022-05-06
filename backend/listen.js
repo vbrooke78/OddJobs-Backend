@@ -1,6 +1,6 @@
 const app = require('./app.js');
 const dotenv = require("dotenv").config();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5050;
 console.log('port', port)
 const chatServer = require('./chatServer.js');
 

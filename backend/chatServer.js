@@ -1,6 +1,5 @@
 const http = require('http');
 const handler = require('serve-handler');
-//const nanobuffer from 'nanobuffer';
 const { Server } = require('socket.io');
 const cors = require('cors');
 const app = express();
@@ -10,47 +9,45 @@ app.use(cors());
 
 exports.start = () => {
 
-    const msg = [];
     const users = {};
-    const rooms = {};
 
     const server = http.createServer(app);
 
     const io = new Server(server, {
         cors: {
-            origin: 'http://localhost:3000',
+            origin: 'http://oddjobs-test.herokuapp.com',
         },
     });
 
     io.on('connection', async (socket) => {
 
-        console.log(`connected: ${socket.id}`);
+        console.log(`Someone connected at ${socket.id}` );
 
-        socket.on('join-room', (info) => {
+        socket.emit('someone-connected', "someone connected");
 
-            if (!users[info.user])
-                users[info.user] = [];
-            
-                users[info.user].push(socket.id);
-            
-            if (!rooms[info.chatRoom])
-                rooms[info.chatRoom] = [];
-        
-            rooms[info.chatRoom].push(info.user);
+        socket.on('user-info', (info) => {
 
-            console.log(users, rooms);
+            users[info.user] = socket.id;
+            console.log(`${info.user} has connected with id ${socket.id}`);
         })
 
         socket.on('disconnect', () => {
-            console.log(`disconnect: ${socket.id}`);
+
+            for (const user in users){
+                if (users[user] === socket.id){
+                    console.log(`${users[user]} disconnected.`);
+                    delete users[user];
+                }
+            }    
         });
 
-        socket.on('msg:post', (data) => {
+        socket.on('send', (info) => {
 
-            console.log(data);
-        
-            rooms[data.room].forEach(user =>
-                io.to(users[user]).emit('msg:get', {room: data.room, msg: `${data.user}: ${data.newMessage}`}));
+            if (!users[info.to]) //user is offline, no need to send live notification
+                return;
+
+            const recieverSocket = users[info.to];
+            io.to(recieverSocket).emit('notification', info.from);
         });
     });
 
