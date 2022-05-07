@@ -73,7 +73,7 @@ exports.putUser = async (userId, userInfo, userImage) => {
   };
 
   const update = {
-    address: userInfo.address,
+    postCode: userInfo.postCode,
     phoneNumber: userInfo.phoneNumber,
     productImage: userImage.path,
   };

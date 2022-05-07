@@ -22,13 +22,7 @@ const userSchema = new Schema(
       required: true,
     },
 
-    address: [
-      {
-        city: String,
-        street: String,
-        postCode: String,
-      },
-    ],
+    postCode: String,
 
     phoneNumber: {
       type: Number,
