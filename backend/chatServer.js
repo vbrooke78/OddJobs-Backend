@@ -15,7 +15,7 @@ exports.start = () => {
 
     const io = new Server(server, {
         cors: {
-            origin: "*:*"
+            origin: "*"
         },
     });
 
