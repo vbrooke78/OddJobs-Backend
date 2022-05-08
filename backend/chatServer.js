@@ -10,7 +10,7 @@ app.use(cors());
 exports.start = () => {
 
      const users = {};
-         const port = process.env.SOCKET_PORT || 8081;
+         const port =  80;
 
     // const server = http.createServer(app);
 
@@ -87,7 +87,7 @@ exports.start = () => {
     // });
 
         const io = socketIO(server, { cors: {
-            origin: "*"
+            origin: "*",
         }});
 
         // io.on('connection', (socket) => {
