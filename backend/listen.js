@@ -4,5 +4,6 @@ const port = process.env.PORT || 5050;
 console.log('port', port)
 const chatServer = require('./chatServer.js');
 
-chatServer.start();
-app.listen(port, () => console.log(`server started on ${port}`));
+
+const server = app.listen(port, () => console.log(`server started on ${port}`));
+chatServer.start(server);

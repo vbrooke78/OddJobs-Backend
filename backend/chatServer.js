@@ -7,10 +7,10 @@ const app = express();
 app.use(cors());
 
 
-exports.start = () => {
+exports.start = (server) => {
 
-     const users = {};
-         const port =  5000;
+    //  const users = {};
+    //      const port =  5000;
 
     // const server = http.createServer(app);
 
@@ -68,23 +68,7 @@ exports.start = () => {
    // server.listen(port, () => console.log(`Server running at http://localhost:${port}`));
 
             
-        'use strict';
-
-        const express = require('express');
-        const socketIO = require('socket.io');
-
-      //  const PORT = process.env.SOCKET_PORT || 5000;
-        const INDEX = '/index.html';
-
-        const server = express()
-        .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
-        .listen(port, () => console.log(`Listening on ${port}`));
-
-    //        const io = new Server(server, {
-    //     cors: {
-    //         origin: "*"
-    //     },
-    // });
+           const socketIO = require('socket.io');
 
         const io = socketIO(server, { cors: {
             origin: "*",
