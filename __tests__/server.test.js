@@ -288,6 +288,9 @@ describe("PUT /api/users/:user_id", () => {
   test("202, updates user details", async () => {
     const requestBody = {
       phoneNumber: 321,
+      email: "user@example.com",
+      fullName: "new name",
+      username: "tester",
     };
     const res = await request(app)
       .put("/api/users/000000000002")
@@ -296,6 +299,9 @@ describe("PUT /api/users/:user_id", () => {
 
     expect(res.body.user).toMatchObject({
       phoneNumber: 321,
+      email: "user@example.com",
+      fullName: "new name",
+      username: "tester",
     });
   });
 
