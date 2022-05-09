@@ -437,7 +437,7 @@ describe("GET /api/jobs/category", () => {
   });
 });
 
-describe.only("POST /api/messages", () => {
+describe("POST /api/messages", () => {
   test("201, post a new job", async () => {
     const requestBody = {
       users: [
@@ -459,5 +459,15 @@ describe.only("POST /api/messages", () => {
       ],
       messages: [],
     });
+  });
+});
+
+describe.only("DELETE /api/messages/:message_id", () => {
+  test("204, delete messages", async () => {
+    const res = await request(app)
+      .delete("/api/messages/000000000002")
+      .expect(204);
+
+    expect(res.body).toEqual({});
   });
 });

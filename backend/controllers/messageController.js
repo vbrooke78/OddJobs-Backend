@@ -7,4 +7,9 @@ const postMessage = asyncHandler(async (req, res) => {
   res.status(200).send({ message });
 });
 
-module.exports = { postMessage };
+const deleteMessage = asyncHandler(async (req, res) => {
+  messageModel.deleteMessage(req.params.message_id);
+  res.status(204).send();
+});
+
+module.exports = { postMessage, deleteMessage };

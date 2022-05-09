@@ -17,3 +17,10 @@ exports.postMessage = async (MsgObj) => {
   });
   return res;
 };
+
+exports.deleteMessage = async (message_id) => {
+  const message = await Messages.findById(message_id);
+  console.log(message);
+  if (!message) return Promise.reject(errors.errMsg_idNotFound);
+  await Messages.findByIdAndRemove(message_id);
+};
