@@ -23,3 +23,21 @@ exports.getMessage = async ({ message_id }) => {
   console.log(message);
   return message;
 };
+
+exports.postContent = async (message_id, body) => {
+  console.log(message_id);
+  console.log(body);
+  const message = await Messages.findById(message_id);
+  console.log(message);
+  const content = {
+    userId: body.userId,
+    content_type: body.content_type,
+    content: body.content,
+  };
+
+  message.messages.push(content);
+
+  message.save();
+
+  return message;
+};

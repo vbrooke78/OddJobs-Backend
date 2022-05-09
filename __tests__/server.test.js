@@ -468,8 +468,8 @@ describe("POST /api/messages", () => {
   });
 });
 
-describe.only("GET /api/messages/:message_id", () => {
-  test("201, post a new job", async () => {
+describe("GET /api/messages/:message_id", () => {
+  test("201, post a new message board", async () => {
     const res = await request(app)
       .get("/api/messages/000000000001")
       .expect(200);
@@ -481,6 +481,68 @@ describe.only("GET /api/messages/:message_id", () => {
       users: [
         { userId: expect.any(String), _id: expect.any(String) },
         { userId: expect.any(String), _id: expect.any(String) },
+      ],
+    });
+  });
+});
+
+describe.only("POST /api/messages/:message_id", () => {
+  test("201, post new content", async () => {
+    const requestBody = {
+      userId: "000000000004",
+      content_type: "text",
+      content: "updated text",
+    };
+    const res = await request(app)
+      .post("/api/messages/000000000004")
+      .send(requestBody)
+      .expect(200);
+
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      users: [
+        { userId: expect.any(String), _id: expect.any(String) },
+        { userId: expect.any(String), _id: expect.any(String) },
+      ],
+      messages: [
+        {
+          _id: expect.any(String),
+          content: "updated text",
+          content: "I can lend you a tool for the job",
+          content_type: "text",
+          userId: expect.any(String),
+        },
+        {
+          _id: expect.any(String),
+          content: "Thanks, that is helpful",
+          content_type: "text",
+          userId: "303030303030303030303031",
+        },
+        {
+          _id: expect.any(String),
+          content: "Are you free this afternoon?",
+          content_type: "text",
+          userId: "303030303030303030303034",
+        },
+        {
+          _id: expect.any(String),
+          content: "Yes",
+          content_type: "text",
+          userId: "303030303030303030303031",
+        },
+        {
+          _id: expect.any(String),
+          content: "Ok, I will drop it round",
+          content_type: "text",
+          userId: "303030303030303030303034",
+        },
+        {
+          _id: expect.any(String),
+          content: "updated text",
+          content_type: "text",
+          userId: "303030303030303030303034",
+        },
       ],
     });
   });

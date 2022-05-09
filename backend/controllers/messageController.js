@@ -13,4 +13,11 @@ const getMessage = asyncHandler(async (req, res) => {
   res.status(200).send({ message });
 });
 
-module.exports = { postMessage, getMessage };
+const postContent = asyncHandler(async (req, res) => {
+  const message = await messageModel.postContent(
+    req.params.message_id,
+    req.body
+  );
+  res.status(200).send({ message });
+});
+module.exports = { postMessage, getMessage, postContent };
