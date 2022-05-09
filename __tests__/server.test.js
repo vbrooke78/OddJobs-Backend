@@ -465,14 +465,16 @@ describe("POST /api/messages", () => {
 describe.only("PUT /api/messages/:message_id", () => {
   test("202, updates job details", async () => {
     const requestBody = {
-      text: "updated text",
+      content: "updated text",
       user_id: "000000000003",
     };
     const res = await request(app)
-      .put("/api/messages/000000000002")
+      .put("/api/messages/000000000002/000000000002")
       .send(requestBody)
       .expect(202);
 
-    expect(res.body.message).toMatchObject({});
+    expect(res.body).toEqual({
+      message: expect.any(Object),
+    });
   });
 });

@@ -8,10 +8,8 @@ const postMessage = asyncHandler(async (req, res) => {
 });
 
 const putMessage = asyncHandler(async (req, res) => {
-  const message = await messageModel.putMessage(
-    req.params.message_id,
-    req.body
-  );
+  //   console.log(req.params);
+  const message = await messageModel.putMessage(req.params, req.body);
   res.status(202).send({ message });
 });
 module.exports = { postMessage, putMessage };
