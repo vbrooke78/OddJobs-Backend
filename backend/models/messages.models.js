@@ -17,3 +17,15 @@ exports.postMessage = async (MsgObj) => {
   });
   return res;
 };
+
+exports.putMessage = async (message_id, body) => {
+  const message = await Messages.findById(message_id);
+  let res;
+  for (let i = 0; i < message.messages.length; i++) {
+    if (message.messages[i].userId === body.user_id) {
+      //   res = await Messages.findByIdAndUpdate(message_id);
+    }
+  }
+  console.log(body);
+  console.log(message.messages);
+};

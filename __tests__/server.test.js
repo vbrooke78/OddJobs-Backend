@@ -437,7 +437,7 @@ describe("GET /api/jobs/category", () => {
   });
 });
 
-describe.only("POST /api/messages", () => {
+describe("POST /api/messages", () => {
   test("201, post a new job", async () => {
     const requestBody = {
       users: [
@@ -459,5 +459,20 @@ describe.only("POST /api/messages", () => {
       ],
       messages: [],
     });
+  });
+});
+
+describe.only("PUT /api/messages/:message_id", () => {
+  test("202, updates job details", async () => {
+    const requestBody = {
+      text: "updated text",
+      user_id: "000000000003",
+    };
+    const res = await request(app)
+      .put("/api/messages/000000000002")
+      .send(requestBody)
+      .expect(202);
+
+    expect(res.body.message).toMatchObject({});
   });
 });

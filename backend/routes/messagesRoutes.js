@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const { postMessage } = require("../controllers/messageController");
+const { postMessage, putMessage } = require("../controllers/messageController");
 //POST /api/messages/:user_id
 router.post("/", postMessage);
-
+//PUT /api/message/:message_id
+router.put("/:message_id", putMessage);
 module.exports = router;
