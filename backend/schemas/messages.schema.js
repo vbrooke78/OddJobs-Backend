@@ -3,26 +3,20 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
-  jobId: {
-      type: ObjectId,
-      required: true,
-  },
-  content: [
-      {
-        userId: {
-          type: Schema.Types.ObjectId, 
-          ref: "User",
-          required: true
-        }, 
-        text: {
-          type:String,
-          required: true
-        }, 
-        date: {
-          type: Date,
-          required: true
-        }
-      }],
+  messages: [
+    {
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+      text: {
+        type: String,
+      },
+      created_at: Date,
+      updated_at: Date,
+    },
+  ],
+  users: [{ userId: String, content_type: String, content: String }],
 });
 
 module.exports = mongoose.model("Messages", messageSchema);

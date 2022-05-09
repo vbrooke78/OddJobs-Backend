@@ -18,6 +18,8 @@ app.use("/api/users", require("./routes/userRoutes"));
 //
 app.use("/api/jobs", require("./routes/jobRoutes"));
 //
+app.use("/api/messages", require("./routes/messagesRoutes"));
+//
 app.use("/uploads", require("./routes/image"));
 //errors
 app.use(errorHandler.error_mongoDb);
