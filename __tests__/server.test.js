@@ -437,7 +437,7 @@ describe("GET /api/jobs/category", () => {
   });
 });
 
-describe.only("POST /api/messages", () => {
+describe("POST /api/messages", () => {
   test("201, post a new job", async () => {
     const requestBody = {
       users: [
@@ -458,6 +458,24 @@ describe.only("POST /api/messages", () => {
         { userId: expect.any(String), _id: expect.any(String) },
       ],
       messages: [],
+    });
+  });
+});
+
+describe.only("GET /api/messages/:message_id", () => {
+  test("201, post a new job", async () => {
+    const res = await request(app)
+      .get("/api/messages/000000000001")
+      .expect(200);
+    console.log(res.body);
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      messages: expect.any(Array),
+      users: [
+        { userId: expect.any(String), _id: expect.any(String) },
+        { userId: expect.any(String), _id: expect.any(String) },
+      ],
     });
   });
 });

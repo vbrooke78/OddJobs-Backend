@@ -2,7 +2,6 @@ const Messages = require("../schemas/messages.schema");
 const Jobs = require("../schemas/jobs.schema.js");
 const User = require("../schemas/users.schema.js");
 exports.postMessage = async (MsgObj) => {
-  console.log(MsgObj);
   const { users } = MsgObj;
   for (let i = 0; i < users.length; i++) {
     const user = await User.findById(users[i].userId);
@@ -16,4 +15,11 @@ exports.postMessage = async (MsgObj) => {
     messages: [],
   });
   return res;
+};
+
+exports.getMessage = async ({ message_id }) => {
+  const message = await Messages.findById(message_id);
+  if (!message) return Promise.reject(errors.errMsg_idNotFound);
+  console.log(message);
+  return message;
 };
