@@ -30,9 +30,12 @@ exports.postJob = async (jobObj, jobImg) => {
     description: description,
     category: category,
     price: price,
-    postcode: postcode,
+    postcode: {
+      lat: postcode.lat,
+      lng: postcode.lng,
+    },
     user_id: user_id,
-    productImage: jobImg.path,
+    image: jobImg.path,
   });
   // const jobWithUserInfo = await res.populate({
   //     path: 'user_id',

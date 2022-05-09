@@ -37,7 +37,7 @@ const {
 //GET /api/jobs
 router.get("/", getJobs);
 //POST /api/jobs
-router.post("/", upload.single("productImage"), postJobs);
+router.post("/", upload.single("image"), postJobs);
 //GET /api/jobs/:id
 router.get("/:id", getJobById);
 //PUT /api/jobs/:id

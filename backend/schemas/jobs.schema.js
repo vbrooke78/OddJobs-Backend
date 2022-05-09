@@ -15,9 +15,10 @@ const jobSchema = new Schema({
   createdAt: Date,
   updatedAt: Date,
   postcode: {
-    type: String,
+    lat: Number,
+    lng: Number,
   },
-  productImage: { type: String },
+  image: { type: String },
   user_id: {
     type: Schema.Types.ObjectId,
     ref: "User",
