@@ -57,7 +57,7 @@ exports.loginUser = async (username, password) => {
 //
 //  PUT /api/users/:user_id
 //
-exports.putUser = async (userId, userInfo, userImage) => {
+exports.putUser = async (userId, userInfo) => {
   const user = await User.findById(userId);
 
   if (!user) {
@@ -71,11 +71,8 @@ exports.putUser = async (userId, userInfo, userImage) => {
     email: user.email,
     password: user.password,
   };
-
   const update = {
-    postCode: userInfo.postCode,
     phoneNumber: userInfo.phoneNumber,
-    productImage: userImage.path,
   };
 
   const updatedUser = await User.findOneAndUpdate(filter, update, {

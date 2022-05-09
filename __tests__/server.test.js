@@ -31,9 +31,9 @@ describe("GET /api/jobs", () => {
         category: expect.any(String),
         price: expect.any(Number),
         user_id: expect.any(String),
-        location: {
-          latitude: expect.any(Number),
-          longitude: expect.any(Number),
+        postcode: {
+          lat: expect.any(Number),
+          lng: expect.any(Number),
         },
       });
     });
@@ -49,8 +49,6 @@ describe("GET /api/users", () => {
         _id: expect.any(String),
         username: expect.any(String),
         fullName: expect.any(String),
-        address: expect.any(Array),
-        img: expect.any(String),
         email: expect.any(String),
         password: expect.any(String),
         phoneNumber: expect.any(Number),
@@ -74,7 +72,10 @@ describe("GET /api/jobs/:job_id", () => {
       category: "pets",
       price: 6.0,
       user_id: "303030303030303030303031",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: {
+        lat: expect.any(Number),
+        lng: expect.any(Number),
+      },
       __v: 0,
     });
   });
@@ -104,8 +105,6 @@ describe("GET /api/users/:user_id", () => {
       _id: "303030303030303030303032",
       username: "shaunDogg",
       fullName: "Shaun Clarke",
-      address: expect.any(Array),
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
       email: "shaun@test.com",
       password: expect.any(String),
       phoneNumber: 123987456,
@@ -288,9 +287,7 @@ describe("DELETE /api/jobs/:job_id", () => {
 describe("PUT /api/users/:user_id", () => {
   test("202, updates user details", async () => {
     const requestBody = {
-      address: [{ city: "Leeds", street: "street", postCode: "code" }],
       phoneNumber: 321,
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
     };
     const res = await request(app)
       .put("/api/users/000000000002")
@@ -298,9 +295,7 @@ describe("PUT /api/users/:user_id", () => {
       .expect(202);
 
     expect(res.body.user).toMatchObject({
-      address: [{ city: "Leeds", street: "street", postCode: "code" }],
       phoneNumber: 321,
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
     });
   });
 
@@ -326,7 +321,7 @@ describe("POST /api/jobs", () => {
       price: 69,
       category: "fake category",
       user_id: "000000000001",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { lat: 53.797, lng: -1.556 },
     };
     const res = await request(app)
       .post("/api/jobs")
@@ -341,7 +336,7 @@ describe("POST /api/jobs", () => {
       price: 69,
       category: "fake category",
       user_id: "303030303030303030303031",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { lat: 53.797, lng: -1.556 },
     });
   });
 
@@ -365,13 +360,12 @@ describe("POST /api/jobs", () => {
 describe("PUT /api/jobs/:id", () => {
   test("202, updates job details", async () => {
     const requestBody = {
-      location: "need location data",
       title: "Walking my dogs",
       description: "Need someone to walk my dogs everyday in the morning",
       price: 6.0,
       category: "pets",
       user_id: "000000000001",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { lat: 53.797, lng: -1.556 },
     };
     const res = await request(app)
       .put("/api/jobs/000000000002")
@@ -379,18 +373,17 @@ describe("PUT /api/jobs/:id", () => {
       .expect(202);
 
     expect(res.body.job).toMatchObject({
-      location: "need location data",
       title: "Walking my dogs",
       description: "Need someone to walk my dogs everyday in the morning",
       price: 6.0,
       category: "pets",
       user_id: "303030303030303030303031",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { lat: 53.797, lng: -1.556 },
     });
   });
 });
 
-describe.only("GET /api/jobs/category", () => {
+describe("GET /api/jobs/category", () => {
   test("200, return list of jobs by category", async () => {
     const res = await request(app).get("/api/jobs/?category=DIY");
     console.log(res.body);
@@ -401,9 +394,9 @@ describe.only("GET /api/jobs/category", () => {
         category: "DIY",
         price: expect.any(Number),
         user_id: expect.any(String),
-        location: {
-          latitude: expect.any(Number),
-          longitude: expect.any(Number),
+        postcode: {
+          lat: expect.any(Number),
+          lng: expect.any(Number),
         },
       });
     });
@@ -418,9 +411,9 @@ describe.only("GET /api/jobs/category", () => {
         category: "pets",
         price: expect.any(Number),
         user_id: expect.any(String),
-        location: {
-          latitude: expect.any(Number),
-          longitude: expect.any(Number),
+        postcode: {
+          lat: expect.any(Number),
+          lng: expect.any(Number),
         },
       });
     });
@@ -435,11 +428,36 @@ describe.only("GET /api/jobs/category", () => {
         category: expect.any(String),
         price: expect.any(Number),
         user_id: expect.any(String),
-        location: {
-          latitude: expect.any(Number),
-          longitude: expect.any(Number),
+        postcode: {
+          lat: expect.any(Number),
+          lng: expect.any(Number),
         },
       });
+    });
+  });
+});
+
+describe.only("POST /api/messages", () => {
+  test("201, post a new job", async () => {
+    const requestBody = {
+      users: [
+        { userId: "000000000001", isRead: true },
+        { userId: "000000000002", isRead: true },
+      ],
+    };
+    const res = await request(app)
+      .post("/api/messages")
+      .send(requestBody)
+      .expect(200);
+
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      users: [
+        { userId: expect.any(String), _id: expect.any(String) },
+        { userId: expect.any(String), _id: expect.any(String) },
+      ],
+      messages: [],
     });
   });
 });
