@@ -103,11 +103,14 @@ exports.start = (server) => {
 
         socket.on('send', (info) => {
 
+
+            console.log(`incoming message for ${info.to}`)
             if (!users[info.to]) //user is offline, no need to send live notification
                 return;
 
             const recieverSocket = users[info.to];
-            io.to(recieverSocket).emit('notification', info.from);
+            console.log(`sending message to ${info.to} at ${recieverSocket}`);
+            io.to(recieverSocket).emit('recieve', info.from);
         });
     });
 
