@@ -24,7 +24,7 @@ exports.postJob = async (jobObj, jobImg) => {
   const newJob = _validateJobObj(jobObj);
   const { title, description, category, price, postcode, user_id } = jobObj;
   if (!newJob) return Promise.reject(errors.errMsg_invalidPostObj);
-
+  console.log(postcode);
   const res = await Jobs.create({
     title: title,
     description: description,
@@ -35,8 +35,9 @@ exports.postJob = async (jobObj, jobImg) => {
       lng: postcode.lng,
     },
     user_id: user_id,
-    image: jobImg.path,
+    // image: jobImg,
   });
+  console.log(res);
   // const jobWithUserInfo = await res.populate({
   //     path: 'user_id',
   //     select: 'username'

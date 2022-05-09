@@ -18,7 +18,7 @@ const jobSchema = new Schema({
     lat: Number,
     lng: Number,
   },
-  image: { type: String },
+  // image: { type: String },
   user_id: {
     type: Schema.Types.ObjectId,
     ref: "User",

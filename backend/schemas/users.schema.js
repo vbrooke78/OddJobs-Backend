@@ -30,7 +30,7 @@ const userSchema = new Schema(
     rating: {
       type: Number,
     },
-    productImage: { type: String },
+    // productImage: { type: String },
     messages: [{ type: Schema.Types.ObjectId, ref: "messages" }],
     reviews: [{ type: String }],
   },
