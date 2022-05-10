@@ -7,21 +7,16 @@ const postMessage = asyncHandler(async (req, res) => {
   res.status(200).send({ message });
 });
 
-
 const putMessage = asyncHandler(async (req, res) => {
   //   console.log(req.params);
   const message = await messageModel.putMessage(req.params, req.body);
   res.status(202).send({ message });
 });
 
-
-
 const deleteMessage = asyncHandler(async (req, res) => {
   const message = await messageModel.deleteMessage(req.params);
   res.status(204).send({ message });
 });
-
-
 
 const getMessage = asyncHandler(async (req, res) => {
   console.log(req.params);
@@ -36,5 +31,16 @@ const postContent = asyncHandler(async (req, res) => {
   );
   res.status(200).send({ message });
 });
-module.exports = { postMessage, getMessage, postContent, putMessage, deleteMessage };
 
+const getUserContent = asyncHandler(async (req, res) => {
+  const message = await messageModel.getUserContent(req.params);
+  res.status(200).send({ message });
+});
+module.exports = {
+  postMessage,
+  getMessage,
+  postContent,
+  putMessage,
+  deleteMessage,
+  getUserContent,
+};

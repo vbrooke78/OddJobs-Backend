@@ -18,6 +18,7 @@ const messageSchema = new Schema({
 
       created_at: Date,
       updated_at: Date,
+      unread: Boolean,
     },
   ],
   users: [

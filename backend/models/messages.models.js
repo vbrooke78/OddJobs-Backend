@@ -65,11 +65,51 @@ exports.postContent = async (message_id, body) => {
     userId: body.userId,
     content_type: body.content_type,
     content: body.content,
+    unread: true,
   };
-
   message.messages.push(content);
-
+  let unread = 0;
+  for (let i = 0; i < message.messages.length; i++) {
+    if (
+      message.messages[i].userId.equals(body.userId) &&
+      message.messages[i].unread === true
+    ) {
+      unread++;
+    }
+  }
+  for (let i = 0; i < message.users.length; i++) {
+    if (message.users[i].userId.equals(body.userId)) {
+      message.users[i].unread = unread;
+    }
+  }
+  console.log(message);
   message.save();
 
-  return message;
+  return message.populate({
+    path: "users.userId",
+    select: "username fullName",
+  });
+};
+
+exports.getUserContent = async (ids) => {
+  console.log(ids);
+  const { message_id, user_id } = ids;
+  const message = await Messages.findById(message_id);
+  for (let i = 0; i < message.messages.length; i++) {
+    if (message.messages[i].userId.equals(user_id)) {
+      message.messages[i].unread = false;
+    }
+  }
+  for (let i = 0; i < message.users.length; i++) {
+    if (message.users[i].userId.equals(user_id)) {
+      message.users[i].unread = 0;
+    }
+  }
+
+  console.log(message);
+  message.save();
+  return message.populate({
+    path: "users.userId",
+    select: "username fullName",
+  });
 };
