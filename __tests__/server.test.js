@@ -571,7 +571,7 @@ describe("GET /api/messages/:message_id", () => {
   });
 });
 
-describe.only("POST /api/messages/:message_id", () => {
+describe("POST /api/messages/:message_id", () => {
   test("201, post new content", async () => {
     const requestBody = {
       userId: "000000000004",
@@ -670,7 +670,7 @@ describe("GET /api/messages/:user_id/:message_id", () => {
     const res = await request(app)
       .get("/api/messages/000000000004/000000000004")
       .expect(200);
-    console.log(res.body);
+    // console.log(res.body);
     expect(res.body.message).toEqual({
       __v: 0,
       _id: expect.any(String),
@@ -733,5 +733,28 @@ describe("GET /api/messages/:user_id/:message_id", () => {
         },
       ],
     });
+  });
+});
+
+describe("GET /api/chats/", () => {
+  test("200, get user content", async () => {
+    const res = await request(app)
+      .get("/api/messages/chats/000123400001")
+      .expect(200);
+
+    expect(res.body.message).toEqual([
+      {
+        _id: "303030303030303030303031",
+        messages: expect.any(Array),
+        users: expect.any(Array),
+        __v: 0,
+      },
+      {
+        _id: "303030303030303030303033",
+        messages: expect.any(Array),
+        users: expect.any(Array),
+        __v: 0,
+      },
+    ]);
   });
 });

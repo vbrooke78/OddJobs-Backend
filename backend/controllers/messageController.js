@@ -36,6 +36,12 @@ const getUserContent = asyncHandler(async (req, res) => {
   const message = await messageModel.getUserContent(req.params);
   res.status(200).send({ message });
 });
+
+const getChatsByUser = asyncHandler(async (req, res) => {
+  const message = await messageModel.getChatsByUser(req.params.user_id);
+  console.log(message);
+  res.status(200).send({ message });
+});
 module.exports = {
   postMessage,
   getMessage,
@@ -43,4 +49,5 @@ module.exports = {
   putMessage,
   deleteMessage,
   getUserContent,
+  getChatsByUser,
 };

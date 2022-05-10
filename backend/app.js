@@ -20,6 +20,8 @@ app.use("/api/jobs", require("./routes/jobRoutes"));
 //
 app.use("/api/messages", require("./routes/messagesRoutes"));
 //
+// app.use("/api/chats", require("./routes/ChatRoutes"));
+//
 app.use("/uploads", require("./routes/image"));
 //errors
 app.use(errorHandler.error_mongoDb);
