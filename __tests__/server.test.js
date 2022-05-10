@@ -288,6 +288,9 @@ describe("PUT /api/users/:user_id", () => {
   test("202, updates user details", async () => {
     const requestBody = {
       phoneNumber: 321,
+      email: "user@example.com",
+      fullName: "new name",
+      username: "tester",
     };
     const res = await request(app)
       .put("/api/users/000000000002")
@@ -296,6 +299,9 @@ describe("PUT /api/users/:user_id", () => {
 
     expect(res.body.user).toMatchObject({
       phoneNumber: 321,
+      email: "user@example.com",
+      fullName: "new name",
+      username: "tester",
     });
   });
 
@@ -462,12 +468,92 @@ describe("POST /api/messages", () => {
   });
 });
 
-describe.only("DELETE /api/messages/:message_id/content_id", () => {
+
+describe("DELETE /api/messages/:message_id/content_id", () => {
   test("204, delete messages", async () => {
     const res = await request(app)
       .delete("/api/messages/000000000002/000000000002")
       .expect(204);
 
     expect(res.body).toEqual({});
+
+describe("GET /api/messages/:message_id", () => {
+  test("201, post a new message board", async () => {
+    const res = await request(app)
+      .get("/api/messages/000000000001")
+      .expect(200);
+    console.log(res.body);
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      messages: expect.any(Array),
+      users: [
+        { userId: expect.any(String), _id: expect.any(String) },
+        { userId: expect.any(String), _id: expect.any(String) },
+      ],
+    });
+  });
+});
+
+describe("POST /api/messages/:message_id", () => {
+  test("201, post new content", async () => {
+    const requestBody = {
+      userId: "000000000004",
+      content_type: "text",
+      content: "updated text",
+    };
+    const res = await request(app)
+      .post("/api/messages/000000000004")
+      .send(requestBody)
+      .expect(200);
+
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      users: [
+        { userId: expect.any(String), _id: expect.any(String) },
+        { userId: expect.any(String), _id: expect.any(String) },
+      ],
+      messages: [
+        {
+          _id: expect.any(String),
+          content: "updated text",
+          content: "I can lend you a tool for the job",
+          content_type: "text",
+          userId: expect.any(String),
+        },
+        {
+          _id: expect.any(String),
+          content: "Thanks, that is helpful",
+          content_type: "text",
+          userId: "303030303030303030303031",
+        },
+        {
+          _id: expect.any(String),
+          content: "Are you free this afternoon?",
+          content_type: "text",
+          userId: "303030303030303030303034",
+        },
+        {
+          _id: expect.any(String),
+          content: "Yes",
+          content_type: "text",
+          userId: "303030303030303030303031",
+        },
+        {
+          _id: expect.any(String),
+          content: "Ok, I will drop it round",
+          content_type: "text",
+          userId: "303030303030303030303034",
+        },
+        {
+          _id: expect.any(String),
+          content: "updated text",
+          content_type: "text",
+          userId: "303030303030303030303034",
+        },
+      ],
+    });
+
   });
 });
