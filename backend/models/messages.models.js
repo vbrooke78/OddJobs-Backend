@@ -18,6 +18,22 @@ exports.postMessage = async (MsgObj) => {
 };
 
 
+exports.putMessage = async (ids, body) => {
+  const { message_id, content_id } = ids;
+
+  const message = await Messages.findById(message_id);
+
+  for (let i = 0; i < message.messages.length; i++) {
+    console.log(message.messages[i]);
+    if (message.messages[i]._id.equals(content_id)) {
+      message.messages[i].content = body.content;
+    }
+  }
+
+  message.save();
+  return message;
+}
+
 exports.deleteMessage = async (ids) => {
   //   const { message_id, content_id } = ids;
   //   const message = await Messages.findById(message_id);
@@ -56,5 +72,6 @@ exports.postContent = async (message_id, body) => {
   message.save();
 
   return message;
+
 
 };

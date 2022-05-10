@@ -9,10 +9,13 @@ const messageSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
       },
+
+      content_type: String,
+
       content: {
         type: String,
       },
-      content_type: String,
+    
       created_at: Date,
       updated_at: Date,
     },
