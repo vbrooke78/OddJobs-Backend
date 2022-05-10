@@ -468,7 +468,6 @@ describe("POST /api/messages", () => {
   });
 });
 
-
 describe("PUT /api/messages/:message_id/:content_id", () => {
   test("202, updates job details", async () => {
     const requestBody = {
@@ -527,9 +526,8 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
 
       __v: 0,
     });
-
-
-
+  });
+});
 
 describe("GET /api/messages/:message_id", () => {
   test("201, post a new message board", async () => {
@@ -608,14 +606,15 @@ describe("POST /api/messages/:message_id", () => {
         },
       ],
     });
-describe("DELETE /api/messages/:message_id/content_id", () => {
+  });
+});
+
+describe.only("DELETE /api/messages/:message_id/:content_id", () => {
   test("204, delete messages", async () => {
     const res = await request(app)
       .delete("/api/messages/000000000002/000000000002")
       .expect(204);
 
     expect(res.body).toEqual({});
-    
-
   });
 });

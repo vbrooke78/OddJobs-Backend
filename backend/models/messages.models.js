@@ -17,14 +17,12 @@ exports.postMessage = async (MsgObj) => {
   return res;
 };
 
-
 exports.putMessage = async (ids, body) => {
   const { message_id, content_id } = ids;
 
   const message = await Messages.findById(message_id);
 
   for (let i = 0; i < message.messages.length; i++) {
-    console.log(message.messages[i]);
     if (message.messages[i]._id.equals(content_id)) {
       message.messages[i].content = body.content;
     }
@@ -32,35 +30,33 @@ exports.putMessage = async (ids, body) => {
 
   message.save();
   return message;
-}
+};
 
 exports.deleteMessage = async (ids) => {
-  //   const { message_id, content_id } = ids;
-  //   const message = await Messages.findById(message_id);
-  //   console.log(message, "first");
-  //   console.log(message);
-  //   if (!message) return Promise.reject(errors.errMsg_idNotFound);
-  //   for (let i = 0; i < message.messages.length; i++) {
-  //     if (message.messages[i]._id.equals(content_id)) {
-  //       message.messages[i].splice(i, 1);
-  //     }
-  //   }
-  //   console.log(message);
-  //   message.save();
-  //   return message;
-}
+  const { message_id, content_id } = ids;
+  const message = await Messages.findById(message_id);
+  console.log(message, "first");
+
+  if (!message) return Promise.reject(errors.errMsg_idNotFound);
+  for (let i = 0; i < message.messages.length; i++) {
+    if (message.messages[i]._id.equals(content_id)) {
+      message.messages[i].splice(i, 1);
+    }
+  }
+  console.log(message, "last");
+  message.save();
+  return message;
+};
 exports.getMessage = async ({ message_id }) => {
   const message = await Messages.findById(message_id);
   if (!message) return Promise.reject(errors.errMsg_idNotFound);
-  console.log(message);
+
   return message;
 };
 
 exports.postContent = async (message_id, body) => {
-  console.log(message_id);
-  console.log(body);
   const message = await Messages.findById(message_id);
-  console.log(message);
+
   const content = {
     userId: body.userId,
     content_type: body.content_type,
@@ -72,6 +68,4 @@ exports.postContent = async (message_id, body) => {
   message.save();
 
   return message;
-
-
 };
