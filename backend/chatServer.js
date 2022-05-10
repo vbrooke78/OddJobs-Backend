@@ -78,6 +78,7 @@ exports.start = (server) => {
                 io.to(recieverSocket).emit('notification', info);
                 io.to(recieverSocket).emit('update-chatlog', info);
             }
+        });
     });
 
 }
