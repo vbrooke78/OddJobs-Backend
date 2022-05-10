@@ -71,15 +71,13 @@ exports.start = (server) => {
             const recieverSocket = users[info.to];
             console.log(`sending message to ${info.to} at ${recieverSocket}`);
 
-            if (privateChat[info.from]){ // in private chat, don't send notification
+            if (privateChat[info.to]){ // in private chat, don't send notification
                 io.to(recieverSocket).emit('update-private-message', info);
             }
             else {
                 io.to(recieverSocket).emit('notification', info);
                 io.to(recieverSocket).emit('update-chatlog', info);
             }
-            
-        });
     });
 
 }
