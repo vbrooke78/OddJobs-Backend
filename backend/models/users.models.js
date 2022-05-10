@@ -65,17 +65,20 @@ exports.putUser = async (userId, userInfo) => {
     return Promise.reject(errors.errMsg_idNotFound);
   }
 
-  const filter = {
-    username: user.username,
-    fullName: user.fullName,
-    email: user.email,
-    password: user.password,
-  };
+  // const filter = {
+  //   username: user.username,
+  //   fullName: user.fullName,
+  //   email: user.email,
+  //   password: user.password,
+  // };
   const update = {
     phoneNumber: userInfo.phoneNumber,
+    username: userInfo.username,
+    fullName: userInfo.fullName,
+    email: userInfo.email,
   };
 
-  const updatedUser = await User.findOneAndUpdate(filter, update, {
+  const updatedUser = await User.findByIdAndUpdate(userId, update, {
     new: true,
   });
 
