@@ -9,11 +9,12 @@ exports.postMessage = async (MsgObj) => {
   }
   const res = await Messages.create({
     users: [
-      { userId: users[0].userId, isRead: users[0].isRead },
-      { userId: users[1].userId, isRead: users[1].isRead },
+      { userId: users[0].userId, unread: users[0].unread },
+      { userId: users[1].userId, unread: users[1].unread },
     ],
     messages: [],
   });
+  console.log(res);
   return res;
 };
 
@@ -51,7 +52,10 @@ exports.getMessage = async ({ message_id }) => {
   const message = await Messages.findById(message_id);
   if (!message) return Promise.reject(errors.errMsg_idNotFound);
 
-  return message;
+  return message.populate({
+    path: "users.userId",
+    select: "username fullName",
+  });
 };
 
 exports.postContent = async (message_id, body) => {

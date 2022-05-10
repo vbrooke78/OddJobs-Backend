@@ -447,8 +447,8 @@ describe("POST /api/messages", () => {
   test("201, post a new job", async () => {
     const requestBody = {
       users: [
-        { userId: "000000000001", isRead: true },
-        { userId: "000000000002", isRead: true },
+        { userId: "000000000001", unread: 0 },
+        { userId: "000000000002", unread: 0 },
       ],
     };
     const res = await request(app)
@@ -460,8 +460,8 @@ describe("POST /api/messages", () => {
       __v: 0,
       _id: expect.any(String),
       users: [
-        { userId: expect.any(String), _id: expect.any(String) },
-        { userId: expect.any(String), _id: expect.any(String) },
+        { userId: expect.any(String), _id: expect.any(String), unread: 0 },
+        { userId: expect.any(String), _id: expect.any(String), unread: 0 },
       ],
       messages: [],
     });
@@ -609,7 +609,7 @@ describe("POST /api/messages/:message_id", () => {
   });
 });
 
-describe.only("DELETE /api/messages/:message_id/:content_id", () => {
+describe("DELETE /api/messages/:message_id/:content_id", () => {
   test("204, delete messages", async () => {
     const res = await request(app)
       .delete("/api/messages/000000000002/000000000002")

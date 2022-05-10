@@ -15,12 +15,17 @@ const messageSchema = new Schema({
       content: {
         type: String,
       },
-    
+
       created_at: Date,
       updated_at: Date,
     },
   ],
-  users: [{ userId: String, content_type: String, content: String }],
+  users: [
+    {
+      userId: { type: Schema.Types.ObjectId, ref: "User" },
+      unread: Number,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Messages", messageSchema);
