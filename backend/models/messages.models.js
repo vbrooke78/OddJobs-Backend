@@ -14,7 +14,7 @@ exports.postMessage = async (MsgObj) => {
     ],
     messages: [],
   });
-  console.log(res);
+
   return res;
 };
 
@@ -36,7 +36,6 @@ exports.putMessage = async (ids, body) => {
 exports.deleteMessage = async (ids) => {
   const { message_id, content_id } = ids;
   const message = await Messages.findById(message_id);
-  console.log(message, "first");
 
   if (!message) return Promise.reject(errors.errMsg_idNotFound);
   for (let i = 0; i < message.messages.length; i++) {
@@ -44,7 +43,7 @@ exports.deleteMessage = async (ids) => {
       message.messages[i].splice(i, 1);
     }
   }
-  console.log(message, "last");
+
   message.save();
   return message;
 };
@@ -82,7 +81,7 @@ exports.postContent = async (message_id, body) => {
       message.users[i].unread = unread;
     }
   }
-  console.log(message);
+
   message.save();
 
   return message.populate({
@@ -92,7 +91,6 @@ exports.postContent = async (message_id, body) => {
 };
 
 exports.getUserContent = async (ids) => {
-  console.log(ids);
   const { message_id, user_id } = ids;
   const message = await Messages.findById(message_id);
   for (let i = 0; i < message.messages.length; i++) {
@@ -106,10 +104,18 @@ exports.getUserContent = async (ids) => {
     }
   }
 
-  console.log(message);
   message.save();
   return message.populate({
     path: "users.userId",
     select: "username fullName",
   });
+};
+
+exports.getChatsByUser = async (user_id) => {
+  console.log(user_id);
+  const message = await Messages.find({ "users.userId": user_id });
+
+  console.log(message, "outside");
+  //   console.log(message[0], "hi");
+  return message;
 };
