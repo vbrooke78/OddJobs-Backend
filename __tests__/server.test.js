@@ -462,10 +462,10 @@ describe("POST /api/messages", () => {
   });
 });
 
-describe.only("DELETE /api/messages/:message_id", () => {
+describe.only("DELETE /api/messages/:message_id/content_id", () => {
   test("204, delete messages", async () => {
     const res = await request(app)
-      .delete("/api/messages/000000000002")
+      .delete("/api/messages/000000000002/000000000002")
       .expect(204);
 
     expect(res.body).toEqual({});

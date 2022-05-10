@@ -8,8 +8,8 @@ const postMessage = asyncHandler(async (req, res) => {
 });
 
 const deleteMessage = asyncHandler(async (req, res) => {
-  messageModel.deleteMessage(req.params.message_id);
-  res.status(204).send();
+  const message = await messageModel.deleteMessage(req.params);
+  res.status(204).send({ message });
 });
 
 module.exports = { postMessage, deleteMessage };
