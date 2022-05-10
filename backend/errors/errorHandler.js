@@ -14,6 +14,7 @@ exports.error_custom = (err, req, res, next) => {
   } else {
     next(err);
   }
+  console.log(err)
 };
 
 exports.error_mongoDb = (err, req, res, next) => {

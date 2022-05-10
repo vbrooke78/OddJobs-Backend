@@ -537,10 +537,10 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
   });
 });
 
-describe("GET /api/messages/:message_id", () => {
+describe.only("GET /api/messages/:message_id", () => {
   test("201, post a new message board", async () => {
     const res = await request(app)
-      .get("/api/messages/000000000004")
+      .get("/api/messages/000000000004?user=303030303030303030303031")
       .expect(200);
     console.log(res.body);
     expect(res.body.message).toEqual({
@@ -554,7 +554,7 @@ describe("GET /api/messages/:message_id", () => {
             fullName: expect.any(String),
             username: expect.any(String),
           },
-          unread: 1,
+          unread: 0,
           _id: expect.any(String),
         },
         {
