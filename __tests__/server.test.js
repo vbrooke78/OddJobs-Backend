@@ -468,6 +468,15 @@ describe("POST /api/messages", () => {
   });
 });
 
+
+describe("DELETE /api/messages/:message_id/content_id", () => {
+  test("204, delete messages", async () => {
+    const res = await request(app)
+      .delete("/api/messages/000000000002/000000000002")
+      .expect(204);
+
+    expect(res.body).toEqual({});
+
 describe("GET /api/messages/:message_id", () => {
   test("201, post a new message board", async () => {
     const res = await request(app)
@@ -486,7 +495,7 @@ describe("GET /api/messages/:message_id", () => {
   });
 });
 
-describe.only("POST /api/messages/:message_id", () => {
+describe("POST /api/messages/:message_id", () => {
   test("201, post new content", async () => {
     const requestBody = {
       userId: "000000000004",
@@ -545,5 +554,6 @@ describe.only("POST /api/messages/:message_id", () => {
         },
       ],
     });
+
   });
 });
