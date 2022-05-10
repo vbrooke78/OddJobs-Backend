@@ -462,19 +462,63 @@ describe("POST /api/messages", () => {
   });
 });
 
-describe.only("PUT /api/messages/:message_id", () => {
+describe("PUT /api/messages/:message_id/:content_id", () => {
   test("202, updates job details", async () => {
     const requestBody = {
       content: "updated text",
       user_id: "000000000003",
     };
     const res = await request(app)
-      .put("/api/messages/000000000002/000000000002")
+      .put("/api/messages/000000000004/000000000099")
       .send(requestBody)
       .expect(202);
 
-    expect(res.body).toEqual({
-      message: expect.any(Object),
+    expect(res.body.message).toEqual({
+      _id: "303030303030303030303034",
+      users: [
+        {
+          userId: "000000000001",
+          _id: expect.any(String),
+        },
+        {
+          userId: "000000000004",
+          _id: expect.any(String),
+        },
+      ],
+      messages: [
+        {
+          userId: "303030303030303030303034",
+          content_type: "text",
+          content: "I can lend you a tool for the job",
+          _id: "303030303030303030303937",
+        },
+        {
+          userId: expect.any(String),
+          content_type: "text",
+          content: "updated text",
+          _id: expect.any(String),
+        },
+        {
+          userId: expect.any(String),
+          content_type: "text",
+          content: "Are you free this afternoon?",
+          _id: expect.any(String),
+        },
+        {
+          userId: expect.any(String),
+          content_type: "text",
+          content: "Yes",
+          _id: expect.any(String),
+        },
+        {
+          userId: expect.any(String),
+          content_type: "text",
+          content: "Ok, I will drop it round",
+          _id: expect.any(String),
+        },
+      ],
+
+      __v: 0,
     });
   });
 });

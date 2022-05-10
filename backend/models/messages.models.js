@@ -20,27 +20,16 @@ exports.postMessage = async (MsgObj) => {
 
 exports.putMessage = async (ids, body) => {
   const { message_id, content_id } = ids;
-  //   console.log(message_id, content_id);
-  const message = await Messages.findById(message_id);
-  let res;
-  const update = {
-    content: body.content,
-  };
 
-  console.log(message.messages[0]._id);
-  console.log(message.messages[0]._id);
+  const message = await Messages.findById(message_id);
+
   for (let i = 0; i < message.messages.length; i++) {
-    if (message.messages[i].userId === "303030303030303030303033") {
-      console.log("inside");
-      res = await Messages.findByIdAndUpdate(message.messages[i]._id, update);
+    console.log(message.messages[i]);
+    if (message.messages[i]._id.equals(content_id)) {
+      message.messages[i].content = body.content;
     }
   }
-  console.log(message);
-  const content = await message.findById(content_id);
-  console.log(content, "content");
-  //   console.log(body);
-  console.log(res);
-  return res;
-  //   62796c1a4d206511b8fbc720
-  console.log(message.messages);
+
+  message.save();
+  return message;
 };
