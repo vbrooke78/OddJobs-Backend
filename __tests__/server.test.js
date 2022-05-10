@@ -473,6 +473,7 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
     const requestBody = {
       content: "updated text",
       user_id: "000000000003",
+      unread: true,
     };
     const res = await request(app)
       .put("/api/messages/000000000004/000000000099")
@@ -483,12 +484,14 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
       _id: "303030303030303030303034",
       users: [
         {
-          userId: "000000000001",
+          userId: expect.any(String),
           _id: expect.any(String),
+          unread: 1,
         },
         {
-          userId: "000000000004",
+          userId: expect.any(String),
           _id: expect.any(String),
+          unread: 2,
         },
       ],
       messages: [
@@ -497,30 +500,35 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
           content_type: "text",
           content: "I can lend you a tool for the job",
           _id: "303030303030303030303937",
+          unread: false,
         },
         {
           userId: expect.any(String),
           content_type: "text",
           content: "updated text",
           _id: expect.any(String),
+          unread: false,
         },
         {
           userId: expect.any(String),
           content_type: "text",
           content: "Are you free this afternoon?",
           _id: expect.any(String),
+          unread: true,
         },
         {
           userId: expect.any(String),
           content_type: "text",
           content: "Yes",
           _id: expect.any(String),
+          unread: true,
         },
         {
           userId: expect.any(String),
           content_type: "text",
           content: "Ok, I will drop it round",
           _id: expect.any(String),
+          unread: true,
         },
       ],
 
@@ -532,7 +540,7 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
 describe("GET /api/messages/:message_id", () => {
   test("201, post a new message board", async () => {
     const res = await request(app)
-      .get("/api/messages/000000000001")
+      .get("/api/messages/000000000004")
       .expect(200);
     console.log(res.body);
     expect(res.body.message).toEqual({
@@ -540,14 +548,30 @@ describe("GET /api/messages/:message_id", () => {
       _id: expect.any(String),
       messages: expect.any(Array),
       users: [
-        { userId: expect.any(String), _id: expect.any(String) },
-        { userId: expect.any(String), _id: expect.any(String) },
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 1,
+          _id: expect.any(String),
+        },
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 2,
+          _id: expect.any(String),
+        },
       ],
     });
   });
 });
 
-describe("POST /api/messages/:message_id", () => {
+describe.only("POST /api/messages/:message_id", () => {
   test("201, post new content", async () => {
     const requestBody = {
       userId: "000000000004",
@@ -563,8 +587,24 @@ describe("POST /api/messages/:message_id", () => {
       __v: 0,
       _id: expect.any(String),
       users: [
-        { userId: expect.any(String), _id: expect.any(String) },
-        { userId: expect.any(String), _id: expect.any(String) },
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 1,
+          _id: expect.any(String),
+        },
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 3,
+          _id: expect.any(String),
+        },
       ],
       messages: [
         {
@@ -573,36 +613,42 @@ describe("POST /api/messages/:message_id", () => {
           content: "I can lend you a tool for the job",
           content_type: "text",
           userId: expect.any(String),
+          unread: false,
         },
         {
           _id: expect.any(String),
           content: "Thanks, that is helpful",
           content_type: "text",
           userId: "303030303030303030303031",
+          unread: false,
         },
         {
           _id: expect.any(String),
           content: "Are you free this afternoon?",
           content_type: "text",
           userId: "303030303030303030303034",
+          unread: true,
         },
         {
           _id: expect.any(String),
           content: "Yes",
           content_type: "text",
           userId: "303030303030303030303031",
+          unread: true,
         },
         {
           _id: expect.any(String),
           content: "Ok, I will drop it round",
           content_type: "text",
           userId: "303030303030303030303034",
+          unread: true,
         },
         {
           _id: expect.any(String),
           content: "updated text",
           content_type: "text",
           userId: "303030303030303030303034",
+          unread: true,
         },
       ],
     });
@@ -616,5 +662,76 @@ describe("DELETE /api/messages/:message_id/:content_id", () => {
       .expect(204);
 
     expect(res.body).toEqual({});
+  });
+});
+
+describe("GET /api/messages/:user_id/:message_id", () => {
+  test("200, get user content", async () => {
+    const res = await request(app)
+      .get("/api/messages/000000000004/000000000004")
+      .expect(200);
+    console.log(res.body);
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      messages: [
+        {
+          _id: expect.any(String),
+          content: "updated text",
+          content: "I can lend you a tool for the job",
+          content_type: "text",
+          userId: expect.any(String),
+          unread: false,
+        },
+        {
+          _id: expect.any(String),
+          content: "Thanks, that is helpful",
+          content_type: "text",
+          userId: "303030303030303030303031",
+          unread: false,
+        },
+        {
+          _id: expect.any(String),
+          content: "Are you free this afternoon?",
+          content_type: "text",
+          userId: "303030303030303030303034",
+          unread: false,
+        },
+        {
+          _id: expect.any(String),
+          content: "Yes",
+          content_type: "text",
+          userId: "303030303030303030303031",
+          unread: true,
+        },
+        {
+          _id: expect.any(String),
+          content: "Ok, I will drop it round",
+          content_type: "text",
+          userId: "303030303030303030303034",
+          unread: false,
+        },
+      ],
+      users: [
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 1,
+          _id: expect.any(String),
+        },
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 0,
+          _id: expect.any(String),
+        },
+      ],
+    });
   });
 });
