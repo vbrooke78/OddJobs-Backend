@@ -9,66 +9,10 @@ app.use(cors());
 
 exports.start = (server) => {
 
-      const users = {};
-    //      const port =  5000;
-
-    // const server = http.createServer(app);
-
-    // const io = new Server(server, {
-    //     cors: {
-    //         origin: "*"
-    //     },
-    // });
-
-    // const server = app
-    //     .use((req, res) => res.sendFile('/index.html', { root: __dirname }))
-    //     .listen(port, () => console.log(`Listening on ${port}`));
-
-    // const io = new Server(server, {
-    //     cors: {
-    //         origin: "*"
-    //     },
-    // });
-
-    // io.on('connection', async (socket) => {
-
-    //     console.log(`Someone connected at ${socket.id}` );
-
-    //     socket.emit('someone-connected', "someone connected");
-
-    //     socket.on('user-info', (info) => {
-
-    //         users[info.user] = socket.id;
-    //         console.log(`${info.user} has connected with id ${socket.id}`);
-    //     })
-
-    //     socket.on('disconnect', () => {
-
-    //         for (const user in users){
-    //             if (users[user] === socket.id){
-    //                 console.log(`${users[user]} disconnected.`);
-    //                 delete users[user];
-    //             }
-    //         }    
-    //     });
-
-    //     socket.on('send', (info) => {
-
-    //         if (!users[info.to]) //user is offline, no need to send live notification
-    //             return;
-
-    //         const recieverSocket = users[info.to];
-    //         io.to(recieverSocket).emit('notification', info.from);
-    //     });
-    // });
-
-
-
-    
-   // server.listen(port, () => console.log(`Server running at http://localhost:${port}`));
-
+        const users = {};
+        const privateChat = {};
             
-           const socketIO = require('socket.io');
+        const socketIO = require('socket.io');
 
         const io = socketIO(server, { cors: {
             origin: "*",
@@ -95,11 +39,28 @@ exports.start = (server) => {
 
             for (const user in users){
                 if (users[user] === socket.id){
-                    console.log(`${users[user]} disconnected.`);
+
                     delete users[user];
+
+                    if(privateChat[user])
+                        delete privateChat[user];
+
+                    console.log(`${users[user]} disconnected.`);
                 }
             }    
         });
+
+        socket.on('join-private-chat', (info) => {
+
+            privateChat[info.user] = true;
+            console.log(`${info.user} has joined private chat`);
+        });
+
+        socket.on('leave-private-chat', (info) => {
+
+            delete privateChat[info.user];
+            console.log(`${info.user} has left private chat`);
+        })
 
         socket.on('send', (info) => {
 
@@ -110,9 +71,14 @@ exports.start = (server) => {
             const recieverSocket = users[info.to];
             console.log(`sending message to ${info.to} at ${recieverSocket}`);
 
-            io.to(recieverSocket).emit('notification', info);
-            io.to(recieverSocket).emit('update-chatlog', info);
-            io.to(recieverSocket).emit('update-private-message', info);
+            if (privateChat[info.from]){ // in private chat, don't send notification
+                io.to(recieverSocket).emit('update-private-message', info);
+            }
+            else {
+                io.to(recieverSocket).emit('notification', info);
+                io.to(recieverSocket).emit('update-chatlog', info);
+            }
+            
         });
     });
 
