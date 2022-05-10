@@ -89,7 +89,7 @@ exports.start = (server) => {
 
             users[info.user] = socket.id;
             console.log(`${info.user} has connected with id ${socket.id}`);
-        })
+        });
 
         socket.on('disconnect', () => {
 
@@ -103,16 +103,17 @@ exports.start = (server) => {
 
         socket.on('send', (info) => {
 
-
             console.log(`incoming message for ${info.to}`)
             if (!users[info.to]) //user is offline, no need to send live notification
                 return;
 
             const recieverSocket = users[info.to];
             console.log(`sending message to ${info.to} at ${recieverSocket}`);
-            io.to(recieverSocket).emit('recieve', info.from);
+
+            io.to(recieverSocket).emit('notification', info);
+            io.to(recieverSocket).emit('update-chatlog', info);
+            io.to(recieverSocket).emit('update-private-message', info);
         });
     });
 
-     //   setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
 }
