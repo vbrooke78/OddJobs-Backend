@@ -352,7 +352,6 @@ describe("POST /api/jobs", () => {
   test("400: Invalid Post Object", async () => {
     const requestBody = {
       description: "fake description",
-
       user_id: "000000000001",
       postcode: { latitude: 53.797, longitude: -1.556 },
       category: "fake",
@@ -366,7 +365,7 @@ describe("POST /api/jobs", () => {
   });
 });
 
-describe.only("PUT /api/jobs/:id", () => {
+describe("PUT /api/jobs/:id", () => {
   test("202, updates job details", async () => {
     const requestBody = {
       title: "Walking my dogs",

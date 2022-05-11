@@ -50,11 +50,11 @@ exports.postJob = async (jobObj) => {
 };
 
 exports.updateJob = async (jobId, updates) => {
-  const updatedJob = _validateJobObj(updates);
+  // const updatedJob = _validateJobObj(updates);
 
-  if (!updatedJob) return Promise.reject(errors.errMsg_invalidPostObj);
+  // if (!updatedJob) return Promise.reject(errors.errMsg_invalidPostObj);
 
-  return await Jobs.findByIdAndUpdate(jobId, updatedJob, { new: true });
+  return await Jobs.findByIdAndUpdate(jobId, updates, { new: true });
 };
 
 exports.deleteJobById = async (jobId) => {
@@ -73,12 +73,11 @@ const _validateJobObj = (jobObj) => {
     "postcode",
     "user_id",
     "description",
-    "status",
   ];
   const validObj = {};
 
   for (const key of keys) {
-    if (!jobObj[key] === undefined) {
+    if (!jobObj[key]) {
       return false;
     }
 
