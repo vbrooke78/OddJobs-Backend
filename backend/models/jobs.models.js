@@ -21,11 +21,10 @@ exports.getJobById = async (jobId) => {
 };
 
 exports.postJob = async (jobObj) => {
+  console.log(jobObj, "key<<<<<<<<<<<<<");
   const newJob = _validateJobObj(jobObj);
-  const { title, description, category, price, postcode, user_id, status } =
-    jobObj;
-  console.log(jobObj, "keys");
-  console.log(status, "status");
+  const { title, description, category, price, postcode, user_id } = jobObj;
+
   if (!newJob) return Promise.reject(errors.errMsg_invalidPostObj);
 
   const res = await Jobs.create({
@@ -37,11 +36,10 @@ exports.postJob = async (jobObj) => {
       lat: postcode.lat,
       lng: postcode.lng,
     },
-    status: status,
+    status: false,
     user_id: user_id,
-    // image: jobImg,
   });
-  console.log(res);
+  console.log(res, "<< res");
   // const jobWithUserInfo = await res.populate({
   //     path: 'user_id',
   //     select: 'username'
@@ -72,7 +70,6 @@ const _validateJobObj = (jobObj) => {
     "title",
     "category",
     "price",
-    "status",
     "postcode",
     "user_id",
     "description",
@@ -80,7 +77,7 @@ const _validateJobObj = (jobObj) => {
   const validObj = {};
 
   for (const key of keys) {
-    if (jobObj[key] === undefined) {
+    if (!jobObj[key]) {
       return false;
     }
 

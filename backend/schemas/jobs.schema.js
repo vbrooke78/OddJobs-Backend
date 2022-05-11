@@ -13,7 +13,6 @@ const jobSchema = new Schema({
   },
   status: {
     type: Boolean,
-    require: true,
   },
   price: { type: Number },
   createdAt: Date,
