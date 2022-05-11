@@ -53,16 +53,19 @@ exports.getMessage = async ({ message_id},{ user }) => {
   const message = await Messages.findById(message_id);
   if (!message) return Promise.reject(errors.errMsg_idNotFound);
 
-  // after a get, reset message array in db
-  message.users[0].userId.equals(user) ?
-    message.users[0].unread = 0 : message.users[1].unread = 0;
+  if (user) { 
+    // after a get, reset message array in db if a user is given
+    // via query
+    message.users[0].userId.equals(user) ?
+      message.users[0].unread = 0 : message.users[1].unread = 0;
 
-  for (let i = 0; i < message.messages.length; i++) {
+    for (let i = 0; i < message.messages.length; i++) {
 
-    if(message.messages[i].userId !== user){
-      // message sent from other user, this user
-      // now recieveing it. Set unread to false
-      message.messages[i].unread = false;
+      if(message.messages[i].userId !== user){
+        // message sent from other user, this user
+        // now recieveing it. Set unread to false
+        message.messages[i].unread = false;
+      }
     }
   }
 
