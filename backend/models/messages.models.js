@@ -57,6 +57,15 @@ exports.getMessage = async ({ message_id},{ user }) => {
   message.users[0].userId.equals(user) ?
     message.users[0].unread = 0 : message.users[1].unread = 0;
 
+  for (let i = 0; i < message.messages.length; i++) {
+
+    if(message.messages[i].userId !== user){
+      // message sent from other user, this user
+      // now recieveing it. Set unread to false
+      message.messages[i].unread = false;
+    }
+  }
+
   message.save(0);
   console.log(message);
   return message.populate({
@@ -85,7 +94,9 @@ exports.postContent = async (message_id, body) => {
     }
   }
   for (let i = 0; i < message.users.length; i++) {
-    if (message.users[i].userId.equals(body.userId)) {
+    // set unread messages for corresponding user 
+    // (these are the messages we have sent that they haven't read)
+    if (!message.users[i].userId.equals(body.userId)) {
       message.users[i].unread = unread;
     }
   }

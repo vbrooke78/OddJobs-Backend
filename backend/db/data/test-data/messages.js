@@ -109,8 +109,8 @@ module.exports = [
   {
     _id: "000000000004",
     users: [
-      { userId: "000000000001", unread: 1 },
-      { userId: "000000000004", unread: 2 },
+      { userId: "000000000001", unread: 2 },
+      { userId: "000000000004", unread: 1 },
     ],
     messages: [
       {
