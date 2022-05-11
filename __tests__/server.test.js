@@ -325,8 +325,10 @@ describe("POST /api/jobs", () => {
       title: "fake title",
       description: "fake description",
       price: 69,
+      status: false,
       category: "fake category",
       user_id: "000000000001",
+      status: false,
       postcode: { lat: 53.797, lng: -1.556 },
     };
     const res = await request(app)
@@ -343,16 +345,18 @@ describe("POST /api/jobs", () => {
       category: "fake category",
       user_id: "303030303030303030303031",
       postcode: { lat: 53.797, lng: -1.556 },
+      status: false,
     });
   });
 
   test("400: Invalid Post Object", async () => {
     const requestBody = {
-      title: "fake title",
       description: "fake description",
-      price: 69,
+
       user_id: "000000000001",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { latitude: 53.797, longitude: -1.556 },
+      status: false,
+      category: "fake",
     };
     const res = await request(app)
       .post("/api/jobs")
@@ -372,6 +376,7 @@ describe("PUT /api/jobs/:id", () => {
       category: "pets",
       user_id: "000000000001",
       postcode: { lat: 53.797, lng: -1.556 },
+      status: true,
     };
     const res = await request(app)
       .put("/api/jobs/000000000002")
@@ -385,6 +390,7 @@ describe("PUT /api/jobs/:id", () => {
       category: "pets",
       user_id: "303030303030303030303031",
       postcode: { lat: 53.797, lng: -1.556 },
+      status: true,
     });
   });
 });

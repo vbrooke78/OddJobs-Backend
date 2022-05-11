@@ -11,6 +11,10 @@ const jobSchema = new Schema({
     type: String,
     require: true,
   },
+  status: {
+    type: Boolean,
+    require: true,
+  },
   price: { type: Number },
   createdAt: Date,
   updatedAt: Date,
