@@ -30,5 +30,5 @@ const { postImage, findImageById } = require("../controllers/imageController");
 router.post("/", upload.single("productImage"), postImage);
 //
 
-router.get("/:image_id", findImageById);
+router.get("/", findImageById);
 module.exports = router;
