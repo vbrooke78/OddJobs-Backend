@@ -3,6 +3,7 @@ const errors = require("../errors/errorHandler.js");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const Image = require("../schemas/imageSchema");
+
 const postImage = asyncHandler(async (req, res) => {
   console.log(req.file);
 
