@@ -20,7 +20,8 @@ const deleteMessage = asyncHandler(async (req, res) => {
 
 const getMessage = asyncHandler(async (req, res) => {
   console.log(req.params);
-  const message = await messageModel.getMessage(req.params);
+  console.log(req.query);
+  const message = await messageModel.getMessage(req.params, req.query);
   res.status(200).send({ message });
 });
 
