@@ -52,14 +52,14 @@ exports.start = (server) => {
 
         socket.on('join-private-chat', (info) => {
 
-            privateChat[info.user] = info.user; // chatting with this user privately!
-            console.log(`${info.user} has joined private chat`);
+            privateChat[info.from] = info.to; // chatting with this user privately!
+            console.log(`${info.to} has joined private chat with ${info.from}`);
         });
 
         socket.on('leave-private-chat', (info) => {
 
-            delete privateChat[info.user];
-            console.log(`${info.user} has left private chat`);
+            console.log(`${info.from} has left private chat with ${info.to}`);
+            delete privateChat[info.from];
         })
 
         socket.on('send', (info) => {
