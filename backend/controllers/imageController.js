@@ -9,11 +9,11 @@ const postImage = asyncHandler(async (req, res) => {
   console.log(req.file, "file");
 
   const image = await Image.create({
-    name: req.body.name,
-    productImage: req.file.path,
+    name: req.body.uri,
+    productImage: `https://odd-jobs-backend.herokuapp.com/${req.file.path}`,
   });
   console.log(image, "im");
-  res.status(200).send({ image: image });
+  res.status(200).send(image);
 });
 
 const findImageById = asyncHandler(async (req, res) => {
