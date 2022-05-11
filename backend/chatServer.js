@@ -71,7 +71,9 @@ exports.start = (server) => {
             const recieverSocket = users[info.to];
             console.log(`sending message to ${info.to} at ${recieverSocket}`);
 
+            console.log(privateChat[info.to], ' == ', info.from, '?')
             if (privateChat[info.to] === info.from){ // in private chat with user, don't send notification
+               console.log('sending private message')
                 io.to(recieverSocket).emit('update-private-message', info);
             }
             else {
