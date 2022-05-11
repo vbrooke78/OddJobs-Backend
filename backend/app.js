@@ -3,12 +3,18 @@ const colors = require("colors");
 const cors = require("cors");
 const connectDB = require("./db/db.js");
 const errorHandler = require("./errors/errorHandler");
+const morgan = require("morgan");
+var fs = require("fs");
+var path = require("path");
+require("dotenv/config");
 connectDB();
-
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+app.use(morgan("dev"));
+//
+//
 //
 app.use("/uploads", express.static("uploads"));
 //
