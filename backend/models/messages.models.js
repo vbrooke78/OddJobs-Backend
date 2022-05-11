@@ -112,11 +112,13 @@ exports.postContent = async (message_id, body) => {
 exports.getUserContent = async (ids) => {
   const { message_id, user_id } = ids;
   const message = await Messages.findById(message_id);
+
   for (let i = 0; i < message.messages.length; i++) {
     if (message.messages[i].userId.equals(user_id)) {
       message.messages[i].unread = false;
     }
   }
+
   for (let i = 0; i < message.users.length; i++) {
     if (message.users[i].userId.equals(user_id)) {
       message.users[i].unread = 0;
@@ -134,7 +136,5 @@ exports.getChatsByUser = async (user_id) => {
   console.log(user_id);
   const message = await Messages.find({ "users.userId": user_id });
 
- // console.log(message, "outside");
-  //   console.log(message[0], "hi");
   return message;
 };
