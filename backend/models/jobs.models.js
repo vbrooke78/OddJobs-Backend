@@ -21,7 +21,6 @@ exports.getJobById = async (jobId) => {
 };
 
 exports.postJob = async (jobObj) => {
-  console.log(jobObj, "key<<<<<<<<<<<<<");
   const newJob = _validateJobObj(jobObj);
   const { title, description, category, price, postcode, user_id } = jobObj;
 
@@ -39,7 +38,7 @@ exports.postJob = async (jobObj) => {
     status: false,
     user_id: user_id,
   });
-  console.log(res, "<< res");
+
   // const jobWithUserInfo = await res.populate({
   //     path: 'user_id',
   //     select: 'username'

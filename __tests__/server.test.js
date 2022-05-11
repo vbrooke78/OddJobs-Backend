@@ -117,14 +117,14 @@ describe("GET /api/users/:user_id", () => {
   });
   test("404, invalid user id!", async () => {
     const res = await request(app).get("/api/users/notAnId").expect(400);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, user not found!", async () => {
     const res = await request(app)
       .get("/api/users/303030303030363030303032")
       .expect(404);
-    // console.log(re, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("ID Not Found");
   });
 });
@@ -209,14 +209,14 @@ describe("DELETE /api/users/:user_id", () => {
   });
   test("400, invalid user id", async () => {
     const res = await request(app).delete("/api/users/notAnId").expect(400);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, user doesn't exist", async () => {
     const res = await request(app)
       .delete("/api/users/303030303030363030303032")
       .expect(404);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("ID Not Found");
   });
 });
@@ -274,14 +274,14 @@ describe("DELETE /api/jobs/:job_id", () => {
   });
   test("400, invalid job id", async () => {
     const res = await request(app).delete("/api/users/notAnId").expect(400);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, job doesn't exist", async () => {
     const res = await request(app)
       .delete("/api/users/303030303030363030303032")
       .expect(404);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("ID Not Found");
   });
 });
@@ -309,14 +309,14 @@ describe("PUT /api/users/:user_id", () => {
 
   test("400, invalid user id", async () => {
     const res = await request(app).get("/api/users/notAnId").expect(400);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, user doesn't exist", async () => {
     const res = await request(app)
       .put("/api/users/303030303030363030303032")
       .expect(404);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("ID Not Found");
   });
 });
@@ -396,7 +396,7 @@ describe("PUT /api/jobs/:id", () => {
 describe("GET /api/jobs/category", () => {
   test("200, return list of jobs by category", async () => {
     const res = await request(app).get("/api/jobs/?category=DIY");
-    console.log(res.body);
+
     res.body.jobs.forEach((oneJob) => {
       expect(oneJob).toMatchObject({
         _id: expect.any(String),
@@ -413,7 +413,7 @@ describe("GET /api/jobs/category", () => {
   });
   test("200, check code did not break", async () => {
     const res = await request(app).get("/api/jobs/?category=pets");
-    console.log(res.body);
+
     res.body.jobs.forEach((oneJob) => {
       expect(oneJob).toMatchObject({
         _id: expect.any(String),
@@ -430,7 +430,7 @@ describe("GET /api/jobs/category", () => {
   });
   test("200, check code did not break", async () => {
     const res = await request(app).get("/api/jobs/?category=");
-    console.log(res.body);
+
     res.body.jobs.forEach((oneJob) => {
       expect(oneJob).toMatchObject({
         _id: expect.any(String),
@@ -546,7 +546,7 @@ describe("GET /api/messages/:message_id", () => {
     const res = await request(app)
       .get("/api/messages/000000000004?user=303030303030303030303031")
       .expect(200);
-    console.log(res.body);
+
     expect(res.body.message).toEqual({
       __v: 0,
       _id: expect.any(String),
@@ -674,7 +674,7 @@ describe("GET /api/messages/:user_id/:message_id", () => {
     const res = await request(app)
       .get("/api/messages/000000000004/000000000004")
       .expect(200);
-    // console.log(res.body);
+
     expect(res.body.message).toEqual({
       __v: 0,
       _id: expect.any(String),
