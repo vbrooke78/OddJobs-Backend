@@ -77,6 +77,7 @@ describe("GET /api/jobs/:job_id", () => {
         lat: expect.any(Number),
         lng: expect.any(Number),
       },
+      status: expect.any(Boolean),
       __v: 0,
     });
   });
@@ -326,10 +327,8 @@ describe("POST /api/jobs", () => {
       title: "fake title",
       description: "fake description",
       price: 69,
-      status: false,
       category: "fake category",
       user_id: "000000000001",
-      status: false,
       postcode: { lat: 53.797, lng: -1.556 },
     };
     const res = await request(app)
@@ -353,10 +352,8 @@ describe("POST /api/jobs", () => {
   test("400: Invalid Post Object", async () => {
     const requestBody = {
       description: "fake description",
-
       user_id: "000000000001",
       postcode: { latitude: 53.797, longitude: -1.556 },
-      status: false,
       category: "fake",
     };
     const res = await request(app)
@@ -373,7 +370,7 @@ describe("PUT /api/jobs/:id", () => {
     const requestBody = {
       title: "Walking my dogs",
       description: "Need someone to walk my dogs everyday in the morning",
-      price: 6.0,
+      price: 7.0,
       category: "pets",
       user_id: "000000000001",
       postcode: { lat: 53.797, lng: -1.556 },
@@ -387,7 +384,7 @@ describe("PUT /api/jobs/:id", () => {
     expect(res.body.job).toMatchObject({
       title: "Walking my dogs",
       description: "Need someone to walk my dogs everyday in the morning",
-      price: 6.0,
+      price: 7.0,
       category: "pets",
       user_id: "303030303030303030303031",
       postcode: { lat: 53.797, lng: -1.556 },
