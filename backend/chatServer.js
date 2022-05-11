@@ -40,12 +40,10 @@ exports.start = (server) => {
             for (const user in users){
                 if (users[user] === socket.id){
 
+                    console.log(`${users[user]} disconnected.`);
                     delete users[user];
-
                     if(privateChat[user])
                         delete privateChat[user];
-
-                    console.log(`${users[user]} disconnected.`);
                 }
             }    
         });
