@@ -73,11 +73,12 @@ const _validateJobObj = (jobObj) => {
     "postcode",
     "user_id",
     "description",
+    "status",
   ];
   const validObj = {};
 
   for (const key of keys) {
-    if (!jobObj[key]) {
+    if (!jobObj[key] === undefined) {
       return false;
     }
 

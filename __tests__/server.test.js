@@ -320,7 +320,7 @@ describe("PUT /api/users/:user_id", () => {
   });
 });
 
-describe.only("POST /api/jobs", () => {
+describe("POST /api/jobs", () => {
   test("201, post a new job", async () => {
     const requestBody = {
       title: "fake title",
@@ -365,12 +365,12 @@ describe.only("POST /api/jobs", () => {
   });
 });
 
-describe("PUT /api/jobs/:id", () => {
+describe.only("PUT /api/jobs/:id", () => {
   test("202, updates job details", async () => {
     const requestBody = {
       title: "Walking my dogs",
       description: "Need someone to walk my dogs everyday in the morning",
-      price: 6.0,
+      price: 7.0,
       category: "pets",
       user_id: "000000000001",
       postcode: { lat: 53.797, lng: -1.556 },
@@ -384,7 +384,7 @@ describe("PUT /api/jobs/:id", () => {
     expect(res.body.job).toMatchObject({
       title: "Walking my dogs",
       description: "Need someone to walk my dogs everyday in the morning",
-      price: 6.0,
+      price: 7.0,
       category: "pets",
       user_id: "303030303030303030303031",
       postcode: { lat: 53.797, lng: -1.556 },
