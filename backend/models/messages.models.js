@@ -52,7 +52,7 @@ exports.getMessage = async ({ message_id},{ user }) => {
 //  const message = await Messages.findById(message_id);
   const message = await Messages.findById(message_id);
   if (!message) return Promise.reject(errors.errMsg_idNotFound);
-
+  
   if (user) { 
     // after a get, reset message array in db if a user is given
     // via query
@@ -61,7 +61,7 @@ exports.getMessage = async ({ message_id},{ user }) => {
 
     for (let i = 0; i < message.messages.length; i++) {
 
-      if(message.messages[i].userId !== user){
+      if(!message.messages[i].userId.equals(user)){
         // message sent from other user, this user
         // now recieveing it. Set unread to false
         message.messages[i].unread = false;

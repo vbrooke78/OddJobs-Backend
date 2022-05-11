@@ -544,7 +544,7 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
   });
 });
 
-describe("GET /api/messages/:message_id", () => {
+describe.only("GET /api/messages/:message_id", () => {
   test("201, post a new message board", async () => {
     const res = await request(app)
       .get("/api/messages/000000000004?user=303030303030303030303031")
