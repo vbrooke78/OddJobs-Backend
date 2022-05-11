@@ -71,6 +71,7 @@ describe("GET /api/jobs/:job_id", () => {
       description: "Need someone to walk my dogs everyday in the morning",
       category: "pets",
       price: 6.0,
+      status: false,
       user_id: "303030303030303030303031",
       postcode: {
         lat: expect.any(Number),
@@ -492,12 +493,12 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
         {
           userId: expect.any(String),
           _id: expect.any(String),
-          unread: 1,
+          unread: 2,
         },
         {
           userId: expect.any(String),
           _id: expect.any(String),
-          unread: 2,
+          unread: 1,
         },
       ],
       messages: [
@@ -543,7 +544,7 @@ describe("PUT /api/messages/:message_id/:content_id", () => {
   });
 });
 
-describe.only("GET /api/messages/:message_id", () => {
+describe("GET /api/messages/:message_id", () => {
   test("201, post a new message board", async () => {
     const res = await request(app)
       .get("/api/messages/000000000004?user=303030303030303030303031")
@@ -725,7 +726,7 @@ describe("GET /api/messages/:user_id/:message_id", () => {
             fullName: expect.any(String),
             username: expect.any(String),
           },
-          unread: 1,
+          unread: 2,
           _id: expect.any(String),
         },
         {
