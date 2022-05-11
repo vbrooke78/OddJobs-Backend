@@ -52,7 +52,7 @@ exports.start = (server) => {
 
         socket.on('join-private-chat', (info) => {
 
-            privateChat[info.user] = true;
+            privateChat[info.user] = info.user; // chatting with this user privately!
             console.log(`${info.user} has joined private chat`);
         });
 
@@ -71,7 +71,7 @@ exports.start = (server) => {
             const recieverSocket = users[info.to];
             console.log(`sending message to ${info.to} at ${recieverSocket}`);
 
-            if (privateChat[info.to]){ // in private chat, don't send notification
+            if (privateChat[info.to] === info.from){ // in private chat with user, don't send notification
                 io.to(recieverSocket).emit('update-private-message', info);
             }
             else {
