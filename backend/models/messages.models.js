@@ -47,10 +47,18 @@ exports.deleteMessage = async (ids) => {
   message.save();
   return message;
 };
-exports.getMessage = async ({ message_id }) => {
+exports.getMessage = async ({ message_id},{ user }) => {
+
+//  const message = await Messages.findById(message_id);
   const message = await Messages.findById(message_id);
   if (!message) return Promise.reject(errors.errMsg_idNotFound);
 
+  // after a get, reset message array in db
+  message.users[0].userId.equals(user) ?
+    message.users[0].unread = 0 : message.users[1].unread = 0;
+
+  message.save(0);
+  console.log(message);
   return message.populate({
     path: "users.userId",
     select: "username fullName",
@@ -115,7 +123,7 @@ exports.getChatsByUser = async (user_id) => {
   console.log(user_id);
   const message = await Messages.find({ "users.userId": user_id });
 
-  console.log(message, "outside");
+ // console.log(message, "outside");
   //   console.log(message[0], "hi");
   return message;
 };
