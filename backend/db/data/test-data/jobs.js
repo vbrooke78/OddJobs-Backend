@@ -7,6 +7,7 @@ module.exports = [
     category: "DIY",
     user_id: "000000000001",
     postcode: { lat: 53.797, lng: -1.556 },
+    status: false,
   },
   {
     _id: "000000000002",
@@ -16,6 +17,7 @@ module.exports = [
     category: "delivery",
     user_id: "000000000003",
     postcode: { lat: 53.797, lng: -1.556 },
+    status: false,
   },
   {
     _id: "000000000003",
@@ -25,6 +27,7 @@ module.exports = [
     category: "pets",
     user_id: "000000000001",
     postcode: { lat: 53.797, lng: -1.556 },
+    status: false,
   },
   {
     _id: "000000000004",
@@ -35,5 +38,6 @@ module.exports = [
     category: "delivery",
     user_id: "000000000003",
     postcode: { lat: 53.797, lng: -1.556 },
+    status: false,
   },
 ];

@@ -10,7 +10,7 @@ const getJobs = asyncHandler(async (req, res, next) => {
 
 const postJobs = asyncHandler(async (req, res) => {
   console.log(req.body);
-  const job = await jobsModel.postJob(req.body, req.file);
+  const job = await jobsModel.postJob(req.body);
   res.status(201).json({ job });
   console.log(job, "created <<");
 });
