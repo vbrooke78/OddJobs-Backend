@@ -9,7 +9,7 @@ app.use(cors());
 
 exports.start = (server) => {
 
-        const users = {};
+        const users = {};''
         const privateChat = {};
             
         const socketIO = require('socket.io');

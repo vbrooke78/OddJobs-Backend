@@ -61,24 +61,17 @@ exports.putUser = async (userId, userInfo) => {
   const user = await User.findById(userId);
 
   if (!user) {
-    console.log("hi");
     return Promise.reject(errors.errMsg_idNotFound);
   }
 
-  const filter = {
-    username: user.username,
-    fullName: user.fullName,
-    email: user.email,
-    password: user.password,
-  };
-
   const update = {
-    address: userInfo.address,
     phoneNumber: userInfo.phoneNumber,
-    img: userInfo.img,
+    username: userInfo.username,
+    fullName: userInfo.fullName,
+    email: userInfo.email,
   };
 
-  const updatedUser = await User.findOneAndUpdate(filter, update, {
+  const updatedUser = await User.findByIdAndUpdate(userId, update, {
     new: true,
   });
 

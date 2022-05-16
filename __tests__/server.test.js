@@ -31,9 +31,9 @@ describe("GET /api/jobs", () => {
         category: expect.any(String),
         price: expect.any(Number),
         user_id: expect.any(String),
-        location: {
-          latitude: expect.any(Number),
-          longitude: expect.any(Number),
+        postcode: {
+          lat: expect.any(Number),
+          lng: expect.any(Number),
         },
       });
     });
@@ -49,8 +49,6 @@ describe("GET /api/users", () => {
         _id: expect.any(String),
         username: expect.any(String),
         fullName: expect.any(String),
-        address: expect.any(Array),
-        img: expect.any(String),
         email: expect.any(String),
         password: expect.any(String),
         phoneNumber: expect.any(Number),
@@ -73,8 +71,13 @@ describe("GET /api/jobs/:job_id", () => {
       description: "Need someone to walk my dogs everyday in the morning",
       category: "pets",
       price: 6.0,
+      status: false,
       user_id: "303030303030303030303031",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: {
+        lat: expect.any(Number),
+        lng: expect.any(Number),
+      },
+      status: expect.any(Boolean),
       __v: 0,
     });
   });
@@ -92,7 +95,7 @@ describe("GET /api/jobs/:job_id", () => {
 
     //WTFFFFF!!!!! res.body is undefined?!!!
 
-    expect(res.text).toBe("ID Not Found");
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -104,8 +107,6 @@ describe("GET /api/users/:user_id", () => {
       _id: "303030303030303030303032",
       username: "shaunDogg",
       fullName: "Shaun Clarke",
-      address: expect.any(Array),
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeik6d5EHLTi89m_CKLXyShylk4L92YflpJQ&usqp=CAU",
       email: "shaun@test.com",
       password: expect.any(String),
       phoneNumber: 123987456,
@@ -116,15 +117,15 @@ describe("GET /api/users/:user_id", () => {
   });
   test("404, invalid user id!", async () => {
     const res = await request(app).get("/api/users/notAnId").expect(400);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, user not found!", async () => {
     const res = await request(app)
       .get("/api/users/303030303030363030303032")
       .expect(404);
-    // console.log(re, "res<<<<<<<<<<<<<");
-    expect(res.text).toBe("ID Not Found");
+
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -163,7 +164,7 @@ describe("POST /api/users/register", () => {
       .send(requestBody)
       .expect(400);
 
-    expect(res.text).toBe("Username already exists");
+    expect(res.body.msg).toBe("Username already exists");
   });
 
   test("400: Email already exists", async () => {
@@ -179,7 +180,7 @@ describe("POST /api/users/register", () => {
       .send(requestBody)
       .expect(400);
 
-    expect(res.text).toBe("Email already exists");
+    expect(res.body.msg).toBe("Email already exists");
   });
 
   test("400: Invalid Post Object", async () => {
@@ -193,7 +194,7 @@ describe("POST /api/users/register", () => {
       .send(requestBody)
       .expect(400);
 
-    expect(res.text).toBe("Invalid Post Object");
+    expect(res.body.msg).toBe("Invalid Post Object");
   });
 });
 
@@ -208,15 +209,15 @@ describe("DELETE /api/users/:user_id", () => {
   });
   test("400, invalid user id", async () => {
     const res = await request(app).delete("/api/users/notAnId").expect(400);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, user doesn't exist", async () => {
     const res = await request(app)
       .delete("/api/users/303030303030363030303032")
       .expect(404);
-    // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.text).toBe("ID Not Found");
+
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -248,7 +249,7 @@ test("404, username not found", async () => {
     .send(requestBody)
     .expect(404);
 
-  expect(res.text).toEqual("ID Not Found");
+  expect(res.body.msg).toEqual("ID Not Found");
 });
 
 test("400, invalid password", async () => {
@@ -261,7 +262,7 @@ test("400, invalid password", async () => {
     .send(requestBody)
     .expect(400);
 
-  expect(res.text).toEqual("Invalid password");
+  expect(res.body.msg).toEqual("Invalid password");
 });
 
 describe("DELETE /api/jobs/:job_id", () => {
@@ -273,24 +274,25 @@ describe("DELETE /api/jobs/:job_id", () => {
   });
   test("400, invalid job id", async () => {
     const res = await request(app).delete("/api/users/notAnId").expect(400);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, job doesn't exist", async () => {
     const res = await request(app)
       .delete("/api/users/303030303030363030303032")
       .expect(404);
-    // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.text).toBe("ID Not Found");
+
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
 describe("PUT /api/users/:user_id", () => {
   test("202, updates user details", async () => {
     const requestBody = {
-      address: [{ city: "Leeds", street: "street", postCode: "code" }],
       phoneNumber: 321,
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
+      email: "user@example.com",
+      fullName: "new name",
+      username: "tester",
     };
     const res = await request(app)
       .put("/api/users/000000000002")
@@ -298,23 +300,24 @@ describe("PUT /api/users/:user_id", () => {
       .expect(202);
 
     expect(res.body.user).toMatchObject({
-      address: [{ city: "Leeds", street: "street", postCode: "code" }],
       phoneNumber: 321,
-      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg/220px-Souvenir_silhouette_post_card._Toledo%27s_greatest_store%3B_Tiedtke%27s._The_store_for_all_the_people_-_DPLA_-_f00a78fe61c216236a13cdebf588d3c3_%28page_1%29.jpg",
+      email: "user@example.com",
+      fullName: "new name",
+      username: "tester",
     });
   });
 
   test("400, invalid user id", async () => {
     const res = await request(app).get("/api/users/notAnId").expect(400);
-    // console.log(res, "res<<<<<<<<<<<<<");
+
     expect(res.body.msg).toBe("Invalid ID Format");
   });
   test("404, user doesn't exist", async () => {
     const res = await request(app)
       .put("/api/users/303030303030363030303032")
       .expect(404);
-    // console.log(res, "res<<<<<<<<<<<<<");
-    expect(res.text).toBe("ID Not Found");
+
+    expect(res.body.msg).toBe("ID Not Found");
   });
 });
 
@@ -326,7 +329,7 @@ describe("POST /api/jobs", () => {
       price: 69,
       category: "fake category",
       user_id: "000000000001",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { lat: 53.797, lng: -1.556 },
     };
     const res = await request(app)
       .post("/api/jobs")
@@ -341,37 +344,37 @@ describe("POST /api/jobs", () => {
       price: 69,
       category: "fake category",
       user_id: "303030303030303030303031",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { lat: 53.797, lng: -1.556 },
+      status: false,
     });
   });
 
   test("400: Invalid Post Object", async () => {
     const requestBody = {
-      title: "fake title",
       description: "fake description",
-      price: 69,
       user_id: "000000000001",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { latitude: 53.797, longitude: -1.556 },
+      category: "fake",
     };
     const res = await request(app)
       .post("/api/jobs")
       .send(requestBody)
       .expect(400);
 
-    expect(res.text).toEqual("Invalid Post Object");
+    expect(res.body.msg).toEqual("Invalid Post Object");
   });
 });
 
 describe("PUT /api/jobs/:id", () => {
   test("202, updates job details", async () => {
     const requestBody = {
-      location: "need location data",
       title: "Walking my dogs",
       description: "Need someone to walk my dogs everyday in the morning",
-      price: 6.0,
+      price: 7.0,
       category: "pets",
       user_id: "000000000001",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { lat: 53.797, lng: -1.556 },
+      status: true,
     };
     const res = await request(app)
       .put("/api/jobs/000000000002")
@@ -379,13 +382,383 @@ describe("PUT /api/jobs/:id", () => {
       .expect(202);
 
     expect(res.body.job).toMatchObject({
-      location: "need location data",
       title: "Walking my dogs",
       description: "Need someone to walk my dogs everyday in the morning",
-      price: 6.0,
+      price: 7.0,
       category: "pets",
       user_id: "303030303030303030303031",
-      location: { latitude: 53.797, longitude: -1.556 },
+      postcode: { lat: 53.797, lng: -1.556 },
+      status: true,
     });
+  });
+});
+
+describe("GET /api/jobs/category", () => {
+  test("200, return list of jobs by category", async () => {
+    const res = await request(app).get("/api/jobs/?category=DIY");
+
+    res.body.jobs.forEach((oneJob) => {
+      expect(oneJob).toMatchObject({
+        _id: expect.any(String),
+        title: expect.any(String),
+        category: "DIY",
+        price: expect.any(Number),
+        user_id: expect.any(String),
+        postcode: {
+          lat: expect.any(Number),
+          lng: expect.any(Number),
+        },
+      });
+    });
+  });
+  test("200, check code did not break", async () => {
+    const res = await request(app).get("/api/jobs/?category=pets");
+
+    res.body.jobs.forEach((oneJob) => {
+      expect(oneJob).toMatchObject({
+        _id: expect.any(String),
+        title: expect.any(String),
+        category: "pets",
+        price: expect.any(Number),
+        user_id: expect.any(String),
+        postcode: {
+          lat: expect.any(Number),
+          lng: expect.any(Number),
+        },
+      });
+    });
+  });
+  test("200, check code did not break", async () => {
+    const res = await request(app).get("/api/jobs/?category=");
+
+    res.body.jobs.forEach((oneJob) => {
+      expect(oneJob).toMatchObject({
+        _id: expect.any(String),
+        title: expect.any(String),
+        category: expect.any(String),
+        price: expect.any(Number),
+        user_id: expect.any(String),
+        postcode: {
+          lat: expect.any(Number),
+          lng: expect.any(Number),
+        },
+      });
+    });
+  });
+});
+
+describe("POST /api/messages", () => {
+  test("201, post a new job", async () => {
+    const requestBody = {
+      users: [
+        { userId: "000000000001", unread: 0 },
+        { userId: "000000000002", unread: 0 },
+      ],
+    };
+    const res = await request(app)
+      .post("/api/messages")
+      .send(requestBody)
+      .expect(200);
+
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      users: [
+        { userId: expect.any(String), _id: expect.any(String), unread: 0 },
+        { userId: expect.any(String), _id: expect.any(String), unread: 0 },
+      ],
+      messages: [],
+    });
+  });
+});
+
+describe("PUT /api/messages/:message_id/:content_id", () => {
+  test("202, updates job details", async () => {
+    const requestBody = {
+      content: "updated text",
+      user_id: "000000000003",
+      unread: true,
+    };
+    const res = await request(app)
+      .put("/api/messages/000000000004/000000000099")
+      .send(requestBody)
+      .expect(202);
+
+    expect(res.body.message).toEqual({
+      _id: "303030303030303030303034",
+      users: [
+        {
+          userId: expect.any(String),
+          _id: expect.any(String),
+          unread: 2,
+        },
+        {
+          userId: expect.any(String),
+          _id: expect.any(String),
+          unread: 1,
+        },
+      ],
+      messages: [
+        {
+          userId: "303030303030303030303034",
+          content_type: "text",
+          content: "I can lend you a tool for the job",
+          _id: "303030303030303030303937",
+          unread: false,
+        },
+        {
+          userId: expect.any(String),
+          content_type: "text",
+          content: "updated text",
+          _id: expect.any(String),
+          unread: false,
+        },
+        {
+          userId: expect.any(String),
+          content_type: "text",
+          content: "Are you free this afternoon?",
+          _id: expect.any(String),
+          unread: true,
+        },
+        {
+          userId: expect.any(String),
+          content_type: "text",
+          content: "Yes",
+          _id: expect.any(String),
+          unread: true,
+        },
+        {
+          userId: expect.any(String),
+          content_type: "text",
+          content: "Ok, I will drop it round",
+          _id: expect.any(String),
+          unread: true,
+        },
+      ],
+
+      __v: 0,
+    });
+  });
+});
+
+describe("GET /api/messages/:message_id", () => {
+  test("201, post a new message board", async () => {
+    const res = await request(app)
+      .get("/api/messages/000000000004?user=303030303030303030303031")
+      .expect(200);
+
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      messages: expect.any(Array),
+      users: [
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 0,
+          _id: expect.any(String),
+        },
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 1,
+          _id: expect.any(String),
+        },
+      ],
+    });
+  });
+});
+
+describe("POST /api/messages/:message_id", () => {
+  test("201, post new content", async () => {
+    const requestBody = {
+      userId: "000000000004",
+      content_type: "text",
+      content: "updated text",
+    };
+    const res = await request(app)
+      .post("/api/messages/000000000004")
+      .send(requestBody)
+      .expect(200);
+
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      users: [
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 3,
+          _id: expect.any(String),
+        },
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 1,
+          _id: expect.any(String),
+        },
+      ],
+      messages: [
+        {
+          _id: expect.any(String),
+          content: "updated text",
+          content: "I can lend you a tool for the job",
+          content_type: "text",
+          userId: expect.any(String),
+          unread: false,
+        },
+        {
+          _id: expect.any(String),
+          content: "Thanks, that is helpful",
+          content_type: "text",
+          userId: "303030303030303030303031",
+          unread: false,
+        },
+        {
+          _id: expect.any(String),
+          content: "Are you free this afternoon?",
+          content_type: "text",
+          userId: "303030303030303030303034",
+          unread: true,
+        },
+        {
+          _id: expect.any(String),
+          content: "Yes",
+          content_type: "text",
+          userId: "303030303030303030303031",
+          unread: true,
+        },
+        {
+          _id: expect.any(String),
+          content: "Ok, I will drop it round",
+          content_type: "text",
+          userId: "303030303030303030303034",
+          unread: true,
+        },
+        {
+          _id: expect.any(String),
+          content: "updated text",
+          content_type: "text",
+          userId: "303030303030303030303034",
+          unread: true,
+        },
+      ],
+    });
+  });
+});
+
+describe("DELETE /api/messages/:message_id/:content_id", () => {
+  test("204, delete messages", async () => {
+    const res = await request(app)
+      .delete("/api/messages/000000000002/000000000002")
+      .expect(204);
+
+    expect(res.body).toEqual({});
+  });
+});
+
+describe("GET /api/messages/:user_id/:message_id", () => {
+  test("200, get user content", async () => {
+    const res = await request(app)
+      .get("/api/messages/000000000004/000000000004")
+      .expect(200);
+
+    expect(res.body.message).toEqual({
+      __v: 0,
+      _id: expect.any(String),
+      messages: [
+        {
+          _id: expect.any(String),
+          content: "updated text",
+          content: "I can lend you a tool for the job",
+          content_type: "text",
+          userId: expect.any(String),
+          unread: false,
+        },
+        {
+          _id: expect.any(String),
+          content: "Thanks, that is helpful",
+          content_type: "text",
+          userId: "303030303030303030303031",
+          unread: false,
+        },
+        {
+          _id: expect.any(String),
+          content: "Are you free this afternoon?",
+          content_type: "text",
+          userId: "303030303030303030303034",
+          unread: false,
+        },
+        {
+          _id: expect.any(String),
+          content: "Yes",
+          content_type: "text",
+          userId: "303030303030303030303031",
+          unread: true,
+        },
+        {
+          _id: expect.any(String),
+          content: "Ok, I will drop it round",
+          content_type: "text",
+          userId: "303030303030303030303034",
+          unread: false,
+        },
+      ],
+      users: [
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 2,
+          _id: expect.any(String),
+        },
+        {
+          userId: {
+            _id: expect.any(String),
+            fullName: expect.any(String),
+            username: expect.any(String),
+          },
+          unread: 0,
+          _id: expect.any(String),
+        },
+      ],
+    });
+  });
+});
+
+describe("GET /api/chats/", () => {
+  test("200, get user content", async () => {
+    const res = await request(app)
+      .get("/api/messages/chats/000123400001")
+      .expect(200);
+
+    expect(res.body.message).toEqual([
+      {
+        _id: "303030303030303030303031",
+        messages: expect.any(Array),
+        users: expect.any(Array),
+        __v: 0,
+      },
+      {
+        _id: "303030303030303030303033",
+        messages: expect.any(Array),
+        users: expect.any(Array),
+        __v: 0,
+      },
+    ]);
   });
 });

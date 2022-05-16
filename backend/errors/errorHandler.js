@@ -10,7 +10,7 @@ exports.errMsg_invalidItem = (item) => {
 
 exports.error_custom = (err, req, res, next) => {
   if (err.status && err.msg) {
-    res.status(err.status).send(err.msg);
+    res.status(err.status).send(err);
   } else {
     next(err);
   }

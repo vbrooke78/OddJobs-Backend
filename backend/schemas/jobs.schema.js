@@ -11,17 +11,21 @@ const jobSchema = new Schema({
     type: String,
     require: true,
   },
+  status: {
+    type: Boolean,
+  },
   price: { type: Number },
   createdAt: Date,
   updatedAt: Date,
-  location: {
-    latitude: Number,
-    longitude: Number,
+  postcode: {
+    lat: Number,
+    lng: Number,
   },
-  user_id: { 
+  // image: { type: String },
+  user_id: {
     type: Schema.Types.ObjectId,
-    ref: "User"
-  }
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("Jobs", jobSchema);

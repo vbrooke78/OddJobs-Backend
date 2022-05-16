@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -24,26 +25,10 @@ const upload = multer({
   },
   fileFilter: fileFilter,
 });
+const { postImage, findImageById } = require("../controllers/imageController");
 
-const router = express.Router();
-const {
-  getJobs,
-  postJobs,
-  getJobById,
-  putJobById,
-  deleteJobById,
-  getJobByCategory,
-} = require("../controllers/jobController");
-//GET /api/jobs
-router.get("/", getJobs);
-//POST /api/jobs
-router.post("/", upload.single("image"), postJobs);
-//GET /api/jobs/:id
-router.get("/:id", getJobById);
-//PUT /api/jobs/:id
-router.put("/:id", putJobById);
-//DELETE /api/jobs/:id
-router.delete("/:id", deleteJobById);
-// Get jobs by category /api/jobs/:category
+router.post("/", upload.single("productImage"), postImage);
+//
 
+router.get("/", findImageById);
 module.exports = router;
