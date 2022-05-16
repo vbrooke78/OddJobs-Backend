@@ -6,7 +6,6 @@ const app = express();
 
 app.use(cors());
 
-
 exports.start = (server) => {
 
         const users = {};''
@@ -18,19 +17,11 @@ exports.start = (server) => {
             origin: "*",
         }});
 
-        // io.on('connection', (socket) => {
-        // console.log('Client connected');
-        // socket.on('disconnect', () => console.log('Client disconnected'));
-        // });
-
         io.on('connection', async (socket) => {
 
-        console.log(`Someone connected at ${socket.id}` );
+            console.log(`Someone connected at ${socket.id}` );
 
-        socket.emit('someone-connected', "someone connected");
-
-        socket.on('user-info', (info) => {
-
+            socket.on('user-info', (info) => {
             users[info.user] = socket.id;
             console.log(`${info.user} has connected with id ${socket.id}`);
         });
@@ -42,6 +33,7 @@ exports.start = (server) => {
 
                     console.log(`${users[user]} disconnected.`);
                     delete users[user];
+
                     if(privateChat[user])
                         delete privateChat[user];
                 }
@@ -67,11 +59,9 @@ exports.start = (server) => {
                 return;
 
             const recieverSocket = users[info.to];
-            console.log(`sending message to ${info.to} at ${recieverSocket}`);
 
             console.log(privateChat[info.to], ' == ', info.from, '?')
             if (privateChat[info.to] === info.from){ // in private chat with user, don't send notification
-               console.log('sending private message')
                 io.to(recieverSocket).emit('update-private-message', info);
             }
             else {
