@@ -39,19 +39,10 @@ exports.postJob = async (jobObj) => {
     user_id: user_id,
   });
 
-  // const jobWithUserInfo = await res.populate({
-  //     path: 'user_id',
-  //     select: 'username'
-  // });
-
-  // return jobWithUserInfo;
   return res;
 };
 
 exports.updateJob = async (jobId, updates) => {
-  // const updatedJob = _validateJobObj(updates);
-
-  // if (!updatedJob) return Promise.reject(errors.errMsg_invalidPostObj);
 
   return await Jobs.findByIdAndUpdate(jobId, updates, { new: true });
 };
