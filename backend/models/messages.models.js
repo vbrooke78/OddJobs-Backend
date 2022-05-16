@@ -1,6 +1,7 @@
 const Messages = require("../schemas/messages.schema");
 const Jobs = require("../schemas/jobs.schema.js");
 const User = require("../schemas/users.schema.js");
+
 exports.postMessage = async (MsgObj) => {
   const { users } = MsgObj;
   for (let i = 0; i < users.length; i++) {
@@ -70,7 +71,6 @@ exports.getMessage = async ({ message_id},{ user }) => {
   }
 
   message.save(0);
-  console.log(message);
   return message.populate({
     path: "users.userId",
     select: "username fullName",
@@ -136,7 +136,6 @@ exports.getUserContent = async (ids) => {
 };
 
 exports.getChatsByUser = async (user_id) => {
-  console.log(user_id);
   const message = await Messages.find({ "users.userId": user_id });
 
   return message;

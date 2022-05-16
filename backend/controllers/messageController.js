@@ -3,12 +3,10 @@ const asyncHandler = require("express-async-handler");
 
 const postMessage = asyncHandler(async (req, res) => {
   const message = await messageModel.postMessage(req.body);
-  console.log(message);
   res.status(200).send({ message });
 });
 
 const putMessage = asyncHandler(async (req, res) => {
-  //   console.log(req.params);
   const message = await messageModel.putMessage(req.params, req.body);
   res.status(202).send({ message });
 });
@@ -19,8 +17,6 @@ const deleteMessage = asyncHandler(async (req, res) => {
 });
 
 const getMessage = asyncHandler(async (req, res) => {
-  console.log(req.params);
-  console.log(req.query);
   const message = await messageModel.getMessage(req.params, req.query);
   res.status(200).send({ message });
 });
@@ -40,7 +36,6 @@ const getUserContent = asyncHandler(async (req, res) => {
 
 const getChatsByUser = asyncHandler(async (req, res) => {
   const message = await messageModel.getChatsByUser(req.params.user_id);
-  console.log(message);
   res.status(200).send({ message });
 });
 module.exports = {

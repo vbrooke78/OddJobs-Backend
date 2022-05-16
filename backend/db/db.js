@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const ENV = process.env.NODE_ENV || "development";
-console.log(`${__dirname}/../../.env.${ENV}`);
+
 require("dotenv").config({
   path: `${__dirname}/../../.env.${ENV}`,
 });
@@ -11,7 +11,7 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log(`${process.env.MONGO_URI}`.cyan.underline, `k 4eva`.red.bold);
+
   } catch (err) {
     console.log(err);
     mongoose.disconnect();

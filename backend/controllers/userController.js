@@ -29,7 +29,6 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const putUser = asyncHandler(async (req, res) => {
   const user = await usersModel.putUser(req.params.user_id, req.body);
-  console.log(user);
   res.status(202).json({ user });
 });
 
