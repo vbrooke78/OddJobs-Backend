@@ -1,10 +1,9 @@
 # Odd Jobs Backend
 
-> this is the backend for the api calls from the frontend
+> This is the frontend part of our group project, Odd Jobs, a mobile app to help connect members of the community who require, or wish to offer, help with odd jobs. Users have the ability to either post a job, or respond to a posted job. There is also an integrated chat feature which enables users to communicate about a job. The user’s location is pinned to a map which displays jobs in the surrounding area.
+ 
+The repo for the frontend can be found here:
 
-![screenshot](https://i.imgur.com/d7RFY03.png)
-
-tis a backend
 
 ## Built With
 
@@ -23,11 +22,11 @@ tis a backend
 
 👤 **Authors**
 
-- [@Shaun](https://github.com/Tavelar/)
-- [@Tim](https://github.com/timwtuck)
-- [@John](https://github.com/johndmurphy)
-- [@Akin](https://github.com/datboyakin)
-- [@Vicky](https://github.com/vbrooke78)
+- [Vicky Brooke · GitHub](https://github.com/vbrooke78) 
+- [Akin Fagbohun · GitHub](https://github.com/datboyakin)
+- [Tim Tucker · GitHub](https://github.com/timwtuck)
+- [John Murphy · GitHub](https://github.com/johndmurphy)
+- [Shaun Clarke · GitHub](https://github.com/Tavelar/)
 
 ## 🤝 Contributing
 
