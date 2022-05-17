@@ -1,0 +1,104 @@
+{
+    "GET /api": {
+      "description": "serves up a json representation of all the available endpoints of the api"
+    },
+    "GET /api/jobs": {
+      "description": "serves an array of all jobs",
+      "queries": [],
+      "exampleResponse": {
+        "job": {
+          "location": {
+            "latitude": 53.797,
+            "longitude": -1.556
+          },
+          "_id": "6272a6e33c6c76416c3ac4f5",
+          "title": "Pick up shopping",
+          "description": "I need some shopping picked up at 5pm today",
+          "category": "delivery",
+          "price": 4,
+          "user_id": "6272a5b53c6c76416c3ac4eb",
+          "__v": 0
+        },
+    
+    "GET /api/users": {
+      "description": "serves an array of all users",
+      "exampleResponse": {
+        "_id": "6272a5463c6c76416c3ac4e1",
+        "username": "timmyt",
+        "fullName": "Tim Tucker",
+        "email": "timmy@test.com",
+        "password": "$2b$10$M/Ti29TpRMi6lEaTpjO9yugGBdamESzcH1fqbjtnPzWqxjvwXYSXO",
+        "messages": [],
+        "reviews": [],
+        "address": [],
+        "__v": 0
+      }
+    },
+    "GET /api/jobs/:id": {
+      "description": "serves an object of the specified article",
+      "exampleResponse": {
+        "job": {
+          "location": {
+            "latitude": 53.797,
+            "longitude": -1.556
+          },
+          "_id": "6272a6e33c6c76416c3ac4f5",
+          "title": "Pick up shopping",
+          "description": "I need some shopping picked up at 5pm today",
+          "category": "delivery",
+          "price": 4,
+          "user_id": "6272a5b53c6c76416c3ac4eb",
+          "__v": 0
+        }
+      }
+      },
+      "POST /api/login": {
+        "description": "logs in a user",
+        "guide" :{
+          "POST": "containing both email and password"
+        }
+      },
+      
+        "POST /api/register": {
+          "description": "register a user",
+          "guide" :{
+            "POST": "send back information for user profile",
+            "info": ["username", "email", "fullname", "password"]
+          }
+        }
+
+
+
+        
+          "PUT /api/jobs/": {
+            "description": "upvotes details on job",
+            "requirements": "user_id",
+          
+            "exampleResponse": {
+    "type": "String",
+    "require": true
+  },
+  "description": "String",
+  "category": {
+    "type": "String",
+    "require": true
+  },
+  "price": { "type": "Number" },
+  "createdAt": "Date",
+  "updatedAt": "Date",
+  "location": {
+    "latitude": "Number",
+    "longitude": "Number"
+  },
+  "user_id": { 
+    "type": "Schema.Types.ObjectId",
+    "ref": "User"
+  }
+}
+    }
+  }
+}
+  
+  
+
+  
