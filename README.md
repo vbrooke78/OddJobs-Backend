@@ -4,8 +4,6 @@
 
 ![screenshot](https://i.imgur.com/d7RFY03.png)
 
-tis a backend
-
 ## Built With
 
 - mongoDB
@@ -17,7 +15,75 @@ tis a backend
 
 ## Links
 
-[Odd-Jobs-Backend](https://odd-jobs-backend.herokuapp.com/api/)
+Hosted version at: [Odd-Jobs-Backend](https://odd-jobs-backend.herokuapp.com/api/)
+
+## Installation Instructions
+
+To install and run tests locally:
+
+**1. Install MongoDB**
+
+- The project uses MongoDB v5.0.8
+- Install mongodb locally on your machine. (If using WSL, follow these instructions for installing and starting server https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-database)
+
+- Start the mongodb server (command my differ depending on OS)
+
+```sh
+sudo service mongodb start
+```
+
+- The server should be running on your machine locally at 127.0.0.1:27017
+
+**2. Install Project depencences**
+
+```sh
+npm i
+```
+
+**3. Create Databases**
+
+- The project has development and test databases
+- To create them:
+  - cd into backend/db/
+  - run the following command
+  ```sh
+  mongodb < db_setup.js
+  ```
+  - This will create empty databases. The seed function (ran before tests) will populate them
+
+**4. Create Environment Variables**
+
+- For the server to find the local databases, environment variables will need to set up.
+- Create 2 different files, one for the development db and one for the test db:
+
+.env.development
+
+```
+  MONGO_URI = mongodb://127.0.0.1:27017/oddjobs
+```
+
+.env.test
+
+```
+MONGO_URI = mongodb://127.0.0.1:27017/oddjobs_test
+```
+
+**5. Running Tests**
+
+- Test Database Data is reseeded before every test
+- To run tests:
+
+```sh
+npm test
+```
+
+**6. Running the server**
+
+- To run the server locally:
+
+```sh
+npm start
+```
 
 ## Authors
 
