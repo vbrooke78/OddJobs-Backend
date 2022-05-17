@@ -7,7 +7,7 @@ The repo for the frontend can be found here:
 https://github.com/vbrooke78/OddJobs-Frontend
 
 
-## Built With
+## Tech Stack
 
 - mongoDB
 - node js
@@ -16,9 +16,9 @@ https://github.com/vbrooke78/OddJobs-Frontend
 - jest/TDD
 - colors
 
-## Links
+## Link to hosted version
 
-[Odd-Jobs-Backend](https://odd-jobs-backend.herokuapp.com/api/)
+https://odd-jobs-backend.herokuapp.com/api
 
 ## Installation Instructions
 
