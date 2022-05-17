@@ -4,6 +4,8 @@
  
 The repo for the frontend can be found here:
 
+https://github.com/vbrooke78/OddJobs-Frontend
+
 
 ## Built With
 
