@@ -52,23 +52,26 @@
         }
       }
       },
+
+
+
       "POST /api/login": {
         "description": "logs in a user",
         "guide" :{
           "POST": "containing both email and password"
-        },
-      
+        }
+        
+      },
         "POST /api/register": {
           "description": "register a user",
           "guide" :{
             "POST": "send back information for user profile",
             "info": ["username", "email", "fullname", "password"]
           }
-        }
-
-
-
         },
+
+
+
         
           "PUT /api/jobs/": {
             "description": "upvotes details on job",
