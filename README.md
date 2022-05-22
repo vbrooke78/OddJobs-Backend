@@ -1,6 +1,12 @@
 # Odd Jobs Backend
 
-> this is the backend for the api calls from the frontend
+# Odd Jobs Backend
+
+> This is the frontend part of our group project, Odd Jobs, a mobile app to help connect members of the community who require, or wish to offer, help with odd jobs. Users have the ability to either post a job, or respond to a posted job. There is also an integrated chat feature which enables users to communicate about a job. The user’s location is pinned to a map which displays jobs in the surrounding area.
+ 
+The repo for the frontend can be found here: 
+
+https://github.com/akin-fagbohun/OddJobs-Frontend
 
 ![screenshot](https://i.imgur.com/d7RFY03.png)
 
